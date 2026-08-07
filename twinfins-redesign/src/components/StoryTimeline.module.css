@@ -1,0 +1,321 @@
+.section {
+  position: relative;
+  isolation: isolate;
+  background: var(--navy);
+  color: var(--cream);
+  padding-block: var(--section-y);
+  overflow: hidden;
+}
+
+/* --------------------------------------------------------- sea backdrop */
+
+/* One portrait clip covers the whole section, top to bottom — water is
+   amorphous enough that the deep crop just reads as more water. */
+.sea {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.seaClip {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Slightly transparent navy wash — enough sea to feel it moving, enough
+   navy that the cards and cream type keep their contrast. */
+.seaVeil {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: color-mix(in oklab, var(--navy) 82%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sea {
+    display: none;
+  }
+}
+
+/* Depth: two soft ocean glows behind the rail. */
+.section::before,
+.section::after {
+  content: "";
+  position: absolute;
+  width: min(48rem, 90vw);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.section::before {
+  top: -14rem;
+  right: -12rem;
+  background: radial-gradient(
+    circle,
+    color-mix(in oklab, var(--sea) 32%, transparent),
+    transparent 65%
+  );
+}
+
+.section::after {
+  bottom: -18rem;
+  left: -14rem;
+  background: radial-gradient(
+    circle,
+    color-mix(in oklab, var(--caramel) 26%, transparent),
+    transparent 65%
+  );
+}
+
+/* ----------------------------------------------------------------- head */
+
+.head {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 1rem;
+  margin-bottom: clamp(2.5rem, 6vw, 4rem);
+  max-width: 46rem;
+}
+
+.eyebrow {
+  font-size: var(--step--1);
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--sea);
+}
+
+.title {
+  font-size: var(--step-4);
+}
+
+.headLede {
+  font-size: var(--step-1);
+  line-height: 1.5;
+  color: color-mix(in oklab, var(--cream) 68%, var(--navy));
+  max-width: 48ch;
+  text-wrap: pretty;
+}
+
+/* -------------------------------------------------------------- the road
+
+   A dotted centre line the cards pull off of, alternating shoulders. On
+   narrow screens the road moves to the left edge and every card takes the
+   right shoulder — same trip, single lane. */
+
+.rail {
+  position: relative;
+  --road-x: 1.25rem;
+}
+
+@media (min-width: 56rem) {
+  .rail {
+    --road-x: 50%;
+  }
+}
+
+.trail {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  color: var(--cream);
+  overflow: visible;
+}
+
+/* ------------------------------------------------------------------ bus */
+
+.bus {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  color: var(--caramel);
+  --tl-bus-window: var(--navy);
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.45));
+  /* offset-path drives position AND heading; the glyph faces right, so
+     "auto" points its nose along the direction of travel */
+}
+
+.busGlyph {
+  display: block;
+  width: clamp(2.4rem, 4vw, 3.1rem);
+  height: auto;
+}
+
+/* ----------------------------------------------------------------- list */
+
+.list {
+  list-style: none;
+  display: grid;
+  gap: clamp(1.5rem, 3.5vw, 2.5rem);
+}
+
+.item {
+  position: relative;
+  display: grid;
+}
+
+/* Single-lane layout: road at the left edge, card to its right. */
+.item {
+  padding-left: calc(var(--road-x) + 2rem);
+}
+
+/* Two shoulders on desktop: each card takes 46% of the row, hugging its
+   side of the road. */
+@media (min-width: 56rem) {
+  .item {
+    padding-left: 0;
+    grid-template-columns: 1fr 1fr;
+    column-gap: clamp(3rem, 7vw, 5.5rem);
+  }
+
+  .item[data-side="left"] .card {
+    grid-column: 1;
+    justify-self: end;
+  }
+
+  .item[data-side="right"] .card {
+    grid-column: 2;
+    justify-self: start;
+  }
+}
+
+/* ---------------------------------------------------------------- node */
+
+.node {
+  --node-size: 2.2rem;
+
+  position: absolute;
+  left: var(--node-x, var(--road-x));
+  top: 1.4rem;
+  /* Centred on the rail with a margin, NOT `translateX(-50%)`. The node's
+     entrance animates `transform: scale()` inline, and an inline transform
+     replaces the stylesheet's outright — the centring silently disappeared
+     the moment the animation ran, dropping every node half its own width to
+     the right, on top of the card's marker chip. A margin can't be
+     clobbered by the animation. */
+  margin-left: calc(var(--node-size) / -2);
+  z-index: 1;
+  width: var(--node-size);
+  height: var(--node-size);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--cream);
+  color: var(--navy);
+  box-shadow: 0 0 0 6px var(--navy);
+}
+
+.nodeIcon {
+  width: 58%;
+  height: auto;
+}
+
+/* ---------------------------------------------------------------- card */
+
+.card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  width: 100%;
+  max-width: 30rem;
+  padding: clamp(1.1rem, 2.2vw, 1.5rem);
+  border-radius: var(--radius);
+  background: color-mix(in oklab, var(--cream) 7%, transparent);
+  border: 1px solid color-mix(in oklab, var(--cream) 15%, transparent);
+  backdrop-filter: blur(2px);
+  transition: border-color 0.5s var(--ease-out), transform 0.6s var(--ease-out);
+}
+
+.card:hover {
+  border-color: color-mix(in oklab, var(--sea) 55%, transparent);
+  transform: translateY(-3px);
+}
+
+.cardHead {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.75rem;
+  margin-bottom: 0.6rem;
+}
+
+.marker {
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.3em 0.8em;
+  border-radius: 999px;
+  background: var(--sea-deep);
+  color: var(--bone);
+  white-space: nowrap;
+}
+
+.kicker {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--cream) 62%, var(--navy));
+}
+
+.cardTitle {
+  font-size: var(--step-1);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  margin-bottom: 0.5rem;
+  text-wrap: balance;
+}
+
+.cardBody {
+  font-size: var(--step--1);
+  line-height: 1.55;
+  color: color-mix(in oklab, var(--cream) 74%, var(--navy));
+  text-wrap: pretty;
+}
+
+/* ------------------------------------------------------- chapter photos */
+
+.media {
+  display: grid;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+/* Landscape crops keep the cards short — the photo is a postcard from the
+   stop, not the stop itself. */
+.media img {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  background: var(--navy-soft);
+  transition: transform 0.7s var(--ease-out);
+}
+
+.media img:hover {
+  transform: scale(1.02);
+}
+
+.media[data-count="2"],
+.media[data-count="3"] {
+  grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+}
+
+.media[data-count="2"] img,
+.media[data-count="3"] img {
+  aspect-ratio: 4 / 3;
+}

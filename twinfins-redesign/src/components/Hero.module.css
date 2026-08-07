@@ -1,0 +1,267 @@
+.hero {
+  --headline-shadow: var(--headline-shadow-dark);
+
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--navy-deep);
+  color: var(--cream);
+}
+
+/* ---------------------------------------------------------------- media */
+
+.media {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  will-change: transform;
+}
+
+.media video,
+.media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 55%;
+}
+
+/* Two stacked scrims. The vertical one guarantees legibility top and bottom;
+   the warm one pulls the ocean's cyan toward the brand's navy/sand. */
+.scrim {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: linear-gradient(
+    180deg,
+    rgba(20, 32, 42, 0.72) 0%,
+    rgba(20, 32, 42, 0.34) 26%,
+    rgba(20, 32, 42, 0.42) 58%,
+    rgba(27, 41, 51, 0.94) 96%
+  );
+}
+
+.tone {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: radial-gradient(
+    120% 80% at 50% 42%,
+    rgba(42, 57, 71, 0) 0%,
+    rgba(42, 57, 71, 0.55) 100%
+  );
+}
+
+/* ---------------------------------------------------------------- inner */
+
+.inner {
+  position: relative;
+  z-index: 2;
+  width: min(100% - var(--gutter) * 2, var(--maxw));
+  margin-inline: auto;
+  padding-block: clamp(7rem, 16vh, 10rem) clamp(2rem, 6vh, 4rem);
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: clamp(1.4rem, 3vh, 2.25rem);
+  text-align: center;
+  will-change: transform, opacity;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(0.7rem, 2vw, 1.1rem);
+  font-size: var(--step--2);
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--cream);
+  text-shadow: 0 1px 16px rgba(20, 32, 42, 0.6);
+}
+
+.eyebrow::before,
+.eyebrow::after {
+  content: "";
+  width: clamp(1.5rem, 6vw, 3.5rem);
+  height: 1px;
+  background: currentColor;
+  opacity: 0.55;
+}
+
+/* The real lockup, vectorised — not a typographic imitation of it. */
+.lockup {
+  width: min(100%, clamp(19rem, 52vw, 42rem));
+  height: auto;
+  color: var(--cream);
+  /* Tight and close to the glyphs. The previous 30px blur spread well past
+     the letters, and the wrapper's overflow clip then sliced it off square,
+     which read as a leftover matte around a cut-out logo. */
+  filter: drop-shadow(0 2px 8px rgba(15, 26, 34, 0.5));
+}
+
+/* No overflow clip here. It was left over from an earlier version that
+   masked the lockup for its reveal; the current entrance is a translate and
+   fade, which needs no clipping — and the clip was cropping the drop-shadow
+   into a visible rectangle. */
+.lockupMask {
+  display: block;
+  width: min(100%, clamp(19rem, 52vw, 42rem));
+}
+
+.lede {
+  max-width: 46ch;
+  font-size: var(--step-1);
+  line-height: 1.5;
+  color: rgba(238, 233, 215, 0.92);
+  text-shadow: 0 1px 18px rgba(20, 32, 42, 0.6);
+  text-wrap: pretty;
+}
+
+.ctaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  justify-content: center;
+  margin-top: 0.3rem;
+}
+
+/* --------------------------------------------------------------- bottom */
+
+.meta {
+  position: relative;
+  z-index: 2;
+  width: min(100% - var(--gutter) * 2, var(--maxw));
+  margin-inline: auto;
+  /* Clears the wave crest below, which is up to 96px tall — the copy used
+     to sit down inside it and get cut in half by the cream. */
+  padding-bottom: clamp(4.5rem, 9vw, 7rem);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  font-size: var(--step--2);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(238, 233, 215, 0.88);
+}
+
+/* ---------------------------------------------------------------------
+   Floating on the swell.
+
+   The wave band below runs a 26s horizontal loop. These three sit just
+   above it, so they bob on a slow sine of their own — same unhurried
+   rhythm, each offset in phase so they rise and fall independently the way
+   separate things on water do rather than moving as one rigid bar.
+   Transform only; the wave is CSS too, so nothing here touches the
+   scroll thread.
+   ------------------------------------------------------------------- */
+@keyframes float-bob {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -6px, 0);
+  }
+}
+
+.metaItem,
+.cue {
+  animation: float-bob 8.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Phase offsets, so the three never crest together. */
+.metaItem:first-child {
+  animation-duration: 9.5s;
+  animation-delay: -1.2s;
+}
+
+.cue {
+  animation-duration: 7.5s;
+  animation-delay: -3.4s;
+}
+
+.metaItem:last-child {
+  animation-duration: 10.5s;
+  animation-delay: -5.8s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .metaItem,
+  .cue {
+    animation: none;
+  }
+}
+
+.metaItem {
+  display: none;
+}
+
+@media (min-width: 48rem) {
+  .metaItem {
+    display: block;
+    max-width: 22ch;
+    line-height: 1.6;
+  }
+}
+
+.cue {
+  display: grid;
+  justify-items: center;
+  gap: 0.55rem;
+  margin-inline: auto;
+}
+
+.cueTrack {
+  width: 1px;
+  height: 2.75rem;
+  background: rgba(238, 233, 215, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.cueTrack::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 40%;
+  background: var(--sea);
+  animation: cue-run 2.4s var(--ease-in-out) infinite;
+}
+
+@keyframes cue-run {
+  0% {
+    transform: translate3d(0, -100%, 0);
+  }
+  55%,
+  100% {
+    transform: translate3d(0, 250%, 0);
+  }
+}
+
+/* A single wave band, not three. One looping transform is plenty. */
+.wave {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  z-index: 1;
+  width: 200%;
+  max-width: none;
+  height: clamp(48px, 7vw, 96px);
+  color: var(--bone);
+  pointer-events: none;
+  /* Compositor-side drift, tiled at exactly 50% — see PageHero.module.css. */
+  animation: wave-drift 26s linear infinite;
+}
+
+@keyframes wave-drift {
+  to {
+    transform: translateX(-50%);
+  }
+}

@@ -1,0 +1,79 @@
+.band {
+  position: relative;
+  overflow: hidden;
+  padding-block: clamp(0.85rem, 1.8vw, 1.35rem);
+  /* Feather the ends so items don't hard-clip at the viewport edge. */
+  mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 5%,
+    #000 95%,
+    transparent
+  );
+}
+
+.navy {
+  background: var(--navy);
+  color: var(--cream);
+}
+
+.sand {
+  background: var(--sand);
+  color: var(--navy);
+}
+
+.sea {
+  background: var(--sea-deep);
+  color: var(--bone);
+}
+
+.track {
+  display: flex;
+  width: max-content;
+  animation-name: marquee;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+.band[data-still] .track {
+  animation: none;
+}
+
+/* Two groups, slide exactly one — the seam lands off-screen. */
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.group {
+  display: flex;
+  align-items: center;
+  flex: none;
+}
+
+.item {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(1.1rem, 2.6vw, 2.2rem);
+  padding-inline: clamp(0.7rem, 1.8vw, 1.4rem);
+  font-family: var(--font-display), serif;
+  font-weight: 900;
+  font-size: clamp(1.05rem, 2.1vw, 1.75rem);
+  letter-spacing: -0.005em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.mark {
+  width: clamp(1.1rem, 1.9vw, 1.6rem);
+  height: auto;
+  flex: none;
+  opacity: 0.55;
+}

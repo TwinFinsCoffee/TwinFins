@@ -1,0 +1,258 @@
+.section {
+  background: var(--cream);
+  padding-block: var(--section-y);
+  position: relative;
+  overflow: hidden;
+}
+
+.head {
+  display: grid;
+  justify-items: start;
+  gap: 1.1rem;
+  max-width: 48rem;
+  margin-bottom: clamp(2.25rem, 4.5vw, 3.25rem);
+}
+
+.title {
+  font-size: var(--step-4);
+}
+
+.btnIcon {
+  width: 1.15em;
+  height: auto;
+  flex: none;
+}
+
+/* -------------------------------------------------------------- switcher */
+
+.tabs {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 0.4rem;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--navy) 6%, transparent);
+  border: 1px solid var(--hairline);
+  width: fit-content;
+  max-width: 100%;
+  margin-bottom: clamp(1.75rem, 3.5vw, 2.5rem);
+}
+
+.tab {
+  position: relative;
+  padding: 0.7em 1.4em;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  cursor: pointer;
+  font-size: var(--step--1);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--muted);
+  transition: color var(--dur) var(--ease-out);
+}
+
+.tabLabel {
+  position: relative;
+  z-index: 1;
+}
+
+.tab[data-active="true"] {
+  color: var(--cream);
+}
+
+/* Shared layout element — motion morphs it between tabs. */
+.pill {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: var(--navy);
+}
+
+/* ---------------------------------------------------------------- board */
+
+.board {
+  display: grid;
+  gap: clamp(2rem, 4.5vw, 3.5rem);
+  align-items: start;
+}
+
+@media (min-width: 62rem) {
+  .board {
+    grid-template-columns: 1.1fr 0.9fr;
+  }
+}
+
+/* ------------------------------------------------------------ price list */
+
+.list {
+  display: grid;
+  border-top: 1px solid var(--hairline);
+}
+
+.row {
+  display: grid;
+  gap: 0.3rem;
+  padding-block: clamp(0.9rem, 2vw, 1.25rem);
+  border-bottom: 1px solid var(--hairline);
+}
+
+/* Name — leader — price, on one baseline. */
+.rowMain {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+
+.rowName {
+  font-family: var(--font-display), serif;
+  font-weight: 900;
+  font-size: var(--step-2);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  transition: transform var(--dur-slow) var(--ease-out),
+    color var(--dur) var(--ease-out);
+}
+
+.row:hover .rowName {
+  transform: translateX(0.4rem);
+  color: var(--sea-deep);
+}
+
+.leader {
+  flex: 1;
+  height: 0;
+  border-bottom: 1.5px dotted color-mix(in oklab, var(--navy) 30%, transparent);
+  transform: translateY(-0.28em);
+}
+
+.rowPrice {
+  font-family: var(--font-display), serif;
+  font-weight: 900;
+  font-size: var(--step-1);
+  font-variant-numeric: tabular-nums;
+  color: var(--navy);
+  white-space: nowrap;
+}
+
+.rowNote {
+  color: var(--muted);
+  font-size: var(--step--1);
+  line-height: 1.5;
+  max-width: 46ch;
+  text-wrap: pretty;
+}
+
+/* ---------------------------------------------------------------- addons */
+
+.addons {
+  display: grid;
+  gap: clamp(1rem, 2vw, 1.5rem);
+  align-content: start;
+}
+
+@media (min-width: 62rem) {
+  .addons {
+    position: sticky;
+    top: 7.5rem;
+  }
+}
+
+.addon {
+  padding: clamp(1.15rem, 2.4vw, 1.6rem);
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+}
+
+.addonTitle {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--sea-deep);
+  margin-bottom: 0.9rem;
+}
+
+.addonTitle em {
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.chip {
+  font-size: var(--step--1);
+  padding: 0.4em 0.85em;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--navy) 5%, transparent);
+  border: 1px solid var(--hairline);
+  color: var(--navy);
+  white-space: nowrap;
+}
+
+/* Alt milks carry their surcharge inline — it's a real cost, not fine print. */
+.chipAlt {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.45em;
+  border-color: color-mix(in oklab, var(--caramel) 45%, transparent);
+  background: color-mix(in oklab, var(--caramel) 9%, transparent);
+}
+
+.chipAlt span {
+  font-size: 0.78em;
+  font-weight: 700;
+  color: var(--caramel);
+}
+
+/* --------------------------------------------------------------- custom */
+
+.custom {
+  position: relative;
+  display: grid;
+  justify-items: start;
+  gap: 0.8rem;
+  padding: clamp(1.35rem, 2.8vw, 2rem);
+  border-radius: var(--radius);
+  background: var(--navy);
+  color: var(--cream);
+  overflow: hidden;
+}
+
+.customIcon {
+  position: absolute;
+  top: -0.75rem;
+  right: -0.75rem;
+  width: 6rem;
+  height: auto;
+  color: rgba(238, 233, 215, 0.1);
+  pointer-events: none;
+}
+
+.customTitle {
+  font-family: var(--font-display), serif;
+  font-weight: 900;
+  font-size: var(--step-2);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.customBody {
+  font-size: var(--step--1);
+  line-height: 1.6;
+  color: rgba(238, 233, 215, 0.76);
+  max-width: 40ch;
+}

@@ -1,0 +1,186 @@
+.band {
+  --headline-shadow: var(--headline-shadow-dark);
+
+  position: relative;
+  background: var(--navy);
+  color: var(--on-dark);
+  padding-block: clamp(3rem, 5.5vw, 4.5rem);
+  overflow: hidden;
+}
+
+/* One sea-glass wash so the band has a horizon rather than a flat fill. */
+.band::before {
+  content: "";
+  position: absolute;
+  top: -24rem;
+  left: 50%;
+  width: min(76rem, 135vw);
+  aspect-ratio: 1;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    color-mix(in oklab, var(--sea) 20%, transparent),
+    transparent 62%
+  );
+  pointer-events: none;
+}
+
+/* ----------------------------------------------------------------- head */
+
+.head {
+  position: relative;
+  display: grid;
+  gap: 0.6rem;
+  justify-items: center;
+  text-align: center;
+  margin-bottom: clamp(1.75rem, 3vw, 2.5rem);
+}
+
+.eyebrow {
+  font-size: var(--step--1);
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--sea);
+}
+
+.lede {
+  font-family: var(--font-display), serif;
+  font-weight: 800;
+  font-size: var(--step-2);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+  margin-top: 0.5rem;
+}
+
+/* -------------------------------------------------------------- marquee */
+
+.viewport {
+  position: relative;
+  overflow: hidden;
+  /* Fade the marks into the navy at both ends instead of letting them
+     collide with the page edge mid-glyph. */
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 6rem,
+    #000 calc(100% - 6rem),
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 6rem,
+    #000 calc(100% - 6rem),
+    transparent
+  );
+}
+
+.track {
+  list-style: none;
+  display: flex;
+  width: max-content;
+  animation: served-scroll 42s linear infinite;
+}
+
+/* Hover speed lives in the component: the pointer's distance from the
+   band's centre drives the animation's playbackRate — slow enough to read
+   over the middle, accelerating toward either edge. (A CSS hover-pause here
+   would override that, so there deliberately isn't one.) */
+
+/* Two identical groups; -50% lands the seam on a matching frame. */
+@keyframes served-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.group {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.item {
+  display: grid;
+  gap: 0.45rem;
+  justify-items: center;
+  text-align: center;
+  padding-inline: clamp(1rem, 2.2vw, 2rem);
+}
+
+/* Each mark is pre-composited onto an identical 600x160 canvas with its
+   optical size baked in, so the row needs exactly one rule: match widths.
+   Nothing can overflow, and nothing needs a per-logo exception.
+
+   The PNG is a mask, not an image — the box is painted with a colour that
+   the mask cuts the mark out of. At rest that colour is muted cream; on
+   hover it becomes the owner's own brand colour and floods in. */
+.mark {
+  display: block;
+  width: clamp(14rem, 26vw, 22rem);
+  aspect-ratio: 600 / 160;
+
+  background-color: color-mix(in oklab, var(--cream) 70%, var(--navy));
+
+  -webkit-mask-image: var(--mark);
+  mask-image: var(--mark);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+
+  transition: background-color 0.5s var(--ease-out),
+    transform 0.45s var(--ease-out), filter 0.5s var(--ease-out);
+}
+
+.item:hover .mark {
+  background-color: var(--brand);
+  transform: translateY(-3px) scale(1.02);
+  /* a touch of glow so the flood reads as light, not just a swatch */
+  filter: drop-shadow(0 0 18px color-mix(in oklab, var(--brand) 45%, transparent));
+}
+
+.note {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--cream) 52%, var(--navy));
+  text-wrap: balance;
+  transition: color 0.45s var(--ease-out);
+}
+
+.item:hover .note {
+  color: var(--sea);
+}
+
+/* A moving strip of logos is exactly the thing motion sensitivity flags —
+   stop the track and let the second (duplicate) group wrap instead. */
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    animation: none;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .group:last-child {
+    display: none;
+  }
+
+  .group {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem 0;
+  }
+
+  .viewport {
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+}

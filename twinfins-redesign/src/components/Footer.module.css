@@ -1,0 +1,242 @@
+.footer {
+  /* Cream headlines here, so the extrusion faces go navy, not sand. */
+  --headline-shadow: var(--headline-shadow-dark);
+  position: relative;
+  background: var(--navy);
+  color: var(--cream);
+  padding-top: clamp(3rem, 8vw, 6rem);
+  overflow: hidden;
+}
+
+.top {
+  display: grid;
+  gap: clamp(2rem, 5vw, 4rem);
+  padding-bottom: clamp(2.5rem, 6vw, 4rem);
+}
+
+@media (min-width: 52rem) {
+  .top {
+    grid-template-columns: 1.4fr 1fr 1fr;
+  }
+}
+
+.pitch {
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+  max-width: 34ch;
+}
+
+.pitchTitle {
+  font-family: var(--font-display), serif;
+  font-weight: 900;
+  font-size: var(--step-2);
+  line-height: 1;
+  letter-spacing: -0.025em;
+}
+
+.pitchBody {
+  color: color-mix(in oklab, var(--cream) 62%, transparent);
+  font-size: var(--step--1);
+  line-height: 1.65;
+}
+
+.pitchActions {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+/* The footer's own Instagram link — the "bottom" half of the top-and-bottom
+   icon pair. Sits beside the booking button, not buried in the link list. */
+.socialLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  flex: none;
+  color: var(--cream);
+  background: color-mix(in oklab, var(--cream) 10%, transparent);
+  border: 1px solid color-mix(in oklab, var(--cream) 18%, transparent);
+  transition: background-color 0.3s var(--ease-out), transform 0.3s var(--ease-out),
+    border-color 0.3s var(--ease-out);
+}
+
+.socialLink:hover {
+  background: color-mix(in oklab, var(--sea) 30%, transparent);
+  border-color: color-mix(in oklab, var(--sea) 55%, transparent);
+  transform: translateY(-2px);
+}
+
+.socialIcon {
+  width: 1.3rem;
+  height: 1.3rem;
+}
+
+.col {
+  display: grid;
+  gap: 0.85rem;
+  align-content: start;
+}
+
+.colTitle {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--sea);
+  margin-bottom: 0.2rem;
+}
+
+.colList {
+  display: grid;
+  gap: 0.6rem;
+  list-style: none;
+  font-size: var(--step--1);
+  color: color-mix(in oklab, var(--cream) 74%, transparent);
+}
+
+.colLink {
+  position: relative;
+  display: inline-block;
+  transition: color 0.35s var(--ease-out), transform 0.4s var(--ease-out);
+}
+
+.colLink:hover {
+  color: var(--cream);
+  transform: translateX(4px);
+}
+
+/* --------------------------------------------------------- big wordmark */
+
+/* The real lockup as the sign-off. Using the vector rather than
+   re-typesetting the name means it can never clip, and it reads at full
+   strength — a faint watermark here just looked like a rendering fault. */
+.wordmarkWrap {
+  display: grid;
+  place-items: center;
+  padding-inline: var(--gutter);
+  padding-block: clamp(1.5rem, 4vw, 3rem) clamp(2rem, 5vw, 3.5rem);
+}
+
+.wordmarkInner {
+  width: min(100%, 44rem);
+  will-change: transform, opacity;
+}
+
+.wordmark {
+  width: 100%;
+  height: auto;
+  color: var(--cream);
+}
+
+.signoff {
+  margin-top: clamp(1rem, 2.5vw, 1.5rem);
+  text-align: center;
+  font-size: var(--step--2);
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--sea);
+}
+
+/* ----------------------------------------------------- trademark notice */
+
+.trademarks {
+  padding-top: clamp(1.5rem, 3vw, 2rem);
+  border-top: 1px solid color-mix(in oklab, var(--cream) 12%, transparent);
+}
+
+.trademarks p {
+  max-width: 68ch;
+  margin-inline: auto;
+  text-align: center;
+  font-size: 0.7rem;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+  color: color-mix(in oklab, var(--cream) 42%, transparent);
+}
+
+.bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 2rem;
+  padding-block: 1.6rem;
+  border-top: 1px solid color-mix(in oklab, var(--cream) 16%, transparent);
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+  color: color-mix(in oklab, var(--cream) 52%, transparent);
+}
+
+.legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  list-style: none;
+}
+
+.legal a:hover {
+  color: var(--cream);
+}
+
+.toTop {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--cream) 70%, transparent);
+  background: none;
+  border: 0;
+  cursor: pointer;
+  transition: color 0.35s var(--ease-out);
+}
+
+.toTop:hover {
+  color: var(--sea);
+}
+
+.toTop svg {
+  transition: transform 0.4s var(--ease-out);
+}
+
+.toTop:hover svg {
+  transform: translateY(-3px);
+}
+
+/* Straight from the brand's own Instagram bio — the shortest accurate
+   description of what Twin Fins is, and who is behind it. */
+.positioning {
+  margin-top: 0.9rem;
+  text-align: center;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--sea);
+}
+
+.owner {
+  margin-top: 0.4rem;
+  text-align: center;
+  font-size: 0.72rem;
+  color: var(--on-dark-muted);
+}
+
+.owner a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+  text-decoration-color: color-mix(in oklab, var(--sea) 60%, transparent);
+  transition: color 0.35s var(--ease-out);
+}
+
+.owner a:hover {
+  color: var(--sea);
+}

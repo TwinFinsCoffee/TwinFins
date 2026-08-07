@@ -1,0 +1,284 @@
+/* ==========================================================================
+   The spec sheet — "what's on the cart"
+
+   Rebuilt. The previous version put a portrait photo in a sticky side
+   column and let the copy take whatever was left, and because the image
+   had no width constraint of its own it laid out at its intrinsic 1600px
+   and squeezed the specs into a two-words-per-line ribbon.
+
+   This version never puts the photograph and the text in competition:
+   the intro runs at a readable measure, the specs are a self-sizing card
+   grid that reflows by content rather than by leftover space, and the
+   photograph is a wide band underneath at a fixed, sane aspect ratio.
+   ========================================================================== */
+
+.section {
+  position: relative;
+  isolation: isolate;
+  background: var(--navy);
+  color: var(--cream);
+  padding-block: var(--section-y);
+  overflow: hidden;
+}
+
+/* ------------------------------------------------------------- backdrop */
+
+.backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.backdropClip {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Deep, neutral-dark wash. Mixing toward pure navy left the section
+   bright and teal-cast; grounding the mix in near-black keeps the pour
+   visible as movement and highlights without competing with the type. */
+.backdropVeil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.94) 0%,
+    rgba(0, 0, 0, 0.84) 45%,
+    rgba(0, 0, 0, 0.94) 100%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backdropClip {
+    display: none;
+  }
+}
+
+.inner {
+  position: relative;
+}
+
+/* ----------------------------------------------------------------- intro */
+
+.head {
+  display: grid;
+  gap: 1.15rem;
+  max-width: 46rem;
+  margin-bottom: clamp(2.5rem, 5vw, 3.75rem);
+}
+
+.title {
+  font-size: var(--step-4);
+}
+
+.lede {
+  font-size: var(--step-1);
+  line-height: 1.5;
+  color: var(--muted);
+  max-width: 46ch;
+  text-wrap: pretty;
+}
+
+/* ------------------------------------------------------------ spec cards */
+
+.specs {
+  display: grid;
+  /* Content-driven: each card gets at least 17rem or it drops to one column.
+     No card can be squeezed narrower than its own copy needs. */
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+  gap: clamp(0.75rem, 1.6vw, 1.15rem);
+}
+
+.spec {
+  position: relative;
+  display: grid;
+  gap: 0.6rem;
+  align-content: start;
+  padding: clamp(1.25rem, 2.5vw, 1.75rem);
+  border-radius: var(--radius);
+  /* Solid cards, not glass — over moving footage, translucency was
+     unreadable. A slightly lighter navy separates card from backdrop. */
+  background: #1d2a34;
+  border: 1px solid color-mix(in oklab, var(--cream) 18%, transparent);
+  box-shadow: 0 18px 40px -24px rgba(0, 0, 0, 0.6);
+  transition: border-color 0.5s var(--ease-out), transform 0.5s var(--ease-out);
+}
+
+.spec:hover {
+  border-color: color-mix(in oklab, var(--sea) 60%, transparent);
+  transform: translateY(-3px);
+}
+
+.specIcon {
+  width: 4rem;
+  height: 4rem;
+  color: var(--accent, var(--sea));
+}
+
+.spec:hover {
+  border-color: color-mix(in oklab, var(--sea-deep) 45%, transparent);
+  transform: translateY(-2px);
+}
+
+.specLabel {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent, var(--sea));
+}
+
+.specValue {
+  display: block;
+  font-family: var(--font-display), serif;
+  font-weight: 800;
+  font-size: var(--step-1);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+.specNote {
+  display: block;
+  margin-top: 0.4rem;
+  color: #fff;
+  font-size: var(--step--1);
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+
+/* ----------------------------------------------------------- closing band */
+
+.band {
+  position: relative;
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  isolation: isolate;
+  /* A wide band, not a portrait tower. Fixed ratio so the section height is
+     predictable regardless of the source file's dimensions. */
+  aspect-ratio: 21 / 9;
+  min-height: 16rem;
+  display: grid;
+  align-items: end;
+  background: var(--navy);
+}
+
+@media (max-width: 48rem) {
+  .band {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+/* The image is sized by this rule, not by a global — that dependency is
+   what broke the old layout when the global was refactored away. */
+.band img {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 42%;
+}
+
+.bandScrim {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  /* A flat wash over the whole clip plus a heavier pour on the text side —
+     footage is busier than a still, so the base layer does more work. */
+  background:
+    linear-gradient(
+      90deg,
+      rgba(19, 30, 39, 0.55) 55%,
+      rgba(19, 30, 39, 0.3) 100%
+    ),
+    rgba(19, 30, 39, 0.38);
+}
+
+.bandCopy {
+  padding: clamp(1.5rem, 3.5vw, 3rem);
+  max-width: 44rem;
+}
+
+.bandCopy p {
+  font-family: var(--font-display), serif;
+  font-weight: 800;
+  font-size: var(--step-2);
+  line-height: 1.22;
+  letter-spacing: -0.015em;
+  color: var(--cream);
+  text-wrap: pretty;
+}
+
+.bandCredit {
+  display: block;
+  margin-top: 0.85rem;
+  font-family: var(--font-body), sans-serif;
+  font-size: var(--step--2);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent, var(--sea));
+}
+
+
+/* ------------------------------------------------------- marine footage */
+
+.footage {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  display: block;
+}
+
+.clip {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.8s var(--ease-out);
+}
+
+.clip[data-active="true"] {
+  opacity: 1;
+}
+
+/* ------------------------------------------------------------- give-back */
+
+.bandKicker {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.85rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent, var(--sea));
+}
+
+.bandEarth {
+  width: 2rem;
+  height: 2rem;
+  flex: none;
+  color: var(--sea);
+  /* a slow lap, like the seals — it's a planet, let it turn */
+  animation: earthTurn 40s linear infinite;
+}
+
+@keyframes earthTurn {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bandEarth { animation: none; }
+  .clip { transition: none; }
+}

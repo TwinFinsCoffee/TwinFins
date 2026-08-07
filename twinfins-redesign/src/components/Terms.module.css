@@ -1,0 +1,117 @@
+.section {
+  background: var(--cream);
+  padding-block: var(--section-y);
+}
+
+.head {
+  display: grid;
+  gap: 1rem;
+  max-width: 44rem;
+  margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
+}
+
+.title {
+  font-size: var(--step-3);
+  /* No extrusion on the legal pages. The slab is a poster device, and these
+     are reading surfaces — terms and privacy want the display face for
+     family resemblance and nothing else on top of it. */
+  --headline-shadow: none;
+}
+
+.list {
+  display: grid;
+  gap: 0;
+  list-style: none;
+  border-top: 1px solid var(--hairline);
+}
+
+.item {
+  border-bottom: 1px solid var(--hairline);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1.25rem;
+  width: 100%;
+  padding: clamp(1.1rem, 2.4vw, 1.6rem) 0;
+  background: none;
+  border: 0;
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.4s var(--ease-out);
+}
+
+.row:hover {
+  color: var(--sea-deep);
+}
+
+.num {
+  font-family: var(--font-display), serif;
+  font-weight: 900;
+  font-size: var(--step-0);
+  color: var(--sea-deep);
+  font-variant-numeric: tabular-nums;
+}
+
+.rowTitle {
+  font-family: var(--font-display), serif;
+  font-weight: 900;
+  font-size: var(--step-2);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.plus {
+  position: relative;
+  width: 1.15rem;
+  height: 1.15rem;
+  flex: none;
+}
+
+.plus::before,
+.plus::after {
+  content: "";
+  position: absolute;
+  inset: 50% 0 auto;
+  height: 1.6px;
+  background: currentColor;
+  border-radius: 2px;
+  transition: transform 0.45s var(--ease-out);
+}
+
+.plus::after {
+  transform: rotate(90deg);
+}
+
+.row[aria-expanded="true"] .plus::after {
+  transform: rotate(0deg);
+}
+
+.panel {
+  overflow: hidden;
+}
+
+.panelInner {
+  padding-bottom: clamp(1.1rem, 2.4vw, 1.6rem);
+  padding-left: calc(1.25rem + 1.6em);
+  max-width: 60ch;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+.note {
+  margin-top: clamp(2rem, 4vw, 3rem);
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border-radius: var(--radius);
+  background: color-mix(in oklab, var(--sea) 12%, var(--bone));
+  border: 1px solid color-mix(in oklab, var(--sea) 30%, transparent);
+  font-size: var(--step--1);
+  color: var(--navy-soft);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  justify-content: space-between;
+}

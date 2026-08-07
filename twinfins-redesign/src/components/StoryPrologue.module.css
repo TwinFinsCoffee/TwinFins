@@ -1,0 +1,384 @@
+.section {
+  position: relative;
+  background: var(--cream);
+  padding-block: var(--section-y);
+  overflow: hidden;
+}
+
+/* A soft sun sitting behind the opening statement. */
+.section::before {
+  content: "";
+  position: absolute;
+  top: -18rem;
+  left: 50%;
+  width: min(70rem, 120vw);
+  aspect-ratio: 1;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    color-mix(in oklab, var(--caramel) 34%, transparent),
+    transparent 62%
+  );
+  pointer-events: none;
+}
+
+.inner {
+  position: relative;
+}
+
+.eyebrow {
+  margin-bottom: 1.25rem;
+}
+
+.statement {
+  font-size: clamp(1.9rem, 1.1rem + 3.1vw, 4rem);
+  max-width: 22ch;
+  margin-bottom: clamp(3rem, 7vw, 5.5rem);
+  /* This one is read as a sentence, not seen as a title — several lines of
+     it, down to 1.9rem on a phone. The extrusion turns that into texture
+     and slows it down, so the statement keeps the face and drops the slab. */
+  --headline-shadow: none;
+}
+
+@media (min-width: 62rem) {
+  .statement {
+    max-width: 26ch;
+  }
+}
+
+.split {
+  display: grid;
+  gap: clamp(4.5rem, 8vw, 5.5rem);
+  align-items: start;
+}
+
+@media (min-width: 62rem) {
+  .split {
+    grid-template-columns: 0.92fr 1fr;
+    gap: clamp(3.5rem, 6vw, 6rem);
+  }
+}
+
+/* ---------------------------------------------------------------- media */
+
+.mediaCol {
+  position: relative;
+}
+
+.portrait {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  background: var(--sand);
+  will-change: clip-path;
+}
+
+.portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.caption {
+  position: absolute;
+  left: 1.25rem;
+  bottom: 1.25rem;
+  right: 1.25rem;
+  z-index: 2;
+  display: grid;
+  gap: 0.1rem;
+  padding: 0.85rem 1.15rem;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--navy) 72%, transparent);
+  color: var(--bone);
+  backdrop-filter: blur(8px);
+}
+
+.captionName {
+  font-family: var(--font-display), serif;
+  font-weight: 800;
+  font-size: var(--step-0);
+  line-height: 1.1;
+}
+
+.captionRole {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.72;
+}
+
+.inlay {
+  position: absolute;
+  right: -1rem;
+  bottom: -3rem;
+  width: 40%;
+  aspect-ratio: 3 / 4;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 6px solid var(--cream);
+  box-shadow: 0 30px 60px -35px color-mix(in oklab, var(--navy) 80%, transparent);
+  background: var(--sand);
+}
+
+@media (min-width: 62rem) {
+  .inlay {
+    right: -3rem;
+    bottom: -3.5rem;
+    width: 44%;
+  }
+}
+
+.inlay img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Rotating seal, mirrored from the home-page story block. Copy kept short
+   enough to trace the ring once without overlapping itself, and the badge
+   sized so the text clears a legible pixel floor. */
+.seal {
+  position: absolute;
+  top: -1.75rem;
+  right: -1.75rem;
+  width: clamp(6.5rem, 12vw, 9.5rem);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  z-index: 2;
+  /* Sits over the portrait photo, which runs dark in this corner — navy
+     ring text vanished into it. Cream reads regardless of what's under it.
+     The core circle sets its own color below, so this only touches the
+     ring. */
+  color: var(--cream);
+}
+
+.sealRing {
+  position: absolute;
+  inset: 0;
+  animation: spin 24s linear infinite;
+  mix-blend-mode: difference;
+}
+
+.sealRing text {
+  font-family: var(--font-body), sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  /* The ring straddles two surfaces at once — navy page one side, bright
+     photo the other — so no single colour survives the crossing. White
+     through a difference blend inverts per-pixel: light where the ground
+     is dark, dark where it's bright, letter by letter as it spins. */
+  fill: #fff;
+}
+
+.sealCore {
+  width: 58%;
+  height: 58%;
+  border-radius: 50%;
+  background: var(--navy);
+  color: var(--cream);
+  display: grid;
+  place-items: center;
+}
+
+.sealCore svg {
+  width: 62%;
+  height: auto;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ----------------------------------------------------------------- copy */
+
+.copyCol {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.lead {
+  font-size: var(--step-1);
+  line-height: 1.5;
+  text-wrap: pretty;
+  max-width: 44ch;
+}
+
+.drop {
+  float: left;
+  font-family: var(--font-display), serif;
+  font-weight: 900;
+  font-size: 3.4em;
+  line-height: 0.78;
+  margin: 0.06em 0.12em 0 0;
+  color: var(--sea-deep);
+}
+
+.body {
+  color: var(--muted);
+  max-width: 46ch;
+  text-wrap: pretty;
+}
+
+/* ---------------------------------------------------------------------
+   A note in the scrapbook, not a pull-quote.
+
+   Tilted a couple of degrees like something tucked between pages, a strip
+   of washi tape holding the top corner down, faint ruled lines standing in
+   for notebook paper, and the quote itself set in a handwriting face —
+   everything else on the page is typeset, so this is the one thing that
+   isn't, which is what sells it as a keepsake rather than a callout.
+   ------------------------------------------------------------------- */
+.quoteWrap {
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.quote {
+  position: relative;
+  width: min(100%, 30rem);
+  padding: 2.25rem clamp(1.5rem, 4vw, 2.25rem) 1.75rem;
+  background: var(--bone);
+  border-radius: 2px; /* paper, not a UI card — barely rounded */
+  rotate: -1.6deg;
+  box-shadow: 0 1px 1px rgba(42, 27, 17, 0.06), 0 10px 24px -12px rgba(42, 27, 17, 0.28),
+    0 22px 40px -28px rgba(42, 27, 17, 0.3);
+  transition: rotate 0.5s var(--ease-out), box-shadow 0.5s var(--ease-out);
+}
+
+/* Faint ruled paper — a repeating line every 1.7em, clipped to the card. */
+.quote::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 1.65em,
+    color-mix(in oklab, var(--sea-deep) 16%, transparent) 1.65em,
+    color-mix(in oklab, var(--sea-deep) 16%, transparent) calc(1.65em + 1px)
+  );
+  background-position: 0 3.4rem; /* first rule sits under the quote mark */
+  pointer-events: none;
+}
+
+/* Washi tape, taping the corner to the page behind it. */
+.quote::after {
+  content: "";
+  position: absolute;
+  top: -0.85rem;
+  left: 1.6rem;
+  width: 4.5rem;
+  height: 1.7rem;
+  rotate: -5deg;
+  background: repeating-linear-gradient(
+      116deg,
+      color-mix(in oklab, var(--caramel) 78%, transparent) 0 6px,
+      color-mix(in oklab, var(--caramel) 58%, transparent) 6px 12px
+    ),
+    color-mix(in oklab, var(--caramel) 55%, var(--bone));
+  opacity: 0.85;
+  box-shadow: 0 3px 6px rgba(42, 27, 17, 0.18);
+  /* torn paper-tape edges rather than a clean rectangle */
+  clip-path: polygon(
+    0% 12%, 6% 0%, 22% 8%, 38% 0%, 55% 9%, 71% 0%, 88% 7%, 100% 0%,
+    100% 88%, 92% 100%, 78% 92%, 60% 100%, 44% 91%, 27% 100%, 10% 93%, 0% 100%
+  );
+}
+
+.quoteWrap:hover .quote {
+  rotate: -0.4deg;
+  box-shadow: 0 1px 1px rgba(42, 27, 17, 0.08), 0 16px 30px -12px rgba(42, 27, 17, 0.32),
+    0 30px 50px -28px rgba(42, 27, 17, 0.34);
+}
+
+.quote p {
+  position: relative;
+  font-family: var(--font-hand), cursive;
+  font-weight: 500;
+  font-size: clamp(1.7rem, 3.2vw, 2.1rem);
+  line-height: 1.28;
+  color: var(--navy);
+  text-wrap: pretty;
+}
+
+/* An oversized opening mark, the way a hand lettering a note would lead
+   with a flourish rather than a same-size quotation glyph. */
+.quote p::before {
+  content: "“";
+  display: block;
+  font-size: 2.6em;
+  line-height: 0.5;
+  height: 0.5em;
+  margin-bottom: 0.15em;
+  color: color-mix(in oklab, var(--caramel) 75%, var(--navy));
+}
+
+.quote cite {
+  position: relative;
+  display: block;
+  margin-top: 1.1rem;
+  padding-top: 0.85rem;
+  border-top: 1px dashed color-mix(in oklab, var(--navy) 20%, transparent);
+  font-style: normal;
+  font-family: var(--font-body), sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--sea-deep);
+}
+
+.quote cite span {
+  display: block;
+  margin-top: 0.2rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: none;
+  color: var(--muted);
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem 1rem;
+  margin-top: 0.5rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--hairline);
+}
+
+@media (min-width: 40rem) {
+  .facts {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.factValue {
+  display: block;
+  font-family: var(--font-display), serif;
+  font-weight: 900;
+  font-size: var(--step-3);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.factLabel {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}

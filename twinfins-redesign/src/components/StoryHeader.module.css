@@ -1,0 +1,195 @@
+.header {
+  position: relative;
+  background: var(--navy);
+  color: var(--cream);
+  padding-top: clamp(9rem, 18vh, 12rem);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* One soft glow behind the sentence — depth without decoration. */
+.header::before {
+  content: "";
+  position: absolute;
+  top: -16rem;
+  left: 50%;
+  width: min(64rem, 110vw);
+  aspect-ratio: 1;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    color-mix(in oklab, var(--sea) 22%, transparent),
+    transparent 62%
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ----------------------------------------------------------------- copy */
+
+.copy {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+}
+
+.crumb {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--sea);
+}
+
+.crumb a:hover {
+  color: var(--cream);
+}
+
+.title {
+  font-size: clamp(3.2rem, 1.4rem + 9.5vw, 8.5rem);
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+}
+
+.line {
+  display: block;
+  overflow: hidden;
+  padding-block: 0.04em;
+}
+
+.lineInner {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* The third beat is the point — it gets the italic and the caramel. */
+.accent {
+  font-style: italic;
+  color: var(--caramel);
+}
+
+.lede {
+  margin-top: clamp(1.5rem, 3.5vw, 2.25rem);
+  font-size: var(--step-1);
+  line-height: 1.5;
+  color: color-mix(in oklab, var(--cream) 74%, var(--navy));
+  max-width: 46ch;
+  text-wrap: pretty;
+}
+
+.meta {
+  display: flex;
+  gap: 0.85rem;
+  margin-top: 1.25rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--cream) 52%, var(--navy));
+}
+
+.meta span {
+  color: var(--sea);
+}
+
+/* ---------------------------------------------------------------- strip */
+
+.stripWrap {
+  margin-top: clamp(2.5rem, 6vw, 4.5rem);
+  /* the wave overlaps the strip's foot so the photo runs into the sand */
+  margin-bottom: -1px;
+}
+
+.strip {
+  position: relative;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  overflow: hidden;
+  aspect-ratio: 21 / 9;
+  min-height: 15rem;
+  background: var(--navy-soft, #223140);
+}
+
+.stripInner {
+  height: 112%;
+  margin-top: -6%;
+}
+
+.strip img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 55%;
+}
+
+/* Rotating seal on the strip's top-right shoulder. The ring text is white
+   through a difference blend: it self-inverts over whatever it crosses —
+   navy sky one moment, bright pergola the next. */
+.seal {
+  position: absolute;
+  top: -1.25rem;
+  right: clamp(1rem, 4vw, 3rem);
+  width: clamp(6.5rem, 12vw, 9.5rem);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+}
+
+.sealRing {
+  position: absolute;
+  inset: 0;
+  animation: spin 26s linear infinite;
+  mix-blend-mode: difference;
+}
+
+.sealRing text {
+  font-family: var(--font-body), sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  fill: #fff;
+}
+
+.sealCore {
+  width: 58%;
+  height: 58%;
+  border-radius: 50%;
+  background: var(--cream);
+  color: var(--navy);
+  display: grid;
+  place-items: center;
+}
+
+.sealCore svg {
+  width: 62%;
+  height: auto;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------------------------------------------------------------- waves */
+
+.waves {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: clamp(45px, 7vw, 90px);
+  margin-top: -1px;
+  line-height: 0;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sealRing {
+    animation: none;
+  }
+}

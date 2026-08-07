@@ -1,0 +1,814 @@
+/* ==========================================================================
+   Twin Fins Coffee — design system
+
+   Every colour below is sampled from the brand's own collateral: the navy
+   and cream come straight out of the TF palm monogram, the sea-glass teal
+   out of the turtle photograph, the caramel out of an espresso pour.
+
+   Motion rule for this build: transform and opacity only. No animated
+   filters, no animated box-shadows, no large blurred surfaces — those are
+   what make scroll-linked motion stutter.
+   ========================================================================== */
+
+:root {
+  /* ---- Brand core (sampled) ---------------------------------------- */
+  --navy: #2a3947;        /* logo navy, deepened a touch for text */
+  --navy-deep: #1b2933;   /* dark section ground */
+  --navy-soft: #3f5265;
+  --cream: #eee9d7;       /* logo cream */
+  --bone: #f7f3e9;
+  --sand: #d9c3a8;
+  --sea: #75c1b3;         /* sea-glass, for use on dark */
+  --sea-deep: #26695f;    /* accessible teal, for use on light */
+  --caramel: #9b6d4d;
+  --espresso: #4a3426;
+
+  /* ---- Semantic ----------------------------------------------------- */
+  --bg: var(--bone);
+  --fg: var(--navy);
+  --muted: #5b6a76;
+  --hairline: rgba(42, 57, 71, 0.16);
+  --hairline-strong: rgba(42, 57, 71, 0.28);
+  --surface: #ffffff;
+
+  /* On dark grounds */
+  --on-dark: var(--cream);
+  --on-dark-muted: rgba(238, 233, 215, 0.72);
+  --hairline-dark: rgba(238, 233, 215, 0.2);
+
+  /* ---- Fluid type scale --------------------------------------------- */
+  --step--2: clamp(0.72rem, 0.7rem + 0.1vw, 0.78rem);
+  --step--1: clamp(0.82rem, 0.79rem + 0.14vw, 0.92rem);
+  --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.12rem);
+  --step-1: clamp(1.18rem, 1.1rem + 0.4vw, 1.44rem);
+  --step-2: clamp(1.45rem, 1.28rem + 0.85vw, 2.05rem);
+  --step-3: clamp(1.85rem, 1.55rem + 1.5vw, 2.9rem);
+  --step-4: clamp(2.35rem, 1.85rem + 2.5vw, 4rem);
+  --step-5: clamp(3rem, 2.1rem + 4.5vw, 5.75rem);
+
+  /* ---- Rhythm -------------------------------------------------------- */
+  --gutter: clamp(1.25rem, 4vw, 3.5rem);
+  --section-y: clamp(5rem, 10vw, 9rem);
+  --maxw: 82rem;
+  --radius-sm: 0.75rem;
+  --radius: 1.25rem;
+  --radius-lg: 2rem;
+
+  /* ---- Headline depth -------------------------------------------------
+     The headlines read as solid extruded objects: a graded front face with
+     the light on top, stepped side faces falling away underneath, and a
+     soft cast shadow putting the whole slab above the page.
+
+     Stacked `text-shadow`s, and it has to be text-shadow: `drop-shadow()`
+     filters compose with a clipped gradient face where text-shadow does
+     not, but a filtered layer anywhere in this headline is destroyed by
+     the `overflow: hidden` on SplitText's reveal masks — the words render
+     as nothing at all. Verified both ways in-browser. Shadows survive the
+     clip, so shadows it is, and the face stays solid (see below).
+
+     Offsets are in `em`, so the slab scales with the type instead of
+     sitting at one fixed depth, and the steps are absolute rather than
+     chained: each is measured from the glyph, so 0.018 / 0.036 / 0.054
+     read as three faces of one 0.054em extrusion.
+
+     The side faces are the brand's coffee and navy rather than a generic
+     grey, and they are always *darker than the ground they sit on*, never
+     lighter — sand faces under navy type read as a highlight, which
+     flattened the slab and left the letters looking hollow on the bone
+     sections. Dark faces add ink, which defines the glyph. The light in
+     the stack comes from the face gradient below, not from a rim. */
+  --headline-shadow: 0 0.018em 0 #6b563f, 0 0.036em 0 #56432f,
+    0 0.054em 0 #3f3123, 0 0.09em 0.12em rgba(42, 57, 71, 0.3);
+  /* The tight halo on this one is for headlines over photography: the page
+     heroes hold the scrim to ~0.4 alpha through the middle band, and cream
+     type over a bright frame still wants an edge of its own. It is 0.05em
+     and near-opaque rather than a wide soft glow, so it defines without
+     haloing on the flat navy sections that share this token. */
+  --headline-shadow-dark: 0 0.018em 0 #16212b, 0 0.036em 0 #0e1720,
+    0 0.054em 0 #070d12, 0 0 0.05em rgba(9, 16, 22, 0.6),
+    0 0.1em 0.14em rgba(0, 0, 0, 0.55);
+
+
+
+  /* ---- Motion --------------------------------------------------------- */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 0.25s;
+  --dur: 0.45s;
+  --dur-slow: 0.7s;
+}
+
+/* ------------------------------------------------------------ reset */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  /* Keeps the sticky nav from covering anchor targets. */
+  scroll-padding-top: 6rem;
+}
+
+/* ---------------------------------------------------------------------
+   Smooth scrolling is scoped to anchor navigation only.
+
+   `scroll-behavior: smooth` on <html> unconditionally also animates every
+   *programmatic* scroll the browser makes on its own — route-change
+   scroll-to-top, back/forward restoration, and dev-server hot-reload
+   restoring your position. Those then read as the page scrolling itself
+   after load. Gating on :target limits it to a user clicking a #link.
+   ------------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  html:has(:target) {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  font-size: var(--step-0);
+  line-height: 1.62;
+  font-synthesis-weight: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+}
+
+img,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+svg {
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+::selection {
+  background: var(--navy);
+  color: var(--cream);
+}
+
+:focus-visible {
+  outline: 2.5px solid var(--sea-deep);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+/* --------------------------------------------------------------- type */
+
+.display {
+  font-family: var(--font-display), ui-serif, Georgia, serif;
+  font-weight: 900;
+  line-height: 0.92;
+  letter-spacing: -0.022em;
+  font-variation-settings: "SOFT" 45, "WONK" 1, "opsz" 110;
+  text-wrap: balance;
+  text-shadow: var(--headline-shadow);
+  /* The face is the palette colour, always. Never transparent — see the
+     note below. */
+  -webkit-text-fill-color: currentColor;
+}
+
+
+/* ---------------------------------------------------------------------
+   Why the face is a solid colour.
+
+   A `background-clip: text` gradient face was built and torn down four
+   times here. It works in an isolated probe on this very page and paints
+   nothing inside a real headline, and it fails *silent* — the text keeps
+   its box and its screen-reader value and simply stops being visible,
+   which is the worst way a type effect can break. Three separate causes
+   were found, fixed, and it still would not paint:
+
+     • `text-shadow` suppresses a clipped fill, and text-shadow INHERITS,
+       so the heroes' own legibility shadow was reaching the headline.
+     • Padding on the element, `background-origin: content-box`, and even
+       an explicit `background-size: 100% 100%` each kill it on their own.
+     • Moving the extrusion to `drop-shadow()` filters (which do compose
+       with a clipped fill) trades one failure for another: a filtered
+       layer inside SplitText's `overflow: hidden` reveal mask is discarded
+       outright, so the words vanish entirely.
+
+   So: solid face, shadow extrusion, both of which render everywhere. If a
+   graded face is wanted, the route that survives all of the above is a
+   second masked copy of the text behind the live one — a change to the
+   headline components, made deliberately, not a fifth pass at this rule.
+   ------------------------------------------------------------------- */
+
+/* Any headline sitting on a dark ground opts in by flipping the token. */
+.on-dark,
+[data-ground="dark"] {
+  --headline-shadow: var(--headline-shadow-dark);
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: var(--step--2);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--sea-deep);
+}
+
+.on-dark .eyebrow,
+.eyebrow-light {
+  color: var(--sea);
+}
+
+.lede {
+  font-size: var(--step-1);
+  line-height: 1.55;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+/* ---------------------------------------------------------------------
+   SplitText line boxes.
+
+   Each word animates up out of a clipped box, so the box has to be taller
+   than the glyphs or it shears the descenders off ("g", "y", "p") and the
+   tops of the caps. The padding buys that room and the matching negative
+   margin gives it straight back to the layout, so the type still sets on
+   its real baseline and line-height.
+   ------------------------------------------------------------------- */
+.word-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: baseline;
+  /* Generous glyph room: the display face is a heavy soft serif whose
+     descenders and swashes hang well past the em box. Sides get a little
+     too, for wonky italic overhang. Matching negative margins hand the
+     space straight back to the layout. */
+  padding-bottom: 0.42em;
+  margin-bottom: -0.42em;
+  padding-top: 0.22em;
+  margin-top: -0.22em;
+  padding-inline: 0.08em;
+  margin-inline: -0.08em;
+}
+
+/* Once the reveal has finished (SplitText adds this), the clip is pure
+   downside — release it so no glyph is ever sheared at rest. */
+.word-mask-done {
+  overflow: visible;
+}
+
+/* No standing `will-change` here: a heading can be dozens of words, and a
+   pre-declared hint forces the browser to hold a composited layer (glyphs,
+   extrusion shadow and all) for every one of them from first paint. The
+   browser already promotes each word for the duration of its transform
+   animation — that's the only window the layer earns its memory. */
+.word-inner {
+  display: inline-block;
+}
+
+/* ------------------------------------------------------------- layout */
+
+.shell {
+  width: min(100% - var(--gutter) * 2, var(--maxw));
+  margin-inline: auto;
+}
+
+.shell-wide {
+  width: min(100% - var(--gutter) * 2, 100rem);
+  margin-inline: auto;
+}
+
+.section {
+  padding-block: var(--section-y);
+  position: relative;
+}
+
+.on-dark {
+  background: var(--navy-deep);
+  color: var(--on-dark);
+}
+
+/* ==========================================================================
+   Buttons — the liquid fill
+
+   On hover the button fills like a glass: a body of liquid rises from the
+   bottom carrying a live wave crest on its surface, and it drains back out
+   on leave. Primary actions fill with coffee, secondary with seawater.
+
+   Built from three stacked pseudo-layers inside one `overflow: hidden` pill:
+
+     .btn-liquid            the body of liquid        — translateY
+     .btn-liquid::before    the wave crest riding it  — translateX (loop)
+     .btn-liquid::after     a second, slower crest    — translateX (loop)
+     .btn-liquid-swirl      the churn inside it       — rotate  (loop)
+     .btn-liquid-caustics   light shafts raking it    — translateX (loop)
+     .btn-liquid-bubbles    bubbles rising through it — translateY (loop)
+
+   Only transforms animate. The crest loops run on the compositor and are
+   paused until hover, so an idle page pays nothing for them.
+   ========================================================================== */
+
+.btn {
+  --fill: var(--cream);
+  --fill-crest: var(--cream);
+  --fg-rest: var(--cream);
+  --fg-filled: var(--navy);
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  padding: 0.92em 1.85em;
+  border: 1.5px solid var(--navy);
+  border-radius: 999px;
+  background: var(--navy);
+  color: var(--fg-rest);
+  font-size: var(--step--1);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  overflow: hidden;
+  isolation: isolate;
+  white-space: nowrap;
+  transition: color var(--dur-slow) var(--ease-out),
+    border-color var(--dur) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+/* Label sits above the liquid, and floats up a hair as the pour comes in. */
+.btn-label {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  transition: transform 0.5s var(--ease-out);
+}
+
+.btn:hover .btn-label,
+.btn:focus-visible .btn-label {
+  transform: translateY(-1.5px);
+}
+
+.btn:active {
+  transform: scale(0.975);
+}
+
+/* --- the liquid body ---------------------------------------------------- */
+
+.btn-liquid {
+  --crest-h: 0.85em;
+
+  position: absolute;
+  left: -25%;
+  right: -25%;
+  top: 0;
+  /* Hangs below the pill on purpose. Filling overshoots to -4% so the crest
+     breaks the top edge, which would otherwise lift the body's own bottom
+     edge into view and leave a sliver of bare button along the floor — with
+     the depth shading below, that sliver read as a hard dark seam under the
+     fill. The extra 14% keeps the floor covered at full crest. */
+  bottom: -14%;
+  z-index: 0;
+  pointer-events: none;
+  /* Depth: the liquid darkens toward the floor and catches a little light
+     just under its own surface, so the fill reads as a volume, not a swatch.
+     Stops are placed against the *visible* part, not the overhang. */
+  background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.26) 12%,
+      rgba(0, 0, 0, 0) 48%,
+      rgba(255, 255, 255, 0.1) 88%,
+      rgba(255, 255, 255, 0.16) 100%
+    ),
+    var(--fill);
+  /* At rest the body sits below the button *and* clears the crest that
+     rides on top of it — otherwise a wave peeks in along the bottom edge. */
+  transform: translate3d(0, calc(100% + var(--crest-h)), 0);
+  transition: transform 0.62s cubic-bezier(0.34, 0.9, 0.32, 1);
+}
+
+/* Two crests of different width and speed, so the surface never looks like
+   a single sliding shape. Each is a repeating wave drawn as a mask-less
+   radial pattern in the fill colour. */
+.btn-liquid::before,
+.btn-liquid::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 100%;
+  width: 200%;
+  height: var(--crest-h);
+  background-repeat: repeat-x;
+  background-position: 0 bottom;
+  background-size: 50% 100%;
+  will-change: transform;
+}
+
+.btn-liquid::before {
+  background-image: radial-gradient(
+    ellipse 50% 100% at 50% 100%,
+    var(--fill-crest) 0 99.5%,
+    transparent 100%
+  );
+  animation: crest 2.6s linear infinite;
+  animation-play-state: paused;
+}
+
+.btn-liquid::after {
+  height: calc(var(--crest-h) * 0.7);
+  opacity: 0.85;
+  background-image: radial-gradient(
+    ellipse 50% 100% at 50% 100%,
+    var(--fill-crest) 0 99.5%,
+    transparent 100%
+  );
+  animation: crest 1.7s linear infinite reverse;
+  animation-play-state: paused;
+}
+
+/* The crest drifts sideways with a faint vertical bob, so the surface
+   reads as water rather than a sliding cutout. */
+@keyframes crest {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(-25%, 7%, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* --- the inside of the liquid -------------------------------------------
+   Three children, because the body's own pseudo-elements are already the
+   two crests. Every one of them is a transform loop on an oversized tile,
+   so the pattern wraps seamlessly and nothing repaints. All paused until
+   hover, like the crests. */
+
+.btn-liquid > span {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  animation-play-state: paused;
+}
+
+.btn-liquid > span::before,
+.btn-liquid > span::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-repeat: repeat;
+  animation-play-state: paused;
+  will-change: transform;
+}
+
+/* Churn: two soft lobes of the crest colour turning through the body, so the
+   fill is never one flat tone — it's lighter where the pour is still moving. */
+/* The `> ` on the three layer selectors below is not decoration: they each
+   override the `inset` from `.btn-liquid > span`, and a lone class loses to
+   it on specificity. */
+.btn-liquid > .btn-liquid-swirl {
+  inset: -70% -25%;
+  opacity: 0.45;
+  background: radial-gradient(
+      ellipse 34% 55% at 30% 38%,
+      var(--fill-crest) 0,
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 26% 46% at 72% 64%,
+      var(--fill-crest) 0,
+      transparent 72%
+    );
+  animation: liquid-churn 9s linear infinite;
+  will-change: transform;
+}
+
+@keyframes liquid-churn {
+  0% {
+    transform: rotate(0deg) scale(1.04);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.2);
+  }
+  100% {
+    transform: rotate(360deg) scale(1.04);
+  }
+}
+
+/* Caustics: two shafts of light raking across at different speeds. Each tile
+   is transparent at both edges, so a whole-tile translate loops invisibly. */
+.btn-liquid > .btn-liquid-caustics {
+  left: -50%;
+  right: -50%;
+}
+
+.btn-liquid-caustics::before {
+  background-image: linear-gradient(
+    104deg,
+    transparent 38%,
+    rgba(255, 255, 255, 0.16) 50%,
+    transparent 62%
+  );
+  background-size: 25% 100%;
+  animation: liquid-rake 6.5s linear infinite;
+}
+
+.btn-liquid-caustics::after {
+  opacity: 0.7;
+  background-image: linear-gradient(
+    88deg,
+    transparent 42%,
+    rgba(255, 255, 255, 0.12) 50%,
+    transparent 58%
+  );
+  background-size: 16% 100%;
+  animation: liquid-rake 4.1s linear infinite reverse;
+}
+
+@keyframes liquid-rake {
+  to {
+    transform: translate3d(-25%, 0, 0);
+  }
+}
+
+/* Bubbles: a tile of specks twice the button's height, translated by exactly
+   one tile so the rise never restarts. They dissolve toward the surface. */
+.btn-liquid > .btn-liquid-bubbles {
+  top: auto;
+  height: 200%;
+  mask-image: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.9) 0%,
+    rgba(0, 0, 0, 0.55) 22%,
+    transparent 46%
+  );
+  -webkit-mask-image: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.9) 0%,
+    rgba(0, 0, 0, 0.55) 22%,
+    transparent 46%
+  );
+}
+
+.btn-liquid-bubbles::before {
+  background-image: radial-gradient(
+      circle at 22% 78%,
+      rgba(255, 255, 255, 0.55) 0 1.1px,
+      transparent 1.7px
+    ),
+    radial-gradient(
+      circle at 61% 34%,
+      rgba(255, 255, 255, 0.4) 0 1.4px,
+      transparent 2px
+    ),
+    radial-gradient(
+      circle at 84% 62%,
+      rgba(255, 255, 255, 0.3) 0 0.9px,
+      transparent 1.5px
+    );
+  background-size: 34% 25%;
+  animation: liquid-rise 5.4s linear infinite;
+}
+
+.btn-liquid-bubbles::after {
+  opacity: 0.65;
+  background-image: radial-gradient(
+      circle at 47% 20%,
+      rgba(255, 255, 255, 0.45) 0 0.8px,
+      transparent 1.3px
+    ),
+    radial-gradient(
+      circle at 12% 55%,
+      rgba(255, 255, 255, 0.35) 0 0.7px,
+      transparent 1.2px
+    );
+  background-size: 23% 25%;
+  animation: liquid-rise 3.3s linear infinite;
+}
+
+@keyframes liquid-rise {
+  to {
+    transform: translate3d(0, -25%, 0);
+  }
+}
+
+/* --- fill on hover, drain on leave -------------------------------------- */
+
+.btn:hover,
+.btn:focus-visible {
+  color: var(--fg-filled);
+}
+
+.btn:hover .btn-liquid,
+.btn:focus-visible .btn-liquid {
+  /* Overfills slightly so the crest breaks the top edge, the way a pour
+     crowns before it settles — the springy bezier overshoots past -4%
+     and eases back, so the surface visibly crests then finds its level. */
+  transform: translate3d(0, -4%, 0);
+  transition-duration: 0.72s;
+  transition-timing-function: cubic-bezier(0.3, 1.3, 0.36, 1);
+}
+
+.btn:hover .btn-liquid::before,
+.btn:hover .btn-liquid::after,
+.btn:focus-visible .btn-liquid::before,
+.btn:focus-visible .btn-liquid::after,
+.btn:hover .btn-liquid > span,
+.btn:focus-visible .btn-liquid > span,
+.btn:hover .btn-liquid > span::before,
+.btn:hover .btn-liquid > span::after,
+.btn:focus-visible .btn-liquid > span::before,
+.btn:focus-visible .btn-liquid > span::after {
+  animation-play-state: running;
+}
+
+/* Draining reads as heavier than filling — coffee leaves a wall behind it. */
+.btn:not(:hover):not(:focus-visible) .btn-liquid {
+  transition-duration: 0.78s;
+  transition-timing-function: cubic-bezier(0.5, 0, 0.75, 0.55);
+}
+
+/* --- variants ----------------------------------------------------------- */
+
+/* Primary on light grounds: fills with coffee. */
+.btn-outline {
+  --fill: var(--espresso);
+  --fill-crest: var(--caramel);
+  --fg-rest: var(--navy);
+  --fg-filled: var(--cream);
+  background: transparent;
+  border-color: var(--hairline-strong);
+}
+.btn-outline:hover,
+.btn-outline:focus-visible {
+  border-color: var(--espresso);
+}
+
+/* Cream pill on photography: fills with coffee. */
+.btn-cream {
+  --fill: var(--espresso);
+  --fill-crest: var(--caramel);
+  --fg-rest: var(--navy);
+  --fg-filled: var(--cream);
+  background: var(--cream);
+  border-color: var(--cream);
+}
+
+/* Outline on dark grounds: fills with seawater. */
+.btn-light {
+  --fill: var(--sea-deep);
+  --fill-crest: var(--sea);
+  --fg-rest: var(--cream);
+  --fg-filled: var(--bone);
+  background: transparent;
+  border-color: rgba(238, 233, 215, 0.45);
+}
+.btn-light:hover,
+.btn-light:focus-visible {
+  border-color: var(--sea);
+}
+
+/* Sea button: fills with coffee, for contrast against its own ground. */
+.btn-sea {
+  --fill: var(--espresso);
+  --fill-crest: var(--caramel);
+  --fg-rest: var(--bone);
+  --fg-filled: var(--cream);
+  background: var(--sea-deep);
+  border-color: var(--sea-deep);
+}
+.btn-sea:hover,
+.btn-sea:focus-visible {
+  border-color: var(--espresso);
+}
+
+/* Default (solid navy): fills with seawater. */
+.btn:not(.btn-outline):not(.btn-cream):not(.btn-light):not(.btn-sea) {
+  --fill: var(--sea-deep);
+  --fill-crest: var(--sea);
+  --fg-rest: var(--cream);
+  --fg-filled: var(--bone);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-liquid {
+    transition: opacity var(--dur) linear;
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+    bottom: 0;
+  }
+  .btn:hover .btn-liquid,
+  .btn:focus-visible .btn-liquid {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+  .btn-liquid::before,
+  .btn-liquid::after,
+  .btn-liquid > span {
+    display: none;
+  }
+}
+
+/* --------------------------------------------------------------- misc */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 50%;
+  translate: -50% -200%;
+  z-index: 2000;
+  padding: 0.7rem 1.3rem;
+  border-radius: 999px;
+  background: var(--navy);
+  color: var(--cream);
+  font-size: var(--step--1);
+  font-weight: 700;
+  transition: translate var(--dur) var(--ease-out);
+}
+
+.skip-link:focus-visible {
+  translate: -50% 0;
+}
+
+/* Static grain. Animating this was the single biggest jank source. */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  pointer-events: none;
+  opacity: 0.2;
+  mix-blend-mode: multiply;
+  background-image: var(--grain-url);
+  background-size: 200px 200px;
+}
+
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 950;
+  transform-origin: 0 50%;
+  background: var(--sea-deep);
+}
+
+/* Marquee/wave bands are deliberately wider than their container. */
+.overflows {
+  max-width: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

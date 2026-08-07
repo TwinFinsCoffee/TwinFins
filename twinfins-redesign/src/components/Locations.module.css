@@ -1,0 +1,180 @@
+.residency {
+  background: var(--bone);
+}
+
+.grid {
+  display: grid;
+  gap: clamp(3rem, 6vw, 5rem);
+  align-items: center;
+}
+
+@media (min-width: 62rem) {
+  .grid {
+    grid-template-columns: 1.05fr 0.95fr;
+  }
+}
+
+/* ----------------------------------------------------------------- copy */
+
+.copy {
+  display: grid;
+  gap: 1.35rem;
+  justify-items: start;
+}
+
+.title {
+  font-size: var(--step-4);
+  max-width: 14ch;
+}
+
+.body {
+  color: var(--muted);
+  max-width: 52ch;
+  text-wrap: pretty;
+}
+
+/* Details ledger — same voice as the craft specs on /story. */
+.details {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.4rem clamp(1.5rem, 4vw, 3rem);
+  width: 100%;
+  max-width: 36rem;
+  margin-top: 0.75rem;
+  padding-top: 1.6rem;
+  border-top: 1px solid var(--hairline);
+}
+
+.detail dt {
+  font-size: var(--step--2);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--sea-deep);
+}
+
+.detail dd {
+  margin-top: 0.35rem;
+  font-family: var(--font-display), serif;
+  font-weight: 800;
+  font-size: var(--step-1);
+  line-height: 1.15;
+}
+
+.ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 0.9rem;
+}
+
+/* --------------------------------------------------------------- poster */
+
+.posterCol {
+  justify-self: center;
+  width: min(100%, 27rem);
+}
+
+/* The flyer is presented as what it is — a taped-up note from the cart —
+   rather than pretending to be photography. Slight tilt, paper shadow. */
+.poster {
+  position: relative;
+  transform: rotate(1.6deg);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  padding: 0.75rem 0.75rem 1rem;
+  box-shadow:
+    0 1px 2px rgba(42, 57, 71, 0.16),
+    0 24px 48px -24px rgba(42, 57, 71, 0.45);
+}
+
+.poster img {
+  width: 100%;
+  height: auto;
+  border-radius: calc(var(--radius-sm) - 0.35rem);
+}
+
+.tape {
+  position: absolute;
+  top: -0.8rem;
+  left: 50%;
+  width: 6.5rem;
+  height: 1.7rem;
+  transform: translateX(-50%) rotate(-3deg);
+  background: color-mix(in oklab, var(--sand) 55%, transparent);
+  backdrop-filter: blur(1px);
+  border-radius: 2px;
+  box-shadow: 0 1px 2px rgba(42, 57, 71, 0.12);
+}
+
+.posterCaption {
+  padding-top: 0.8rem;
+  font-size: var(--step--1);
+  color: var(--muted);
+  text-align: center;
+}
+
+.posterCaption a {
+  color: var(--sea-deep);
+  font-weight: 600;
+}
+
+.posterCaption a:hover {
+  text-decoration: underline;
+}
+
+/* ------------------------------------------------------------ elsewhere */
+
+.elsewhere {
+  background: var(--navy-deep);
+}
+
+.elseHead {
+  display: grid;
+  gap: 1rem;
+  max-width: 44rem;
+  margin-bottom: clamp(2.5rem, 6vw, 4rem);
+}
+
+.elseTitle {
+  font-size: var(--step-3);
+  /* Secondary heading under a full-size one. Two extruded slabs in the same
+     column read as two competing posters, so this one stays flat and the
+     size difference does the ranking. */
+  --headline-shadow: none;
+}
+
+.elseGrid {
+  display: grid;
+  gap: clamp(1.25rem, 3vw, 2rem);
+}
+
+@media (min-width: 48rem) {
+  .elseGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.elseCard {
+  display: grid;
+  gap: 0.9rem;
+  justify-items: start;
+  align-content: start;
+  padding: clamp(1.75rem, 4vw, 2.5rem);
+  border: 1px solid var(--hairline-dark);
+  border-radius: var(--radius);
+  background: color-mix(in oklab, var(--navy-soft) 22%, transparent);
+}
+
+.elseCardTitle {
+  font-family: var(--font-display), serif;
+  font-weight: 900;
+  font-size: var(--step-2);
+  line-height: 1;
+}
+
+.elseCardBody {
+  color: var(--on-dark-muted);
+  max-width: 44ch;
+  text-wrap: pretty;
+}

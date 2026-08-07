@@ -1,0 +1,135 @@
+.hero {
+  --headline-shadow: var(--headline-shadow-dark);
+
+  position: relative;
+  display: grid;
+  align-items: end;
+  min-height: min(74svh, 44rem);
+  padding-block: clamp(9rem, 20vh, 13rem) clamp(3rem, 8vh, 5rem);
+  background: var(--navy);
+  color: var(--cream);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.bg {
+  position: absolute;
+  inset: -10% 0;
+  z-index: -3;
+  will-change: transform;
+}
+
+.bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Per-page framing, set from the component. Defaults to centre. */
+  object-position: var(--focal, 50% 50%);
+}
+
+/* ---------------------------------------------------------------------
+   Two crossed scrims.
+
+   The copy is bottom-left aligned, so that corner has to be dark enough
+   for cream type no matter what the photograph does there — and these
+   are bright, sunlit, mostly-white images. A single soft vertical fade
+   was nowhere near enough: the eyebrow sat at ~1.5:1 over a white menu
+   board. The vertical pass owns the bottom third, the horizontal pass
+   weights the left, and together they clear AA on the worst frame.
+   ------------------------------------------------------------------- */
+.scrim {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    /* Bottom third carries the copy, so it goes properly dark. The middle
+       band is where the headline actually lands — sampling the hero frames
+       there found highlights at 0.72 luminance under the type, which put
+       cream at ~1.1:1 against them. It is lifted enough to seat the type
+       and no further; the photograph is still the subject. */
+    linear-gradient(
+      180deg,
+      rgba(19, 30, 39, 0.5) 0%,
+      rgba(19, 30, 39, 0.36) 26%,
+      rgba(19, 30, 39, 0.4) 46%,
+      rgba(19, 30, 39, 0.55) 72%,
+      rgba(19, 30, 39, 0.86) 100%
+    ),
+    /* A light lean to the left, where the text column sits. */
+    linear-gradient(
+      90deg,
+      rgba(19, 30, 39, 0.4) 0%,
+      rgba(19, 30, 39, 0.14) 52%,
+      rgba(19, 30, 39, 0) 100%
+    );
+}
+
+.inner {
+  position: relative;
+  display: grid;
+  gap: 1.1rem;
+  max-width: 52rem;
+  /* Belt and braces with the scrim: the shadow is what carries legibility
+     on the one bright frame the gradient can't fully tame. */
+  text-shadow: 0 1px 22px rgba(14, 24, 32, 0.7),
+    0 1px 3px rgba(14, 24, 32, 0.45);
+}
+
+.title {
+  font-size: var(--step-5);
+  line-height: 0.86;
+}
+
+.lede {
+  font-size: var(--step-1);
+  color: var(--cream);
+  max-width: 46ch;
+  text-wrap: pretty;
+}
+
+/* Cream, not sea-glass. The teal is a light colour — it reads beautifully
+   on the navy sections but disappears over a sunlit photo. Only the
+   separator keeps the accent. */
+.crumb {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--cream);
+}
+
+.crumb span[aria-hidden] {
+  color: var(--sea);
+}
+
+.crumb a {
+  opacity: 0.82;
+  transition: opacity var(--dur) var(--ease-out);
+}
+
+.crumb a:hover {
+  opacity: 1;
+}
+
+.waves {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 200%;
+  max-width: none;
+  height: clamp(45px, 7vw, 90px);
+  line-height: 0;
+  z-index: 1;
+  /* Compositor-side drift; the path tiles at exactly 50%. The global
+     reduced-motion rule zeroes this along with everything else. */
+  animation: waves-drift 18s linear infinite;
+}
+
+@keyframes waves-drift {
+  to {
+    transform: translateX(-50%);
+  }
+}

@@ -1,0 +1,506 @@
+.wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 900;
+  padding: clamp(0.75rem, 1.6vw, 1.25rem) var(--gutter);
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.bar {
+  pointer-events: auto;
+  width: min(100%, var(--maxw));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 0.55rem 0.55rem 0.55rem 1.15rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  transition: background-color var(--dur-slow) var(--ease-out),
+    border-color var(--dur-slow) var(--ease-out),
+    color var(--dur-slow) var(--ease-out),
+    box-shadow var(--dur-slow) var(--ease-out);
+}
+
+/* ---------------------------------------------------------------------
+   Two states, and the contrast rule is the whole point of them:
+   over the hero video the bar is transparent, so everything in it must be
+   cream with a text shadow; once the page scrolls the bar becomes an opaque
+   cream pill and everything flips to navy.
+   ------------------------------------------------------------------- */
+
+.bar[data-over-hero="true"] {
+  color: var(--cream);
+  /* Doing the scrim's old job on its own: a tight dark halo plus a wide
+     soft one. Reads on a bright wave crest, invisible as a shape. */
+  text-shadow: 0 1px 3px rgba(16, 26, 34, 0.65), 0 2px 18px rgba(16, 26, 34, 0.55);
+}
+
+/* ---------------------------------------------------------------------
+   The glass pill.
+
+   Not a flat translucent panel — real glass does three things a plain
+   `backdrop-filter: blur()` doesn't, and all three are cheap:
+
+   1. It bends and brightens what's behind it. `saturate` + `brightness` +
+      `contrast` on the backdrop does that far more convincingly than blur
+      on its own.
+   2. Its edge is a lens. A 1px inner highlight along the top and a darker
+      one along the bottom read as thickness, because that's where a real
+      bevel catches and loses light.
+   3. It has a specular sheen — a soft diagonal band across the surface,
+      brightest where the light would strike.
+
+   The pill only exists in the stuck state, so none of this is composited
+   while you're at the top of the page.
+   ------------------------------------------------------------------- */
+.bar[data-stuck="true"] {
+  color: var(--navy);
+  text-shadow: none;
+
+  /* Liquid glass, take three. The material IS translucent — around a third
+     cream — and reads through heavy blur + saturation, like a droplet over
+     the page. What made earlier takes look like brushed metal was never the
+     transparency; it was edge treatment thick enough to read as a bezel.
+     So: the fill transmits, and every edge effect is confined to ~2px. */
+  background: linear-gradient(
+    160deg,
+    rgba(247, 243, 233, 0.42) 0%,
+    rgba(247, 243, 233, 0.30) 45%,
+    rgba(247, 243, 233, 0.38) 100%
+  );
+  /* Order matters: the displacement map warps the crisp page first, then a
+     light blur frosts the result. Warping after a 26px blur was invisible —
+     bending mush looks like mush, which is why the "refraction" kept reading
+     as nothing plus a stroke. The map's core is feathered over ~40px, so the
+     bend eases in gradually from clean glass at the centre. */
+  backdrop-filter: url(#tf-lens) blur(5px) saturate(1.8) brightness(1.05);
+  border-color: transparent;
+  box-shadow:
+    /* hairline lip: bright top edge, faint dark under-edge — 1px each */
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.32),
+    inset 0 -1px 0 0 rgba(42, 57, 71, 0.08),
+    /* lift */
+    0 14px 38px -20px rgba(27, 41, 51, 0.5);
+}
+
+/* Over a dark surface the same lens goes smoked: cream text, a navy-tinted
+   fill, and the lip highlights dialled down so they don't glow against the
+   dark backdrop. Sampled live from the page, not hand-annotated. */
+.bar[data-stuck="true"][data-tone="dark"] {
+  color: var(--cream);
+  background: linear-gradient(
+    160deg,
+    rgba(16, 26, 34, 0.46) 0%,
+    rgba(16, 26, 34, 0.32) 45%,
+    rgba(16, 26, 34, 0.42) 100%
+  );
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.16),
+    inset 0 -1px 0 0 rgba(0, 0, 0, 0.22),
+    0 14px 38px -20px rgba(0, 0, 0, 0.65);
+}
+
+/* Safari can't resolve SVG filter references in backdrop-filter — and when
+   it can't, it drops the ENTIRE chain, leaving raw translucency that reads
+   as a flat washed-out stroke. -webkit-named-image() only parses in WebKit,
+   which makes this block a Safari-only override: skip the lens, keep the
+   frosted glass. */
+@supports (background: -webkit-named-image(i)) {
+  .bar[data-stuck="true"] {
+    backdrop-filter: blur(20px) saturate(1.8) brightness(1.04);
+    -webkit-backdrop-filter: blur(20px) saturate(1.8) brightness(1.04);
+  }
+}
+
+/* One soft specular blade near the top-left, not a full metallic wash. */
+.bar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--dur-slow) var(--ease-out);
+  background: linear-gradient(
+    115deg,
+    transparent 4%,
+    rgba(255, 255, 255, 0.28) 14%,
+    rgba(255, 255, 255, 0.05) 26%,
+    transparent 42%
+  );
+  mix-blend-mode: screen;
+}
+
+.bar[data-stuck="true"]::after {
+  opacity: 1;
+}
+
+/* The bar is the positioning context for the sheen and the pill. */
+.bar {
+  position: relative;
+  isolation: isolate;
+}
+
+.bar > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ------------------------------------------------------------- branding */
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* Sized off the wordmark beside it rather than a fixed value: the monogram
+   is a touch taller than the two lines of type, so it reads as the anchor
+   of the lockup instead of an afterthought sitting next to it. */
+.mark {
+  width: auto;
+  height: 3.1rem;
+  flex: none;
+  transition: transform 0.55s var(--ease-out);
+}
+
+@media (min-width: 48rem) {
+  .mark {
+    height: 3.6rem;
+  }
+}
+
+.brand:hover .mark {
+  transform: rotate(-8deg) scale(1.06);
+}
+
+.brandName {
+  display: grid;
+  gap: 0.22em;
+}
+
+.brandName b {
+  font-family: var(--font-display), serif;
+  font-weight: 900;
+  font-size: clamp(1.1rem, 1.7vw, 1.35rem);
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.brandName small {
+  font-size: 0.55em;
+  font-weight: 700;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  opacity: 0.72;
+}
+
+/* ---------------------------------------------------------------------
+   COFFEE + SURF pours on hover.
+
+   A gradient carrying two bands — espresso, then sea — is clipped to the
+   glyphs and swept left to right, so the tagline fills with coffee, then
+   with water, then settles back to its own colour. Both ends of the
+   gradient are `currentColor`, which is what makes it land back where it
+   started instead of stopping on a tint.
+
+   The clip and the transparent fill are declared *only* inside :hover. At
+   rest the label is plain solid text, so there is no state in which a
+   failed or interrupted paint can leave it invisible — the same trap that
+   ghosted the headlines when the fill lived on the resting element.
+   Letterforms here are all-caps with no descenders, so nothing hangs
+   outside the paint box either.
+   ------------------------------------------------------------------- */
+@keyframes brand-pour {
+  from {
+    background-position: 0% 0;
+  }
+  to {
+    background-position: 100% 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .brand:hover .brandName small,
+  .brand:focus-visible .brandName small {
+    background-image: linear-gradient(
+      90deg,
+      currentColor 0%,
+      currentColor 18%,
+      var(--espresso) 30%,
+      var(--caramel) 38%,
+      var(--sea-deep) 52%,
+      var(--sea) 60%,
+      currentColor 76%,
+      currentColor 100%
+    );
+    background-size: 320% 100%;
+    background-repeat: no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    opacity: 1;
+    animation: brand-pour 1.5s var(--ease-in-out) forwards;
+  }
+
+  /* On the glass pill the label sits on cream, so the sea band needs the
+     darker teal to stay readable as it passes. */
+  .bar[data-over-hero="true"] .brand:hover .brandName small {
+    background-image: linear-gradient(
+      90deg,
+      currentColor 0%,
+      currentColor 18%,
+      var(--caramel) 32%,
+      #d8a978 40%,
+      var(--sea) 54%,
+      #a5dbd0 62%,
+      currentColor 78%,
+      currentColor 100%
+    );
+  }
+}
+
+@media (max-width: 26rem) {
+  .brandName {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------------- links */
+
+.links {
+  display: none;
+  align-items: center;
+  gap: clamp(1rem, 2.2vw, 2rem);
+}
+
+@media (min-width: 64rem) {
+  .links {
+    display: flex;
+  }
+}
+
+.link {
+  position: relative;
+  display: inline-block;
+  font-size: var(--step--1);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  padding-block: 0.4rem;
+}
+
+.link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0.1rem;
+  height: 1.5px;
+  width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: 100% 50%;
+  transition: transform var(--dur) var(--ease-out);
+}
+
+.link:hover::after,
+.link:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: 0% 50%;
+}
+
+.link[data-active="true"]::after {
+  transform: scaleX(1);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+/* Instagram glyph — icon-only, matches the burger's tap target size so it
+   doesn't read as a smaller, lesser control next to it. Hidden below the
+   breakpoint where the burger takes over; the mobile sheet carries its own
+   labelled version instead. */
+.socialLink {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  color: currentColor;
+  opacity: 0.82;
+  transition: opacity 0.3s var(--ease-out), background-color 0.3s var(--ease-out);
+}
+
+.socialLink:hover {
+  opacity: 1;
+  background: color-mix(in oklab, currentColor 12%, transparent);
+}
+
+.socialIcon {
+  width: 1.3rem;
+  height: 1.3rem;
+}
+
+@media (min-width: 48rem) {
+  .socialLink {
+    display: inline-flex;
+  }
+}
+
+.cta {
+  display: none;
+  padding: 0.75em 1.5em;
+}
+
+@media (min-width: 48rem) {
+  .cta {
+    display: inline-flex;
+  }
+}
+
+/* ---------------------------------------------------------- mobile menu */
+
+.burger {
+  display: grid;
+  place-items: center;
+  width: 2.9rem;
+  height: 2.9rem;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background-color var(--dur) var(--ease-out),
+    color var(--dur) var(--ease-out);
+}
+
+.burger:hover {
+  background: currentColor;
+}
+
+.burger:hover .burgerLines span {
+  background: var(--bone);
+}
+
+.bar[data-over-hero="true"] .burger {
+  border-color: rgba(238, 233, 215, 0.6);
+}
+
+@media (min-width: 64rem) {
+  .burger {
+    display: none;
+  }
+}
+
+.burgerLines {
+  display: grid;
+  gap: 5px;
+  width: 17px;
+}
+
+.burgerLines span {
+  display: block;
+  height: 1.8px;
+  background: currentColor;
+  border-radius: 2px;
+  transition: transform var(--dur) var(--ease-out),
+    opacity var(--dur-fast) var(--ease-out);
+}
+
+.burger[aria-expanded="true"] span:nth-child(1) {
+  transform: translateY(6.8px) rotate(45deg);
+}
+.burger[aria-expanded="true"] span:nth-child(2) {
+  opacity: 0;
+}
+.burger[aria-expanded="true"] span:nth-child(3) {
+  transform: translateY(-6.8px) rotate(-45deg);
+}
+
+.sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 890;
+  background: var(--navy-deep);
+  color: var(--cream);
+  display: grid;
+  grid-template-rows: 1fr auto;
+  padding: 6.5rem var(--gutter) 2.5rem;
+  overflow-y: auto;
+}
+
+.sheetNav {
+  display: grid;
+  align-content: center;
+  gap: 0.15rem;
+}
+
+.sheetLink {
+  display: block;
+  font-family: var(--font-display), serif;
+  font-weight: 900;
+  font-size: clamp(2.2rem, 10vw, 4rem);
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  transition: color var(--dur) var(--ease-out),
+    transform var(--dur) var(--ease-out);
+}
+
+.sheetLink:hover,
+.sheetLink[data-active="true"] {
+  color: var(--sea);
+  transform: translateX(0.35rem);
+}
+
+.sheetFoot {
+  display: grid;
+  gap: 0.9rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--hairline-dark);
+  font-size: var(--step--1);
+  color: var(--on-dark-muted);
+}
+
+.sheetFoot a:hover {
+  color: var(--sea);
+}
+
+.sheetSocial {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.sheetSocialIcon {
+  width: 1.15rem;
+  height: 1.15rem;
+  flex: none;
+}
+
+.sheetMark {
+  width: 4.5rem;
+  height: auto;
+  color: rgba(238, 233, 215, 0.14);
+  position: absolute;
+  right: var(--gutter);
+  bottom: 7rem;
+  pointer-events: none;
+}
+
+/* The filter-defs SVG renders nothing; it only has to exist in the DOM. */
+.lensDefs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
