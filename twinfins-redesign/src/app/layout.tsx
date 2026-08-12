@@ -6,6 +6,8 @@ import Grain from "@/components/Grain";
 import ScrollProgress from "@/components/ScrollProgress";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import BookingModal from "@/components/BookingModal";
+import { BookingModalProvider } from "@/components/BookingModalContext";
 import { BRAND } from "@/lib/content";
 
 /* Fraunces carries the chunky vintage-serif feel of the painted Twin Fins
@@ -68,14 +70,17 @@ export default function RootLayout({
       className={`${display.variable} ${body.variable} ${hand.variable}`}
     >
       <body>
-        <a className="skip-link" href="#main">
-          Skip to content
-        </a>
-        <ScrollProgress />
-        <Nav />
-        <main id="main">{children}</main>
-        <Footer />
-        <Grain />
+        <BookingModalProvider>
+          <a className="skip-link" href="#main">
+            Skip to content
+          </a>
+          <ScrollProgress />
+          <Nav />
+          <main id="main">{children}</main>
+          <Footer />
+          <Grain />
+          <BookingModal />
+        </BookingModalProvider>
       </body>
     </html>
   );

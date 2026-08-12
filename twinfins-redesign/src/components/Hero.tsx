@@ -7,7 +7,8 @@ import { BRAND } from "@/lib/content";
 import { Wordmark } from "./BrandMarks";
 import { Magnetic } from "./motion-primitives";
 import s from "./Hero.module.css";
-import { ButtonLink } from "./Button";
+import { Button, ButtonLink } from "./Button";
+import { useBookingModal } from "./BookingModalContext";
 
 /**
  * The hero runs Twin Fins' own banner film — the surfer clip that was on the
@@ -17,6 +18,7 @@ import { ButtonLink } from "./Button";
 export default function Hero() {
   const ref = useRef<HTMLElement>(null);
   const still = useReducedMotion();
+  const { openBooking } = useBookingModal();
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -96,9 +98,9 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.62 }}
         >
           <Magnetic strength={0.24}>
-            <ButtonLink href="/booking" variant="cream">
+            <Button type="button" variant="cream" onClick={openBooking}>
               Book the cart
-            </ButtonLink>
+            </Button>
           </Magnetic>
           <ButtonLink href="/menu" variant="light">
             See the menu

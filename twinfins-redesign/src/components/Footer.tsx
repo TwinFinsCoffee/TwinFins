@@ -7,7 +7,8 @@ import { motion, useReducedMotion, useScroll, useTransform } from "motion/react"
 import { BRAND, NAV, SERVED_AT } from "@/lib/content";
 import { InstagramMark, Wordmark } from "./BrandMarks";
 import s from "./Footer.module.css";
-import { ButtonLink } from "./Button";
+import { Button } from "./Button";
+import { useBookingModal } from "./BookingModalContext";
 
 /**
  * Oxford-comma joiner for the trademark line below — built off SERVED_AT
@@ -23,6 +24,7 @@ function listWithAnd(items: readonly string[]) {
 export default function Footer() {
   const ref = useRef<HTMLElement>(null);
   const still = useReducedMotion();
+  const { openBooking } = useBookingModal();
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end end"],
@@ -44,9 +46,9 @@ export default function Footer() {
             and we&rsquo;ll bring paradise to you.
           </p>
           <div className={s.pitchActions}>
-            <ButtonLink href="/booking" variant="sea">
+            <Button type="button" variant="sea" onClick={openBooking}>
               Book the cart
-            </ButtonLink>
+            </Button>
             <a
               href={BRAND.instagramUrl}
               target="_blank"

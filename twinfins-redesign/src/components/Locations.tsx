@@ -1,8 +1,11 @@
+"use client";
+
 import Image from "next/image";
 
 import { BRAND } from "@/lib/content";
 import { Reveal, SplitText } from "./motion-primitives";
-import { ButtonLink } from "./Button";
+import { Button, ButtonLink } from "./Button";
+import { useBookingModal } from "./BookingModalContext";
 import s from "./Locations.module.css";
 
 const DETAILS = [
@@ -21,6 +24,7 @@ const DIRECTIONS_URL =
  * the crew's own Instagram presented as the taped-up poster it already is.
  */
 export default function Locations() {
+  const { openBooking } = useBookingModal();
   return (
     <>
       <section className={`section ${s.residency}`}>
@@ -130,9 +134,9 @@ export default function Locations() {
                 rolls to wherever you need a great cup. Tell us the date and
                 the headcount and we&rsquo;ll quote it.
               </p>
-              <ButtonLink href="/booking" variant="light">
+              <Button type="button" variant="light" onClick={openBooking}>
                 Book the cart
-              </ButtonLink>
+              </Button>
             </Reveal>
           </div>
         </div>

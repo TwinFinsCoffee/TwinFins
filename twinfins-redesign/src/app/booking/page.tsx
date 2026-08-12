@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import PageHero from "@/components/PageHero";
+import BookingWidget from "@/components/BookingWidget";
 import Services from "@/components/Services";
 import Gallery from "@/components/Gallery";
 import Terms from "@/components/Terms";
@@ -25,6 +26,7 @@ export default function BookingPage() {
         focal="50% 55%"
         waveColor="var(--navy-deep)"
       />
+      <BookingWidget />
       <Services />
       <Marquee
         items={["Custom quotes", "Custom menus", "Branded cups", "Full-service crew"]}

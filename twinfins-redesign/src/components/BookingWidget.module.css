@@ -1,0 +1,139 @@
+.section {
+  position: relative;
+  background: var(--cream);
+  padding-block: var(--section-y);
+}
+
+.head {
+  display: grid;
+  justify-items: start;
+  gap: 1rem;
+  max-width: 40rem;
+}
+
+.title {
+  font-size: var(--step-4);
+}
+
+/* ------------------------------------------------------------- overlay */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: grid;
+  place-items: center;
+  padding: clamp(1rem, 4vw, 3rem);
+}
+
+.backdrop {
+  position: absolute;
+  inset: 0;
+  border: none;
+  cursor: pointer;
+  background: color-mix(in oklab, var(--navy-deep, var(--navy)) 78%, transparent);
+  backdrop-filter: blur(6px);
+}
+
+.modal {
+  position: relative;
+  width: min(46rem, 100%);
+  max-height: min(88svh, 52rem);
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--surface);
+  box-shadow: 0 40px 90px -30px rgba(0, 0, 0, 0.55);
+}
+
+.close {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  color: var(--navy);
+  background: color-mix(in oklab, var(--cream) 88%, transparent);
+  border: 1px solid var(--hairline);
+  transition: background-color 0.25s var(--ease-out), transform 0.25s var(--ease-out);
+}
+
+.close:hover {
+  background: var(--cream);
+  transform: rotate(90deg);
+}
+
+.close svg {
+  width: 1.05rem;
+  height: 1.05rem;
+}
+
+/* ---------------------------------------------------------------- frame */
+
+.frame {
+  position: relative;
+  flex: 1;
+  min-height: 26rem;
+  overflow: auto;
+}
+
+.iframe {
+  width: 100%;
+  /* iframe-resizer overwrites `height` inline the instant it reports a
+     content height — and it isn't always right. CalendTree's page is a
+     client-rendered app with no companion "contentWindow" script of its
+     own, so the parent-side resizer sometimes measures the page before its
+     JS has mounted anything and freezes on that (a ~24px "empty shell"
+     reading), with no follow-up remeasure ever correcting it. `min-height`
+     is immune to that: an inline `height` can shrink the box below the
+     stylesheet's `height`, but never below `min-height`, so a bad
+     measurement can only ever make the frame taller than this floor, never
+     shorter. 44rem matches the real form's typical rendered height. */
+  height: 44rem;
+  min-height: 44rem;
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-out);
+}
+
+.iframe[data-ready="true"] {
+  opacity: 1;
+}
+
+/* ------------------------------------------------------------- skeleton */
+
+.skeleton {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: var(--surface);
+}
+
+.skeletonPulse {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  border: 3px solid var(--hairline-strong);
+  border-top-color: var(--sea);
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeletonPulse {
+    animation: none;
+  }
+  .close:hover {
+    transform: none;
+  }
+}

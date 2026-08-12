@@ -7,7 +7,8 @@ import { motion, useReducedMotion, useScroll, useTransform } from "motion/react"
 import { Monogram } from "./BrandMarks";
 import { Reveal, SplitText } from "./motion-primitives";
 import s from "./Story.module.css";
-import { ButtonLink } from "./Button";
+import { Button } from "./Button";
+import { useBookingModal } from "./BookingModalContext";
 
 const STATS = [
   { value: "2024", label: "Established" },
@@ -18,6 +19,7 @@ const STATS = [
 export default function Story() {
   const ref = useRef<HTMLElement>(null);
   const still = useReducedMotion();
+  const { openBooking } = useBookingModal();
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
@@ -114,9 +116,9 @@ export default function Story() {
           </Reveal>
 
           <Reveal delay={0.18}>
-            <ButtonLink href="/booking" variant="outline">
+            <Button type="button" variant="outline" onClick={openBooking}>
               Bring us to your event
-            </ButtonLink>
+            </Button>
           </Reveal>
 
           <Reveal className={s.stats} delay={0.22}>

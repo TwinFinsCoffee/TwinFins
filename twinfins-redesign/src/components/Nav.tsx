@@ -7,7 +7,8 @@ import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/
 
 import { NAV, BRAND } from "@/lib/content";
 import { InstagramMark, Monogram } from "./BrandMarks";
-import { ButtonLink } from "./Button";
+import { Button } from "./Button";
+import { useBookingModal } from "./BookingModalContext";
 import { Magnetic } from "./motion-primitives";
 import s from "./Nav.module.css";
 
@@ -16,6 +17,7 @@ const LENS_MAP =
 
 export default function Nav() {
   const pathname = usePathname();
+  const { openBooking } = useBookingModal();
   const barRef = useRef<HTMLElement>(null);
   const [stuck, setStuck] = useState(false);
   const [dark, setDark] = useState(false);
@@ -178,13 +180,14 @@ export default function Nav() {
             </a>
 
             <Magnetic strength={0.18}>
-              <ButtonLink
-                href="/booking"
+              <Button
+                type="button"
                 variant={overHero ? "cream" : "sea"}
                 className={s.cta}
+                onClick={openBooking}
               >
                 Book us
-              </ButtonLink>
+              </Button>
             </Magnetic>
 
             <button
