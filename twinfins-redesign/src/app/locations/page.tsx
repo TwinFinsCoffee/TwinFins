@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 
 import PageHero from "@/components/PageHero";
 import Locations from "@/components/Locations";
+import CartCalendar from "@/components/CartCalendar";
 import Marquee from "@/components/Marquee";
 import Contact from "@/components/Contact";
+import { getCartCalendar } from "@/lib/calendar";
 
 export const metadata: Metadata = {
   title: "Locations",
@@ -11,7 +13,8 @@ export const metadata: Metadata = {
     "Find the Twin Fins Coffee cart — weekday mornings at AmericasMart Building 1 in downtown Atlanta, plus markets, pop-ups, and private events around the city.",
 };
 
-export default function LocationsPage() {
+export default async function LocationsPage() {
+  const calendar = await getCartCalendar();
   return (
     <>
       <PageHero
@@ -23,6 +26,10 @@ export default function LocationsPage() {
         focal="50% 45%"
       />
       <Locations />
+      <CartCalendar
+        events={calendar.events}
+        subscribeHref={calendar.subscribeHref}
+      />
       <Marquee
         items={[
           "AmericasMart · Building 1 · Floor 2",

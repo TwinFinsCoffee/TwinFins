@@ -1,0 +1,328 @@
+/* The tide chart — the Story timeline's forward-looking sibling. Same navy
+   water, same soft sea/caramel glows, same trail-and-node grammar, but the
+   rail runs a single lane: a schedule is read top to bottom, fast. */
+
+.section {
+  position: relative;
+  isolation: isolate;
+  background: var(--navy);
+  overflow: hidden;
+}
+
+/* Depth: the same two ocean glows the timeline floats on. */
+.section::before,
+.section::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: min(46rem, 90vw);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.section::before {
+  top: -14rem;
+  right: -12rem;
+  background: radial-gradient(
+    circle,
+    color-mix(in oklab, var(--sea) 30%, transparent),
+    transparent 65%
+  );
+}
+
+.section::after {
+  bottom: -16rem;
+  left: -13rem;
+  background: radial-gradient(
+    circle,
+    color-mix(in oklab, var(--caramel) 24%, transparent),
+    transparent 65%
+  );
+}
+
+/* ----------------------------------------------------------------- head */
+
+.head {
+  display: grid;
+  gap: 1rem;
+  max-width: 46rem;
+  margin-bottom: clamp(2.5rem, 6vw, 4rem);
+}
+
+.title {
+  font-size: var(--step-4);
+}
+
+.lede {
+  font-size: var(--step-1);
+  line-height: 1.5;
+  color: color-mix(in oklab, var(--cream) 68%, var(--navy));
+  max-width: 48ch;
+  text-wrap: pretty;
+}
+
+/* ----------------------------------------------------------------- rail */
+
+.rail {
+  position: relative;
+  --rail-x: 1.1rem;
+  display: grid;
+  gap: clamp(2.25rem, 5vw, 3.5rem);
+  padding-left: 0;
+}
+
+/* The dotted centre line, drawn once behind every month. */
+.rail::before {
+  content: "";
+  position: absolute;
+  top: 0.5rem;
+  bottom: 0.5rem;
+  left: var(--rail-x);
+  border-left: 2px dashed color-mix(in oklab, var(--cream) 30%, transparent);
+}
+
+.month {
+  display: grid;
+  gap: clamp(1.1rem, 2.5vw, 1.6rem);
+}
+
+.monthMark {
+  position: relative;
+  padding-left: calc(var(--rail-x) + 1.9rem);
+}
+
+/* The month chip sits ON the rail, like the timeline's markers. */
+.monthChip {
+  position: relative;
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 0.42em 1em;
+  border-radius: 999px;
+  background: var(--sea-deep);
+  color: var(--bone);
+  margin-left: calc(-1 * (var(--rail-x) + 1.9rem));
+  left: 0;
+}
+
+.list {
+  display: grid;
+  gap: clamp(0.9rem, 2vw, 1.25rem);
+}
+
+.item {
+  position: relative;
+  padding-left: calc(var(--rail-x) + 1.9rem);
+}
+
+/* Node on the rail per stop — the timeline's cream ports of call. */
+.node {
+  position: absolute;
+  left: var(--rail-x);
+  top: 1.55rem;
+  width: 0.85rem;
+  height: 0.85rem;
+  margin-left: -0.425rem;
+  border-radius: 50%;
+  background: var(--cream);
+  box-shadow: 0 0 0 5px var(--navy);
+}
+
+/* ----------------------------------------------------------------- card */
+
+.card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: clamp(1rem, 2.5vw, 1.5rem);
+  align-items: start;
+  max-width: 44rem;
+  padding: clamp(1rem, 2.2vw, 1.4rem);
+  border-radius: var(--radius);
+  background: color-mix(in oklab, var(--cream) 7%, transparent);
+  border: 1px solid color-mix(in oklab, var(--cream) 15%, transparent);
+  backdrop-filter: blur(2px);
+  transition: border-color 0.5s var(--ease-out), transform 0.6s var(--ease-out);
+}
+
+.card:hover {
+  border-color: color-mix(in oklab, var(--sea) 55%, transparent);
+  transform: translateY(-3px);
+}
+
+/* The date reads like a stamped ticket: weekday, big numeral, month. */
+.date {
+  display: grid;
+  justify-items: center;
+  gap: 0.1rem;
+  min-width: 4.1rem;
+  padding: 0.6rem 0.5rem 0.7rem;
+  border-radius: var(--radius-sm);
+  background: color-mix(in oklab, var(--cream) 10%, transparent);
+  border: 1px solid color-mix(in oklab, var(--cream) 14%, transparent);
+}
+
+.dateDow,
+.dateMon {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--cream) 62%, var(--navy));
+}
+
+.dateNum {
+  font-size: clamp(1.7rem, 3vw, 2.2rem);
+  line-height: 1;
+  color: var(--cream);
+  /* The ticket numeral is small type on a card — the full headline
+     extrusion reads as smudge at this size, so it gets a single step. */
+  text-shadow: 0 0.04em 0 #0e1720;
+}
+
+.body {
+  display: grid;
+  gap: 0.35rem;
+  align-content: start;
+}
+
+.cardHead {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.time {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sea);
+}
+
+.badge {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.28em 0.8em;
+  border-radius: 999px;
+  background: var(--caramel);
+  color: var(--bone);
+}
+
+.badgeNext {
+  background: var(--sea-deep);
+}
+
+.cardTitle {
+  font-size: var(--step-1);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+.place {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: fit-content;
+  font-size: var(--step--1);
+  font-weight: 600;
+  color: color-mix(in oklab, var(--cream) 80%, var(--navy));
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, var(--sea) 55%, transparent);
+  text-underline-offset: 0.25em;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.place:hover {
+  color: var(--sea);
+}
+
+.pin {
+  width: 0.85em;
+  height: 0.85em;
+  flex-shrink: 0;
+  color: var(--sea);
+}
+
+.desc {
+  font-size: var(--step--1);
+  line-height: 1.55;
+  color: color-mix(in oklab, var(--cream) 70%, var(--navy));
+  text-wrap: pretty;
+}
+
+/* ---------------------------------------------------------------- empty */
+
+.empty {
+  display: grid;
+  justify-items: start;
+  gap: 0.8rem;
+  max-width: 34rem;
+  padding: clamp(1.5rem, 3.5vw, 2.25rem);
+  border-radius: var(--radius);
+  background: color-mix(in oklab, var(--cream) 7%, transparent);
+  border: 1px solid color-mix(in oklab, var(--cream) 15%, transparent);
+}
+
+.emptyTitle {
+  font-size: var(--step-1);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.emptyBody {
+  font-size: var(--step--1);
+  line-height: 1.6;
+  color: color-mix(in oklab, var(--cream) 70%, var(--navy));
+  margin-bottom: 0.4rem;
+}
+
+/* ----------------------------------------------------------------- foot */
+
+.foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  margin-top: clamp(2.5rem, 6vw, 4rem);
+  padding-top: clamp(1.25rem, 3vw, 1.75rem);
+  border-top: 1px solid var(--hairline-dark);
+}
+
+.footNote {
+  font-size: var(--step--1);
+  color: color-mix(in oklab, var(--cream) 62%, var(--navy));
+  max-width: 34rem;
+  text-wrap: pretty;
+}
+
+.footCtas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+@media (max-width: 34rem) {
+  .card {
+    grid-template-columns: 1fr;
+  }
+
+  .date {
+    grid-auto-flow: column;
+    align-items: baseline;
+    justify-content: start;
+    gap: 0.5rem;
+    min-width: 0;
+    width: fit-content;
+    padding: 0.35rem 0.8rem;
+  }
+}

@@ -85,6 +85,21 @@
   animation: served-scroll 42s linear infinite;
 }
 
+/* On narrow screens the same 42s loop reads as a crawl — the viewport shows
+   barely one mark at a time, so each one takes an age to cross it. Tighten
+   the loop so the row is visibly moving and every credit gets seen. */
+@media (max-width: 48rem) {
+  .track {
+    animation-duration: 32s;
+  }
+}
+
+@media (max-width: 34rem) {
+  .track {
+    animation-duration: 26s;
+  }
+}
+
 /* Hover speed lives in the component: the pointer's distance from the
    band's centre drives the animation's playbackRate — slow enough to read
    over the middle, accelerating toward either edge. (A CSS hover-pause here
