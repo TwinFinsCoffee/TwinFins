@@ -1,0 +1,126 @@
+/* Pinned to the right edge, below the fold-line of the nav and above the
+   footer's reach. High z but small footprint — it overlays a sliver of
+   whatever section it lands on, never a whole element. */
+.wrap {
+  position: fixed;
+  right: -0.5rem;
+  /* upper third of the screen: in the eye's path next to content, but
+     clear of the nav pill and nowhere near the primary CTAs */
+  top: clamp(7.5rem, 24vh, 13rem);
+  z-index: 1500;
+  width: clamp(9.5rem, 19vw, 13.5rem);
+  aspect-ratio: 10 / 11;
+  filter: drop-shadow(0 0 30px rgba(82, 255, 125, 0.4))
+    drop-shadow(0 12px 34px rgba(0, 0, 0, 0.55));
+}
+
+.hole {
+  position: absolute;
+  inset: 0;
+  display: block;
+  background: #050705;
+  /* the page "material" torn back: a bright rim right at the clip edge */
+  box-shadow: inset 0 0 0 3px rgba(233, 235, 223, 0.9),
+    inset 0 0 22px rgba(82, 255, 125, 0.5);
+  cursor: pointer;
+}
+
+.glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    70% 70% at 50% 45%,
+    rgba(82, 255, 125, 0.5),
+    rgba(82, 255, 125, 0.12) 55%,
+    transparent 80%
+  );
+}
+
+/* phosphor snow: two drifting dot lattices at odd offsets */
+.static {
+  position: absolute;
+  inset: 0;
+  opacity: 0.5;
+  background:
+    radial-gradient(1.5px 1.5px at 20% 30%, rgba(82, 255, 125, 0.8), transparent 60%) 0 0 / 26px 22px,
+    radial-gradient(1px 1px at 70% 60%, rgba(233, 235, 223, 0.7), transparent 60%) 0 0 / 18px 26px;
+}
+
+.staticLive {
+  animation: snow 0.45s steps(3) infinite;
+}
+
+@keyframes snow {
+  0% { background-position: 0 0, 0 0; }
+  50% { background-position: 9px -7px, -6px 8px; }
+  100% { background-position: -8px 5px, 7px -9px; }
+}
+
+.text {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  gap: 0.15rem;
+  text-align: center;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+.text b {
+  font-size: clamp(0.56rem, 1.4vw, 0.7rem);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: #52ff7d;
+  text-shadow: 0 0 10px rgba(82, 255, 125, 0.8);
+  animation: pulse 2.4s ease-in-out infinite;
+}
+
+.text i {
+  margin-top: 0.4rem;
+  font-style: normal;
+  font-size: clamp(0.46rem, 1.1vw, 0.56rem);
+  letter-spacing: 0.12em;
+  color: rgba(233, 235, 223, 0.75);
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+
+.dismiss {
+  position: absolute;
+  top: -0.4rem;
+  left: -0.4rem;
+  width: 1.6rem;
+  height: 1.6rem;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid rgba(233, 235, 223, 0.4);
+  background: rgba(5, 7, 5, 0.85);
+  color: rgba(233, 235, 223, 0.85);
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: background-color 0.25s, transform 0.25s;
+}
+
+.dismiss:hover {
+  background: #52ff7d;
+  color: #050705;
+  transform: scale(1.1);
+}
+
+@media (max-width: 40rem) {
+  .wrap {
+    top: auto;
+    bottom: 5rem;
+    width: 8.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .text b {
+    animation: none;
+  }
+}
