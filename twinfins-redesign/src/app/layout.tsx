@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, DM_Sans, Caveat } from "next/font/google";
+import { Fraunces, DM_Sans } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
 import Grain from "@/components/Grain";
@@ -28,11 +29,15 @@ const body = DM_Sans({
 
 /* Reserved for the one moment on /story that needs to read as handwriting
    rather than typesetting — the founder's own quote, styled as a note
-   tucked into a scrapbook rather than a pull-quote. */
-const hand = Caveat({
-  subsets: ["latin"],
+   tucked into a scrapbook rather than a pull-quote.
+   Self-hosted rather than pulled from next/font/google: Next 16.3's bundled
+   Google Fonts metadata points at a Caveat asset Google has since retired
+   (a stale build-time 404 that took the whole build down), and this is a
+   single variable-weight file anyway, so there's nothing to keep in sync. */
+const hand = localFont({
+  src: "./fonts/caveat-variable.woff2",
+  weight: "500 700",
   display: "swap",
-  weight: ["500", "700"],
   variable: "--font-hand",
 });
 
