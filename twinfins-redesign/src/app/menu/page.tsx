@@ -30,7 +30,6 @@ export default function MenuPage() {
       <Contact
         eyebrow="Drop us a line"
         heading="Questions? We got you."
-        withEventFields={false}
       />
     </>
   );
