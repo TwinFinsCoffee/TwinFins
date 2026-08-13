@@ -35,7 +35,9 @@ export default function Transmission() {
   useEffect(() => {
     if (Date.now() < SIGNAL_START.getTime()) return;
     if (sessionStorage.getItem("tf-transmission-dismissed")) return;
-    const id = setTimeout(() => setShow(true), 6000);
+    /* Long enough to let the hero settle, short enough that nobody has
+       scrolled past or left before the tear opens. Six seconds lost it. */
+    const id = setTimeout(() => setShow(true), 1800);
     return () => clearTimeout(id);
   }, []);
 

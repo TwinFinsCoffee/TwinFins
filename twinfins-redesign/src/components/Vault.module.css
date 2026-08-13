@@ -1402,3 +1402,277 @@
     opacity: 0.4;
   }
 }
+
+
+/* ============================================================ roaches */
+
+/* Fixed to the viewport and pinned under everything — including the nav
+   pill, which sits at a positive z-index of its own — so they read as
+   vermin behind the glass rather than sprites on top of the page. */
+.roaches {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.roachLane {
+  position: absolute;
+  left: 0;
+  display: block;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+.roachRight { animation-name: roach-right; }
+.roachLeft { animation-name: roach-left; }
+
+.roachBody {
+  display: block;
+  width: 100%;
+  height: auto;
+  opacity: 0.75;
+  filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.65));
+  /* legs scrabble much faster than the body travels */
+  animation: roach-scuttle 0.14s steps(2) infinite;
+}
+
+/* Off one edge, across, off the other — the long gap between runs is the
+   delay, so most of the time the screen is empty. */
+@keyframes roach-right {
+  0% { transform: translateX(-12vw) rotate(1deg); }
+  100% { transform: translateX(112vw) rotate(-1deg); }
+}
+
+@keyframes roach-left {
+  0% { transform: translateX(112vw) scaleX(-1); }
+  100% { transform: translateX(-12vw) scaleX(-1); }
+}
+
+@keyframes roach-scuttle {
+  0% { transform: translateY(0) skewX(0deg); }
+  50% { transform: translateY(-1px) skewX(-2.5deg); }
+  100% { transform: translateY(0) skewX(2.5deg); }
+}
+
+/* =========================================================== rec room */
+
+.rec {
+  position: relative;
+  z-index: 6;
+  padding-block: clamp(3rem, 7vw, 5rem);
+}
+
+.recHead {
+  display: grid;
+  justify-items: start;
+  gap: 1rem;
+  margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.recTitle {
+  font-family: var(--font-display), serif;
+  font-weight: 800;
+  font-size: clamp(1.6rem, 5vw, 2.8rem);
+  color: #e9ebdf;
+}
+
+.recLede {
+  max-width: 52ch;
+  color: #b9bdae;
+  font-size: clamp(0.9rem, 2.4vw, 1.05rem);
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+.recCabinet {
+  display: grid;
+  justify-items: stretch;
+}
+
+/* ------------------------------------------------------------- game */
+
+.game {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.gameHud {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: clamp(0.6rem, 2vw, 0.74rem);
+  letter-spacing: 0.2em;
+  color: var(--phos-dim);
+}
+
+.gameHud span:nth-child(3) {
+  color: var(--amber);
+}
+
+.sfxBtn {
+  margin-left: auto;
+  padding: 0.2em 0.6em;
+  font-family: inherit;
+  font-size: inherit;
+  letter-spacing: 0.16em;
+  color: var(--phos-dim);
+  background: transparent;
+  border: 1px solid rgba(82, 255, 125, 0.35);
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.sfxBtn[aria-pressed="false"] {
+  color: var(--phos);
+  border-color: rgba(82, 255, 125, 0.6);
+}
+
+.board {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  height: clamp(14rem, 38vw, 19rem);
+  border: 2px solid rgba(82, 255, 125, 0.28);
+  border-radius: 0.5rem;
+  background:
+    repeating-linear-gradient(0deg, rgba(82, 255, 125, 0.05) 0 1px, transparent 1px 4px),
+    #060a05;
+  overflow: hidden;
+}
+
+/* each lane is its own tap target, with the spout drawn at the top */
+.laneBtn {
+  position: relative;
+  border: none;
+  background: transparent;
+  border-right: 1px dashed rgba(82, 255, 125, 0.16);
+  cursor: pointer;
+  transition: background-color 0.25s var(--ease-out);
+}
+
+.laneBtn:last-child {
+  border-right: none;
+}
+
+.laneBtn[data-active="true"] {
+  background: rgba(82, 255, 125, 0.06);
+}
+
+.spout {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1.6rem;
+  height: 0.7rem;
+  border-radius: 0 0 0.3rem 0.3rem;
+  background: var(--phos-dim);
+  box-shadow: 0 0 10px rgba(82, 255, 125, 0.4);
+}
+
+.laneBtn[data-active="true"] .spout {
+  background: var(--phos);
+}
+
+/* a falling drop of coffee */
+.drip {
+  position: absolute;
+  top: 0.7rem;
+  width: 10px;
+  height: 14px;
+  border-radius: 50% 50% 45% 45%;
+  background: linear-gradient(180deg, #c78a4a, #7a4a1e);
+  box-shadow: 0 0 8px rgba(199, 138, 74, 0.5);
+  animation-name: drip-fall;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes drip-fall {
+  from { transform: translateY(0); }
+  to { transform: translateY(calc(clamp(14rem, 38vw, 19rem) - 3.4rem)); }
+}
+
+/* the cup you steer */
+.cup {
+  position: absolute;
+  bottom: 0.5rem;
+  width: 2.8rem;
+  height: 2.2rem;
+  border: 2px solid var(--phos);
+  border-top: none;
+  border-radius: 0.2rem 0.2rem 0.7rem 0.7rem;
+  background: linear-gradient(180deg, rgba(82, 255, 125, 0.1), rgba(82, 255, 125, 0.28));
+  box-shadow: 0 0 14px rgba(82, 255, 125, 0.35);
+  transition: left 0.12s var(--ease-out);
+}
+
+/* the cup's handle */
+.cup::after {
+  content: "";
+  position: absolute;
+  right: -0.65rem;
+  top: 0.35rem;
+  width: 0.7rem;
+  height: 1rem;
+  border: 2px solid var(--phos);
+  border-left: none;
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.gameOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 0.5rem;
+  text-align: center;
+  background: rgba(6, 10, 5, 0.86);
+  backdrop-filter: blur(2px);
+}
+
+.gameOverlay p {
+  font-size: clamp(0.95rem, 3vw, 1.3rem);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--phos);
+  text-shadow: 0 0 12px rgba(82, 255, 125, 0.5);
+}
+
+.gameOverlay span {
+  font-size: clamp(0.62rem, 2vw, 0.76rem);
+  letter-spacing: 0.16em;
+  color: var(--phos-dim);
+}
+
+.gameBtn {
+  margin-top: 0.75rem;
+  padding: 0.6em 1.4em;
+  font-family: inherit;
+  font-size: clamp(0.62rem, 2vw, 0.76rem);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: #061006;
+  background: var(--phos);
+  border: none;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  box-shadow: 0 0 18px rgba(82, 255, 125, 0.5);
+  transition: transform 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
+}
+
+.gameBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 26px rgba(82, 255, 125, 0.75);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .roaches { display: none; }
+  .roachBody { animation: none; }
+}

@@ -110,6 +110,21 @@
    as a flat washed-out stroke. -webkit-named-image() only parses in WebKit,
    which makes this block a Safari-only override: skip the lens, keep the
    frosted glass. */
+/* a green cast in the glass itself, not just the fill behind it */
+.bar[data-vault][data-stuck="true"] {
+  backdrop-filter: url(#tf-lens) blur(7px) saturate(1.5) brightness(0.82)
+    sepia(0.35) hue-rotate(58deg);
+}
+
+@supports (background: -webkit-named-image(i)) {
+  .bar[data-vault][data-stuck="true"] {
+    backdrop-filter: blur(20px) saturate(1.5) brightness(0.82) sepia(0.35)
+      hue-rotate(58deg);
+    -webkit-backdrop-filter: blur(20px) saturate(1.5) brightness(0.82)
+      sepia(0.35) hue-rotate(58deg);
+  }
+}
+
 @supports (background: -webkit-named-image(i)) {
   .bar[data-stuck="true"] {
     backdrop-filter: blur(20px) saturate(1.8) brightness(1.04);
@@ -503,4 +518,253 @@
   width: 0;
   height: 0;
   overflow: hidden;
+}
+
+
+/* =====================================================================
+   VAULT SKIN — /dragon-con only
+   The glass stays exactly as engineered (lens + blur + sheen are
+   untouched); only what tints it changes. On top of that: grime worked
+   into the pill, hairline cracks creeping in from both ends, and a slow
+   RGB fringe that travels across the bar like the CRTs downstairs.
+   ===================================================================== */
+
+.bar[data-vault] {
+  color: var(--phos, #52ff7d);
+  /* the bar joins the terminals downstairs: same monospace, same glow */
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+.bar[data-vault] .link,
+.bar[data-vault] .brandName b,
+.bar[data-vault] .brandName small {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.bar[data-vault] .brandName b {
+  font-weight: 700;
+  font-size: 0.92em;
+}
+
+/* over the hero: still transparent, just a phosphor-lit rim */
+.bar[data-vault][data-over-hero="true"] {
+  border-color: rgba(82, 255, 125, 0.16);
+  text-shadow: 0 1px 3px rgba(6, 10, 5, 0.75), 0 0 14px rgba(82, 255, 125, 0.28);
+}
+
+/* stuck: olive-drab glass instead of cream, phosphor lip, deeper shadow */
+.bar[data-vault][data-stuck="true"],
+.bar[data-vault][data-stuck="true"][data-tone="dark"] {
+  color: var(--phos, #52ff7d);
+  background: linear-gradient(
+    160deg,
+    rgba(34, 42, 30, 0.78) 0%,
+    rgba(16, 22, 13, 0.68) 45%,
+    rgba(28, 36, 25, 0.76) 100%
+  );
+  border-color: rgba(82, 255, 125, 0.3);
+  box-shadow:
+    inset 0 1px 0 0 rgba(82, 255, 125, 0.22),
+    inset 0 -1px 0 0 rgba(0, 0, 0, 0.5),
+    0 16px 40px -20px rgba(0, 0, 0, 0.85);
+}
+
+.bar[data-vault] .brandName b {
+  color: var(--phos, #52ff7d);
+}
+
+.bar[data-vault] .brandName small,
+.bar[data-vault] .link {
+  color: #3fdc6b;
+}
+
+.bar[data-vault] .link[data-active="true"],
+.bar[data-vault] .link:hover {
+  color: var(--phos, #52ff7d);
+}
+
+/* the underline reads as an amber tick, matching the terminals */
+.bar[data-vault] .link::after {
+  background: #ffb642;
+  box-shadow: 0 0 8px rgba(255, 182, 66, 0.6);
+}
+
+/* the CTA becomes an amber lamp, same family as the terminal's
+   LOG/BREW/DATA pod rather than a cream pill from the surface world */
+.bar[data-vault] .cta {
+  background: linear-gradient(180deg, #ffc861 0%, #ffb642 45%, #d8912c 100%);
+  color: #21200f;
+  border-color: #8a5a17;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    0 0 16px rgba(255, 182, 66, 0.45);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.bar[data-vault] .socialLink,
+.bar[data-vault] .burger {
+  color: #3fdc6b;
+  border-color: rgba(82, 255, 125, 0.28);
+}
+
+/* ------------------------------------------------- grime + cracks layer */
+
+.bar .vaultGrime {
+  position: absolute;
+  inset: 0;
+  z-index: 0;           /* under the content, over the glass */
+  border-radius: inherit;
+  pointer-events: none;
+  overflow: hidden;
+  /* soot pooled at the ends, damp streak through the middle, fine dust */
+  background:
+    radial-gradient(38% 120% at 2% 50%, rgba(18, 20, 12, 0.5), transparent 70%),
+    radial-gradient(38% 120% at 98% 50%, rgba(18, 20, 12, 0.45), transparent 70%),
+    radial-gradient(24% 90% at 34% 8%, rgba(84, 64, 30, 0.22), transparent 72%),
+    radial-gradient(20% 80% at 68% 96%, rgba(24, 26, 16, 0.35), transparent 70%),
+    repeating-linear-gradient(94deg, rgba(10, 12, 6, 0.1) 0 2px, transparent 2px 9px);
+  mix-blend-mode: multiply;
+  opacity: 0.85;
+}
+
+/* cracks spidering in from the rounded ends */
+.bar .vaultGrime::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27170%27%20height%3D%2764%27%3E%3Cg%20fill%3D%27none%27%20stroke%3D%27rgba%28255%2C255%2C255%2C0.5%29%27%20stroke-width%3D%270.9%27%20stroke-linecap%3D%27round%27%3E%3Cpath%20d%3D%27M0%2020%20L18%2024%20L31%2019%20L46%2027%20L58%2024%27/%3E%3Cpath%20d%3D%27M31%2019%20L34%209%27/%3E%3Cpath%20d%3D%27M46%2027%20L52%2036%20L61%2039%27/%3E%3Cpath%20d%3D%27M0%2044%20L14%2041%20L27%2047%20L39%2044%27/%3E%3Cpath%20d%3D%27M27%2047%20L30%2056%27/%3E%3Cpath%20d%3D%27M14%2041%20L11%2033%27/%3E%3C/g%3E%3Cg%20fill%3D%27none%27%20stroke%3D%27rgba%280%2C0%2C0%2C0.35%29%27%20stroke-width%3D%270.9%27%20stroke-linecap%3D%27round%27%20transform%3D%27translate%280%2C1%29%27%3E%3Cpath%20d%3D%27M0%2020%20L18%2024%20L31%2019%20L46%2027%20L58%2024%27/%3E%3Cpath%20d%3D%27M0%2044%20L14%2041%20L27%2047%20L39%2044%27/%3E%3C/g%3E%3C/svg%3E") left center / auto 100% no-repeat,
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27170%27%20height%3D%2764%27%3E%3Cg%20fill%3D%27none%27%20stroke%3D%27rgba%28255%2C255%2C255%2C0.5%29%27%20stroke-width%3D%270.9%27%20stroke-linecap%3D%27round%27%20transform%3D%27translate%28170%2C0%29%20scale%28-1%2C1%29%27%3E%3Cpath%20d%3D%27M0%2026%20L16%2022%20L30%2028%20L44%2021%20L57%2025%27/%3E%3Cpath%20d%3D%27M30%2028%20L33%2038%27/%3E%3Cpath%20d%3D%27M44%2021%20L49%2012%27/%3E%3Cpath%20d%3D%27M0%2046%20L12%2049%20L26%2043%20L37%2048%27/%3E%3Cpath%20d%3D%27M26%2043%20L24%2034%27/%3E%3C/g%3E%3Cg%20fill%3D%27none%27%20stroke%3D%27rgba%280%2C0%2C0%2C0.35%29%27%20stroke-width%3D%270.9%27%20stroke-linecap%3D%27round%27%20transform%3D%27translate%28170%2C1%29%20scale%28-1%2C1%29%27%3E%3Cpath%20d%3D%27M0%2026%20L16%2022%20L30%2028%20L44%2021%20L57%2025%27/%3E%3Cpath%20d%3D%27M0%2046%20L12%2049%20L26%2043%20L37%2048%27/%3E%3C/g%3E%3C/svg%3E") right center / auto 100% no-repeat;
+  opacity: 0.55;
+  mix-blend-mode: normal;
+}
+
+/* CRT wash: scanlines plus a phosphor bloom that drifts across, which is
+   what carries the RGB fringe below into a travelling "wave" */
+.bar .vaultGrime::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.14) 0 1px, transparent 1px 3px),
+    linear-gradient(
+      100deg,
+      transparent 38%,
+      rgba(82, 255, 125, 0.16) 48%,
+      rgba(0, 214, 255, 0.1) 52%,
+      transparent 62%
+    );
+  background-size: 100% 100%, 260% 100%;
+  animation: vault-wave 9s linear infinite;
+}
+
+@keyframes vault-wave {
+  0% { background-position: 0 0, 130% 0; }
+  100% { background-position: 0 0, -30% 0; }
+}
+
+/* ------------------------------------------------------- the RGB fringe */
+
+/* Chromatic split on the type. The per-item delays are what make it read
+   as one wave crossing the bar rather than everything shimmering at once. */
+.bar[data-vault] .brandName b,
+.bar[data-vault] .brandName small,
+.bar[data-vault] .link,
+.bar[data-vault] .mark,
+.bar[data-vault] .socialIcon {
+  animation: vault-chroma 9s ease-in-out infinite;
+}
+
+/* the logo marks are SVG, so their ghost is a drop-shadow pair rather
+   than a text-shadow — same offsets, same beat */
+.bar[data-vault] .mark,
+.bar[data-vault] .socialIcon {
+  animation-name: vault-chroma-svg;
+}
+
+.bar[data-vault] .links li:nth-child(1) .link { animation-delay: 0.6s; }
+.bar[data-vault] .links li:nth-child(2) .link { animation-delay: 1.2s; }
+.bar[data-vault] .links li:nth-child(3) .link { animation-delay: 1.8s; }
+.bar[data-vault] .links li:nth-child(4) .link { animation-delay: 2.4s; }
+.bar[data-vault] .links li:nth-child(5) .link { animation-delay: 3s; }
+
+/* A permanent misconverged-CRT ghost — red left, cyan right, phosphor
+   bloom around both — that swells and swaps sides as the wave passes. */
+@keyframes vault-chroma {
+  0%, 55%, 100% {
+    text-shadow:
+      -1.1px 0 rgba(255, 40, 80, 0.6),
+      1.1px 0 rgba(0, 220, 255, 0.55),
+      0 0 12px rgba(82, 255, 125, 0.45);
+  }
+  66% {
+    text-shadow:
+      -2.4px 0 rgba(255, 40, 80, 0.8),
+      2.4px 0 rgba(0, 220, 255, 0.7),
+      0 0 16px rgba(82, 255, 125, 0.6);
+  }
+  74% {
+    text-shadow:
+      2.2px 0 rgba(255, 40, 80, 0.75),
+      -2.2px 0 rgba(0, 220, 255, 0.65),
+      0 0 16px rgba(82, 255, 125, 0.55);
+  }
+  84% {
+    text-shadow:
+      -1.6px 0 rgba(255, 40, 80, 0.65),
+      1.6px 0 rgba(0, 220, 255, 0.6),
+      0 0 14px rgba(82, 255, 125, 0.5);
+  }
+}
+
+@keyframes vault-chroma-svg {
+  0%, 55%, 100% {
+    filter:
+      drop-shadow(-1.1px 0 rgba(255, 40, 80, 0.6))
+      drop-shadow(1.1px 0 rgba(0, 220, 255, 0.55))
+      drop-shadow(0 0 8px rgba(82, 255, 125, 0.45));
+  }
+  66% {
+    filter:
+      drop-shadow(-2.4px 0 rgba(255, 40, 80, 0.8))
+      drop-shadow(2.4px 0 rgba(0, 220, 255, 0.7))
+      drop-shadow(0 0 10px rgba(82, 255, 125, 0.6));
+  }
+  74% {
+    filter:
+      drop-shadow(2.2px 0 rgba(255, 40, 80, 0.75))
+      drop-shadow(-2.2px 0 rgba(0, 220, 255, 0.65))
+      drop-shadow(0 0 10px rgba(82, 255, 125, 0.55));
+  }
+  84% {
+    filter:
+      drop-shadow(-1.6px 0 rgba(255, 40, 80, 0.65))
+      drop-shadow(1.6px 0 rgba(0, 220, 255, 0.6))
+      drop-shadow(0 0 9px rgba(82, 255, 125, 0.5));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bar .vaultGrime::after,
+  .bar[data-vault] .brandName b,
+  .bar[data-vault] .brandName small,
+  .bar[data-vault] .link,
+  .bar[data-vault] .mark,
+  .bar[data-vault] .socialIcon {
+    animation: none;
+  }
+
+  /* keep the misconvergence, lose the movement */
+  .bar[data-vault] .brandName b,
+  .bar[data-vault] .link {
+    text-shadow:
+      -1.1px 0 rgba(255, 40, 80, 0.6),
+      1.1px 0 rgba(0, 220, 255, 0.55),
+      0 0 12px rgba(82, 255, 125, 0.45);
+  }
 }

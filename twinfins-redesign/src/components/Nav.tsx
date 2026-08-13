@@ -17,6 +17,8 @@ const LENS_MAP =
 
 export default function Nav() {
   const pathname = usePathname();
+  /* The vault page re-skins the bar: same glass, different world. */
+  const vault = pathname?.startsWith("/dragon-con") ?? false;
   const { openBooking } = useBookingModal();
   const barRef = useRef<HTMLElement>(null);
   const [stuck, setStuck] = useState(false);
@@ -143,8 +145,13 @@ export default function Nav() {
           data-stuck={stuck}
           data-over-hero={overHero}
           data-tone={dark ? "dark" : "light"}
+          data-vault={vault || undefined}
           aria-label="Primary"
         >
+          {/* Grime, hairline cracks and CRT wash — its own layer because
+              the bar's ::before is the lens and ::after is the sheen. */}
+          {vault && <span className={s.vaultGrime} aria-hidden="true" />}
+
           <Link href="/" className={s.brand}>
             <Monogram className={s.mark} title={`${BRAND.name} home`} />
             <span className={s.brandName}>
