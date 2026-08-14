@@ -159,6 +159,33 @@
   color: color-mix(in oklab, var(--cream) 42%, transparent);
 }
 
+/* Design credit — its own quiet line above the copyright row so it reads
+   as a signature rather than another piece of boilerplate. */
+.credit {
+  /* More below than above: the link is underlined, so its rule hangs
+     below the baseline and would otherwise sit on the divider. */
+  padding-top: 1.4rem;
+  padding-bottom: 1.9rem;
+  text-align: center;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: color-mix(in oklab, var(--cream) 40%, transparent);
+}
+
+.credit a {
+  color: color-mix(in oklab, var(--cream) 68%, transparent);
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+  text-decoration-color: color-mix(in oklab, var(--cream) 30%, transparent);
+  transition: color var(--dur) var(--ease-out),
+    text-decoration-color var(--dur) var(--ease-out);
+}
+
+.credit a:hover {
+  color: var(--cream);
+  text-decoration-color: var(--cream);
+}
+
 .bottom {
   display: flex;
   flex-wrap: wrap;

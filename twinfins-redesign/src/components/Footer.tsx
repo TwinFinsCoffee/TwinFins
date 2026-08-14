@@ -134,6 +134,15 @@ export default function Footer() {
         </p>
       </div>
 
+      <div className={`shell ${s.credit}`}>
+        <p>
+          Website designed by{" "}
+          <a href="https://bradyjordan.com" target="_blank" rel="noreferrer">
+            Brady Jordan, ClipPlayMedia
+          </a>
+        </p>
+      </div>
+
       <div className={`shell ${s.bottom}`}>
         <p>
           © {new Date().getFullYear()} {BRAND.name} — All rights reserved.
