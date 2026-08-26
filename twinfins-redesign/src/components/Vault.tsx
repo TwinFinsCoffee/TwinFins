@@ -14,17 +14,18 @@ const BOOT_LINES = [
   "ESTABLISHING SECURE CONNECTION....... OK",
   "SUBLEVEL ATMOSPHERICS................ OK",
   "ESPRESSO PRESSURE — 9 BAR............ OK",
-  "LOCATION: [REDACTED], ATLANTA GA",
+  "LOCATION: THE VEGA — HOTEL CORRIDOR",
   "CLEARANCE: CON BADGE REQUIRED",
   "> DECRYPTING TRANSMISSION_",
 ];
 
-/** Fully encrypted — the notes are the only tease that escapes. */
+/** Fully encrypted — the in-world ad lines are the only tease that
+    escapes. Cipher lengths match the real names; let them count. */
 const MANIFEST = [
-  { code: "BREW-001", length: 14, note: "irradiated glow, zero rads" },
-  { code: "BREW-002", length: 16, note: "cold. very cold." },
-  { code: "BREW-003", length: 12, note: "sweet enough to survive on" },
-  { code: "BREW-004", length: 15, note: "overseer's eyes only" },
+  { code: "BREW-001", length: 14, note: "wake up to the winning side of history" },
+  { code: "BREW-002", length: 6, note: "no cream. no sugar. no excuses." },
+  { code: "BREW-003", length: 16, note: "a little wonder for the long road home" },
+  { code: "BREW-004", length: 15, note: "proprietor's eyes only" },
 ];
 
 const CIPHER_GLYPHS = "█▓▒░#@%&$§Ø×ΔΞΨ01";
@@ -186,7 +187,7 @@ function Countdown({ still }: { still: boolean }) {
 
 const PIPBOY_BOOT = [
   "*************** TWIN-TEC INDUSTRIES (TM) ***************",
-  "COPYRIGHT 2201-2026 TWIN-TEC INDUSTRIES",
+  "COPYRIGHT 2044-2077 TWIN-TEC INDUSTRIES",
   "-EXEC VERSION 41.10",
   "64K RAM SYSTEM",
   "38911 BYTES FREE",
@@ -771,19 +772,74 @@ export default function Vault() {
           <header className={s.termHead}>
             <span />
             <span />
-            <p>OVERSEER LOG — ENTRY 001</p>
+            <p>PROPRIETOR&apos;S LOG — ENTRY 001</p>
           </header>
           <div className={s.termBody}>
             <p>
-              This Labor Day weekend, the cart goes underground. Custom
-              drinks. A full build-out. A theme we have been quietly welding
-              together for months.
+              The name on the sign is older than the crater. Twin Fins opened
+              on the Outer Banks in 2044, fed a coast the bombs missed, and
+              walked inland with the Banks Caravan when the storms took the
+              fresh water. The counter still has tidehouse wood in it.
             </p>
             <p>
-              We could tell you what it is. But some doors are better opened
+              This Labor Day weekend, the cart goes underground. Custom
+              drinks. A full build-out. Two centuries of road behind the
+              counter.
+            </p>
+            <p>
+              We could tell you the rest. But some doors are better opened
               in person.
             </p>
-            <p className={s.termSign}>— The Overseer</p>
+            <p className={s.termSign}>— Junebug, Proprietor</p>
+          </div>
+        </article>
+
+        <article className={s.terminal}>
+          <header className={s.termHead}>
+            <span />
+            <span />
+            <p>PUBLIC RECORD — THE NINETEEN MINUTES</p>
+          </header>
+          <div className={s.termBody}>
+            <p>
+              On October 23, 2077, Atlanta got nineteen minutes of warning.
+              People fled below — parking decks, service corridors, MARTA
+              stations — and strangers kept the emergency lights burning long
+              after the last train stopped.
+            </p>
+            <p>
+              Two centuries later, downtown is the Vega, named for the
+              surviving letters on the ruined CORVEGA stadium sign. In its
+              Hotel Corridor, beneath a skybridge, hangs a weathered caravan
+              sign with two fins on it.
+            </p>
+            <p className={s.termFoot}>
+              TWIN FINS CAME A LONG WAY TO GET HERE. SO DID EVERYBODY ELSE.
+            </p>
+          </div>
+        </article>
+
+        <article className={s.terminal}>
+          <header className={s.termHead}>
+            <span />
+            <span />
+            <p>HOUSE RULES — POSTED AT THE DOOR</p>
+          </header>
+          <div className={s.termBody}>
+            <p>
+              NO DRAWN WEAPONS
+              <br />
+              NO UNPAID TABS
+              <br />
+              NO COUNCIL BUSINESS AFTER MIDNIGHT
+              <br />
+              YES, THE WATER IS FILTERED
+              <br />
+              NO, YOU MAY NOT INSPECT THE FILTER
+            </p>
+            <p className={s.termFoot}>
+              COME THIRSTY. LEAVE YOUR QUARREL OUTSIDE.
+            </p>
           </div>
         </article>
 
@@ -847,9 +903,9 @@ export default function Vault() {
             Two hundred years is a long shift.
           </h2>
           <p className={s.recLede}>
-            The crew had to do something between pours. Catch the drips,
-            don&rsquo;t spill the bean water. Twelve or better and the
-            machine considers you staff.
+            The Crew had to do something between pours on the road from the
+            Banks. Catch the drips, don&rsquo;t spill the bean water. Twelve
+            or better and the machine considers you staff.
           </p>
         </div>
 
@@ -904,7 +960,11 @@ export default function Vault() {
               <dl className={s.dossierRows}>
                 <div>
                   <dt>DESIGNATION</dt>
-                  <dd>&ldquo;THE OVERSEER&rdquo;</dd>
+                  <dd>&ldquo;JUNEBUG&rdquo; — PROPRIETOR</dd>
+                </div>
+                <div>
+                  <dt>AFFILIATION</dt>
+                  <dd>THE CREW · BANKS CARAVAN LINE</dd>
                 </div>
                 <div>
                   <dt>STATION</dt>
@@ -946,11 +1006,12 @@ export default function Vault() {
 
       {/* ------------------------------------------------- countdown */}
       <section className={`shell ${s.countdown}`}>
-        <p className={s.stamp}>VAULT OPENS — LABOR DAY WEEKEND · ATLANTA</p>
+        <p className={s.stamp}>DOORS OPEN — LABOR DAY WEEKEND · THE VEGA, ATLANTA</p>
         <Countdown still={still} />
         <p className={s.countNote}>
-          Find the cart. Say the password. There is no password — just order
-          something.
+          You made it to the Vega. Check your weapon, choose your ration, and
+          take a seat. Road&rsquo;s open. Light&rsquo;s on. Come back
+          breathing.
         </p>
       </section>
 
