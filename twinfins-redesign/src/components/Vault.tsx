@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 
 import VaultLocate from "./VaultLocate";
+import { Monogram } from "./BrandMarks";
 import { DOORS_OPEN, TAKEOVER_END } from "@/lib/dragoncon";
 import s from "./Vault.module.css";
 
@@ -86,6 +87,120 @@ function BootSequence({ still }: { still: boolean }) {
         </p>
       ))}
     </div>
+  );
+}
+
+/**
+ * The home takeover's vault door, drawn to the cast-metal plate itself:
+ * ten broad gear lugs with tread bars and corner rivets, an outer rim the
+ * lugs bolt through, a riveted face band, eight strut spokes over recessed
+ * wedge panels, and a raised hub boss carrying the TF monogram embossed in
+ * the same steel — highlight above, shadow below, no second colour.
+ */
+function DoorPlate() {
+  const LUGS = Array.from({ length: 10 });
+  const SPOKES = Array.from({ length: 8 });
+  const RIVETS = Array.from({ length: 20 });
+  return (
+    <svg viewBox="0 0 400 400" className={s.plate} aria-hidden="true">
+      <defs>
+        <radialGradient id="tfDoorFace" cx="38%" cy="30%" r="85%">
+          <stop offset="0%" stopColor="#353b2e" />
+          <stop offset="55%" stopColor="#262b21" />
+          <stop offset="100%" stopColor="#14170f" />
+        </radialGradient>
+        <radialGradient id="tfDoorHub" cx="42%" cy="32%" r="80%">
+          <stop offset="0%" stopColor="#404737" />
+          <stop offset="70%" stopColor="#272c21" />
+          <stop offset="100%" stopColor="#171a12" />
+        </radialGradient>
+        <linearGradient id="tfDoorLug" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#3d4435" />
+          <stop offset="100%" stopColor="#1e2219" />
+        </linearGradient>
+      </defs>
+
+      {/* rim the lugs are cast onto */}
+      <circle cx="200" cy="200" r="168" fill="#20241b" stroke="#0e100b" strokeWidth="4" />
+
+      {/* ten gear lugs, treaded like the plate's tire-blocks */}
+      {LUGS.map((_, i) => (
+        <g key={`lug-${i}`} transform={`rotate(${i * 36} 200 200)`}>
+          <path
+            d="M168 48 L174 8 L184 4 L216 4 L226 8 L232 48 Z"
+            fill="url(#tfDoorLug)"
+            stroke="#0e100b"
+            strokeWidth="3"
+            strokeLinejoin="round"
+          />
+          {/* tread bars */}
+          <rect x="186" y="12" width="8" height="26" rx="3" fill="#2b3025" stroke="#12150e" strokeWidth="1.5" />
+          <rect x="206" y="12" width="8" height="26" rx="3" fill="#2b3025" stroke="#12150e" strokeWidth="1.5" />
+          {/* cast light catching the lug's top edge */}
+          <path d="M175 9 L184 5.5 L216 5.5" fill="none" stroke="rgba(233,235,223,0.14)" strokeWidth="2" strokeLinecap="round" />
+          {/* corner rivets at the lug root */}
+          <circle cx="173" cy="43" r="2.6" fill="#454c3e" stroke="#0e100b" strokeWidth="1" />
+          <circle cx="227" cy="43" r="2.6" fill="#454c3e" stroke="#0e100b" strokeWidth="1" />
+        </g>
+      ))}
+
+      {/* main face plate */}
+      <circle cx="200" cy="200" r="160" fill="url(#tfDoorFace)" stroke="#454c3e" strokeWidth="3" />
+      {/* recessed channel ring */}
+      <circle cx="200" cy="200" r="143" fill="none" stroke="rgba(0,0,0,0.42)" strokeWidth="9" />
+      <circle cx="200" cy="200" r="138" fill="none" stroke="rgba(233,235,223,0.05)" strokeWidth="1.5" />
+
+      {/* rivet ring around the face band */}
+      {RIVETS.map((_, i) => (
+        <g key={`riv-${i}`} transform={`rotate(${i * 18 + 9} 200 200)`}>
+          <circle cx="200" cy="48" r="2.8" fill="#4a5242" stroke="#0e100b" strokeWidth="1.2" />
+        </g>
+      ))}
+
+      {/* recessed wedge panels between the spokes */}
+      {SPOKES.map((_, i) => (
+        <g key={`wedge-${i}`} transform={`rotate(${i * 45 + 22.5} 200 200)`}>
+          <path
+            d="M 163.1 71.2 A 134 134 0 0 1 236.9 71.2 L 219.3 132.7 A 70 70 0 0 0 180.7 132.7 Z"
+            fill="rgba(0,0,0,0.30)"
+            stroke="rgba(0,0,0,0.45)"
+            strokeWidth="2"
+          />
+        </g>
+      ))}
+
+      {/* eight strut spokes, bolted at both ends */}
+      {SPOKES.map((_, i) => (
+        <g key={`spoke-${i}`} transform={`rotate(${i * 45} 200 200)`}>
+          <rect x="192" y="58" width="16" height="86" rx="5" fill="url(#tfDoorLug)" stroke="#10130c" strokeWidth="2.5" />
+          <rect x="194.5" y="61" width="3.5" height="80" rx="1.5" fill="rgba(233,235,223,0.07)" />
+          <circle cx="200" cy="68" r="4" fill="#454c3e" stroke="#0e100b" strokeWidth="1.5" />
+          <circle cx="200" cy="134" r="4" fill="#454c3e" stroke="#0e100b" strokeWidth="1.5" />
+        </g>
+      ))}
+
+      {/* hub: outer collar, bolt ring, raised boss */}
+      <circle cx="200" cy="200" r="62" fill="url(#tfDoorHub)" stroke="#454c3e" strokeWidth="4" />
+      {SPOKES.map((_, i) => (
+        <g key={`hbolt-${i}`} transform={`rotate(${i * 45 + 22.5} 200 200)`}>
+          <circle cx="200" cy="148" r="3.6" fill="#454c3e" stroke="#0e100b" strokeWidth="1.4" />
+        </g>
+      ))}
+      <circle cx="200" cy="200" r="42" fill="#2b3025" stroke="#10130c" strokeWidth="3" />
+      <circle cx="200" cy="200" r="42" fill="none" stroke="rgba(233,235,223,0.06)" strokeWidth="1.5" />
+
+      {/* TF monogram, embossed in the boss: light rim above, shadow below,
+          face a half-step lighter than the boss it stands on */}
+      <svg x="177" y="172.9" width="46" height="51.6" style={{ color: "#4d5643" }}>
+        <Monogram />
+      </svg>
+      <svg x="177" y="175.7" width="46" height="51.6" style={{ color: "#0d100a" }}>
+        <Monogram />
+      </svg>
+      <svg x="177" y="174.3" width="46" height="51.6" style={{ color: "#39412f" }}>
+        <Monogram />
+      </svg>
+    </svg>
   );
 }
 
@@ -219,6 +334,279 @@ const PIPBOY_BOOT = [
   "> RUN TRANSMISSION.EXE_",
 ];
 
+/* ------------------------------------------- the tabbed wrist console */
+
+const PIP_TABS = ["STAT", "CREW", "LOG", "DATA", "BREW", "GAME"] as const;
+type PipTab = (typeof PIP_TABS)[number];
+
+/**
+ * The home page's pip-boy: same housing, bigger screen, no video feed —
+ * a working interface instead. Everything that used to sprawl down the
+ * page as separate terminals lives here as menus, the way the real unit
+ * pages between STAT/INV/DATA: crew stats, the Junebug dossier, the
+ * proprietor's log, the public record + house rules, the encrypted
+ * manifest, and CATCH THE POUR. Click a tab, click a pod button, or
+ * arrow-key across the tablist.
+ */
+function PipBoyConsole({ still }: { still: boolean }) {
+  const [phase, setPhase] = useState<"boot" | "ui">(still ? "ui" : "boot");
+  const [shown, setShown] = useState(still ? PIPBOY_BOOT.length : 0);
+  const [tab, setTab] = useState<PipTab>("STAT");
+
+  useEffect(() => {
+    if (still || phase !== "boot") return;
+    if (shown < PIPBOY_BOOT.length) {
+      const id = setTimeout(() => setShown((v) => v + 1), 200);
+      return () => clearTimeout(id);
+    }
+    const id = setTimeout(() => setPhase("ui"), 650);
+    return () => clearTimeout(id);
+  }, [shown, phase, still]);
+
+  const onTabKey = (e: React.KeyboardEvent) => {
+    const i = PIP_TABS.indexOf(tab);
+    if (e.key === "ArrowRight") {
+      e.preventDefault();
+      const next = PIP_TABS[(i + 1) % PIP_TABS.length];
+      setTab(next);
+      document.getElementById(`pip-tab-${next}`)?.focus();
+    }
+    if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      const prev = PIP_TABS[(i + PIP_TABS.length - 1) % PIP_TABS.length];
+      setTab(prev);
+      document.getElementById(`pip-tab-${prev}`)?.focus();
+    }
+  };
+
+  return (
+    <div className={`${s.pipboy} ${s.pipboyWide}`}>
+      <span className={s.pipWear} aria-hidden="true" />
+      <span className={s.pipHullScrews} aria-hidden="true" />
+
+      <div className={s.pipLeft} aria-hidden="true">
+        <span className={s.pipGaugeDial}>
+          <i />
+        </span>
+        <span className={s.pipPlate}>Twin-Tec</span>
+        <span className={s.pipSlot} />
+        <span className={s.pipModel}>MODEL 2026</span>
+        <span className={s.pipToggle}>
+          <i />
+        </span>
+        <span className={s.pipStick}>
+          <i />
+        </span>
+      </div>
+
+      <div className={s.pipCenter}>
+        <div className={`${s.pipScreen} ${s.pipScreenTall}`}>
+          <span className={s.pipScrews} aria-hidden="true" />
+          {phase === "boot" ? (
+            <div className={s.pipBoot} role="status" aria-label="Terminal booting">
+              {PIPBOY_BOOT.slice(0, shown).map((line, i) => (
+                <p key={line} className={s.bootLine}>
+                  {line}
+                  {i === shown - 1 && shown < PIPBOY_BOOT.length && (
+                    <span className={s.cursor} aria-hidden="true" />
+                  )}
+                </p>
+              ))}
+            </div>
+          ) : (
+            <div className={s.pipUi}>
+              <div
+                className={s.pipTabs}
+                role="tablist"
+                aria-label="Pip-Boy sections"
+                onKeyDown={onTabKey}
+              >
+                {PIP_TABS.map((t) => (
+                  <button
+                    key={t}
+                    type="button"
+                    role="tab"
+                    id={`pip-tab-${t}`}
+                    aria-selected={tab === t}
+                    aria-controls="pip-pane"
+                    tabIndex={tab === t ? 0 : -1}
+                    className={s.pipTab}
+                    data-active={tab === t || undefined}
+                    onClick={() => setTab(t)}
+                  >
+                    {t}
+                  </button>
+                ))}
+              </div>
+
+              <div
+                className={s.pipPane}
+                role="tabpanel"
+                id="pip-pane"
+                aria-labelledby={`pip-tab-${tab}`}
+              >
+                {tab === "STAT" && (
+                  <>
+                    <p className={s.pipHeading}>CREW VITALS — S.P.E.C.I.A.L.</p>
+                    <ul className={s.special}>
+                      {SPECIAL.map((stat) => (
+                        <li key={stat.letter}>
+                          <b>{stat.letter}</b>
+                          <span className={s.specialWord}>{stat.word}</span>
+                          <span className={s.specialBar}>
+                            <motion.i
+                              initial={still ? { width: `${stat.value * 10}%` } : { width: 0 }}
+                              animate={{ width: `${stat.value * 10}%` }}
+                              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                            />
+                          </span>
+                          <span className={s.specialVal}>{stat.value}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                )}
+
+                {tab === "LOG" && (
+                  <>
+                    <p className={s.pipHeading}>PROPRIETOR&apos;S LOG — ENTRY 001</p>
+                    <p>
+                      Twin Fins opened on the Outer Banks in 2044 and walked
+                      inland with the Banks Caravan when the storms took the
+                      fresh water. The counter still has tidehouse wood in it.
+                    </p>
+                    <p>
+                      This weekend, the cart goes underground. Some doors are
+                      better opened in person.
+                    </p>
+                    <p className={s.termSign}>— Junebug, Proprietor</p>
+                  </>
+                )}
+
+                {tab === "DATA" && (
+                  <>
+                    <p className={s.pipHeading}>PUBLIC RECORD — THE NINETEEN MINUTES</p>
+                    <p>
+                      October 23, 2077: Atlanta got nineteen minutes of
+                      warning, and strangers kept the lights burning under the
+                      city long after the last train stopped.
+                    </p>
+                    <p>
+                      Two centuries later, downtown is the Vega — and beneath
+                      a Hotel Corridor skybridge hangs a weathered caravan
+                      sign with two fins on it.
+                    </p>
+                    <p className={s.pipHeading}>HOUSE RULES — POSTED AT THE DOOR</p>
+                    <p>
+                      NO DRAWN WEAPONS
+                      <br />
+                      NO UNPAID TABS
+                      <br />
+                      NO COUNCIL BUSINESS AFTER MIDNIGHT
+                      <br />
+                      YES, THE WATER IS FILTERED
+                      <br />
+                      NO, YOU MAY NOT INSPECT THE FILTER
+                    </p>
+                    <p className={s.termFoot}>
+                      COME THIRSTY. LEAVE YOUR QUARREL OUTSIDE.
+                    </p>
+                  </>
+                )}
+
+                {tab === "CREW" && (
+                  <>
+                    <p className={s.pipHeading}>CREW FILE 001 — RESTRICTED</p>
+                    <dl className={s.dossierRows}>
+                      <div>
+                        <dt>DESIGNATION</dt>
+                        <dd>&ldquo;JUNEBUG&rdquo; — PROPRIETOR</dd>
+                      </div>
+                      <div>
+                        <dt>AFFILIATION</dt>
+                        <dd>THE CREW · BANKS CARAVAN LINE</dd>
+                      </div>
+                      <div>
+                        <dt>STATION</dt>
+                        <dd>ESPRESSO BAY 01</dd>
+                      </div>
+                      <div>
+                        <dt>STATUS</dt>
+                        <dd>
+                          EN ROUTE <em className={s.tracking}>· TRACKING</em>
+                        </dd>
+                      </div>
+                      <div>
+                        <dt>THREAT LEVEL</dt>
+                        <dd>FULLY CAFFEINATED</dd>
+                      </div>
+                    </dl>
+                    <p className={s.termFoot}>
+                      SIGNAL STRONGEST NEAR THE ESPRESSO MACHINE. DON&apos;T
+                      ASK WHAT BREW-004 IS — SHE WON&apos;T TELL YOU.
+                    </p>
+                  </>
+                )}
+
+                {tab === "GAME" && (
+                  <>
+                    <p className={s.pipHeading}>
+                      PROGRAM 07 — CATCH THE POUR · 12+ = STAFF
+                    </p>
+                    <PourGame />
+                  </>
+                )}
+
+                {tab === "BREW" && (
+                  <>
+                    <p className={s.pipHeading}>DRINK MANIFEST — ENCRYPTED</p>
+                    <ul className={s.manifest}>
+                      {MANIFEST.map((item) => (
+                        <li key={item.code}>
+                          <span className={s.manCode}>
+                            {item.code} — ENCRYPTION: ACTIVE
+                          </span>
+                          <span className={s.manName}>
+                            <CipherText length={item.length} still={still} />
+                          </span>
+                          <span className={s.manNote}>{item.note}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <p className={s.termFoot}>FULL MENU DECRYPTS ON THE CON FLOOR.</p>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
+          <span className={s.scanlines} aria-hidden="true" />
+          <span className={s.pipGlass} aria-hidden="true" />
+        </div>
+
+        <div className={s.pipPod}>
+          {(["LOG", "BREW", "DATA"] as const).map((t) => (
+            <button
+              key={t}
+              type="button"
+              className={s.pipBtn}
+              data-active={phase === "ui" && tab === t ? true : undefined}
+              onClick={() => {
+                setPhase("ui");
+                setTab(t);
+              }}
+            >
+              <i />
+              {t}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <span className={s.pipBarrel} aria-hidden="true" />
+    </div>
+  );
+}
+
 /**
  * The wrist terminal. Boots like the real thing — ROM chatter, a loading
  * bar, the boot SFX — and only then does the intercepted footage roll,
@@ -235,15 +623,7 @@ function readSoundOff() {
   return sessionStorage.getItem(SOUND_KEY) === "1";
 }
 
-function PipBoyHero({
-  still,
-  muteBoot = false,
-}: {
-  still: boolean;
-  /** Home takeover: the vault door's own audio owns the opening — two
-      sound effects at once is a mess, so the boot SFX stands down. */
-  muteBoot?: boolean;
-}) {
+function PipBoyHero({ still }: { still: boolean }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const sfxRef = useRef<HTMLAudioElement>(null);
   const [phase, setPhase] = useState<"boot" | "live">(still ? "live" : "boot");
@@ -253,9 +633,9 @@ function PipBoyHero({
   /* the boot SFX starts the moment the page does — best effort, and never
      if sound was switched off earlier in the session */
   useEffect(() => {
-    if (still || muteBoot || readSoundOff()) return;
+    if (still || readSoundOff()) return;
     void sfxRef.current?.play().catch(() => {});
-  }, [still, muteBoot]);
+  }, [still]);
 
   /* ROM lines rattle on quickly, then the bar, then the feed */
   useEffect(() => {
@@ -807,6 +1187,58 @@ export default function Vault({ home = false }: { home?: boolean }) {
     };
   }, [home, still, doorPlayed]);
 
+  /* The sublevel's quiet ambient bed (cut at -9dB): fades in over ~2.5s
+     as the door sound ends with the hole standing open — or right away on
+     mounts where the ceremony already played — then loops until the page
+     is left. Same sound-off preference as everything else. */
+  const ambientSfx = useRef<HTMLAudioElement>(null);
+  useEffect(() => {
+    if (!home || readSoundOff()) return;
+    const amb = ambientSfx.current;
+    if (!amb) return;
+    let raf = 0;
+    let stopped = false;
+    const fadeIn = () => {
+      if (stopped) return;
+      const t0 = performance.now();
+      amb.volume = 0;
+      void amb.play().catch(() => {});
+      const step = (t: number) => {
+        if (stopped) return;
+        /* rAF timestamps can land a hair BEFORE the performance.now()
+           captured at schedule time — clamp both ends or volume throws */
+        const k = Math.min(1, Math.max(0, (t - t0) / 2500));
+        amb.volume = k;
+        if (k < 1) raf = requestAnimationFrame(step);
+      };
+      raf = requestAnimationFrame(step);
+    };
+
+    const door = doorSfx.current;
+    if (still || doorPlayed || !door) {
+      fadeIn();
+      return () => {
+        stopped = true;
+        cancelAnimationFrame(raf);
+        amb.pause();
+      };
+    }
+    /* first play-through: come up under the door sound's own fade-out */
+    const onTime = () => {
+      if (door.currentTime >= 13.8) {
+        door.removeEventListener("timeupdate", onTime);
+        fadeIn();
+      }
+    };
+    door.addEventListener("timeupdate", onTime);
+    return () => {
+      stopped = true;
+      cancelAnimationFrame(raf);
+      door.removeEventListener("timeupdate", onTime);
+      amb.pause();
+    };
+  }, [home, still, doorPlayed]);
+
   return (
     <div className={s.vault}>
       {/* corridor dressing: bulkhead walls + overhead light cones */}
@@ -822,14 +1254,18 @@ export default function Vault({ home = false }: { home?: boolean }) {
       {home ? (
         <>
           {/* ---------------------------------------- door + title
-              The opening beat is just two things: the vault door and the
-              words behind it. The door unlocks (a short counter-turn),
-              spins up, settles on its detent, then slides away to the
-              left — staying partly in frame, the way the real thing
-              parks — revealing the door-shaped hole in the bulkhead with
-              DRAGON CON 2026 lit inside it. Pure CSS, so it plays even
-              before hydration; reduced motion gets the parked end-state
-              with no choreography. */}
+              Choreography transcribed from the Vault 101 opening, and the
+              audio IS that clip's own track (cut at 15.0s), so sound and
+              motion share one timeline — and the door moves from the very
+              first grind: driven inward while the machinery grinds
+              (0–2s), bottoming into its bore ON the slam, creeping left
+              under the low rumble, then carried to the wall by the
+              rolling screech (6.5–10.5s), parking with a third still in
+              frame at the clunk. DRAGON CON 2026 lights up in the bore
+              as the doorway clears. Pure CSS; reduced motion (and every
+              later mount this session) gets the parked end-state only.
+              No pip-boy feature here — the door owns the home page's
+              audio and attention; the transmission stays on /dragon-con. */}
           <section className={s.hero}>
             <div className={s.stage} data-still={parked || undefined}>
               <span className={s.stageHole} aria-hidden="true" />
@@ -843,7 +1279,9 @@ export default function Vault({ home = false }: { home?: boolean }) {
                 </p>
               </div>
               <div className={s.stageDoor} aria-hidden="true">
-                <GearDoor still />
+                <div className={s.doorShake}>
+                  <DoorPlate />
+                </div>
               </div>
             </div>
 
@@ -853,12 +1291,18 @@ export default function Vault({ home = false }: { home?: boolean }) {
               src="/audio/dragoncon/vault-door.mp3"
               preload="auto"
             />
+            <audio
+              ref={ambientSfx}
+              src="/audio/dragoncon/vault-ambience.mp3"
+              preload="auto"
+              loop
+            />
           </section>
 
-          {/* ----------------------------------------- pipboy feature */}
+          {/* ------------------------------------------ wrist console */}
           <section className={s.pipHero}>
             <p className={s.stamp}>SUBLEVEL ACCESS — AUTHORIZED PERSONNEL</p>
-            <PipBoyHero still={still} muteBoot />
+            <PipBoyConsole still={still} />
           </section>
         </>
       ) : (
@@ -909,7 +1353,9 @@ export default function Vault({ home = false }: { home?: boolean }) {
       {/* ------------------------------------- find the carts (IRL) */}
       {home && <VaultLocate />}
 
-      {/* ------------------------------------------------- terminals */}
+      {/* ------------- terminals (activation page only; on home these
+          live inside the pip-boy console's menus) */}
+      {!home && (
       <section className={`shell ${s.deck}`}>
         <article className={s.terminal}>
           <header className={s.termHead}>
@@ -1038,7 +1484,10 @@ export default function Vault({ home = false }: { home?: boolean }) {
         </article>
       </section>
 
+      )}
+
       {/* ------------------------------------------------- rec. room */}
+      {!home && (
       <section className={s.rec} aria-labelledby="rec-title">
         <div className={`shell ${s.recHead}`}>
           <p className={s.stamp}>RECREATION TERMINAL — SUBLEVEL 2</p>
@@ -1066,7 +1515,10 @@ export default function Vault({ home = false }: { home?: boolean }) {
         </div>
       </section>
 
+      )}
+
       {/* -------------------------------------------------- crew file */}
+      {!home && (
       <section className={s.crew} aria-label="Crew file 001">
         <div className={`shell ${s.crewGrid}`}>
           <div className={s.alcove} aria-hidden="true">
@@ -1146,6 +1598,7 @@ export default function Vault({ home = false }: { home?: boolean }) {
           </article>
         </div>
       </section>
+      )}
 
       {/* ------------------------------------------------- countdown */}
       <section className={`shell ${s.countdown}`}>
