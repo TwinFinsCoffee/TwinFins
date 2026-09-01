@@ -1329,31 +1329,46 @@ export default function Vault({ home = false }: { home?: boolean }) {
      parked end-state. */
   const parked = still || doorPlayed;
 
-  /* The vault-door opening sound, home takeover only. Autoplay is best
-     effort (Chromium usually allows it; Safari never does un-gestured) —
-     so the first pointer/key gesture starts the clip SEEKED to wherever
-     the door animation already is, keeping sound and motion on the one
-     timeline no matter how late the browser lets audio through. Past the
-     door's useful window we stay silent — a rumble landing on a random
-     click mid-scroll would be worse. Respects the session's sound-off
-     preference. */
+  /* The ceremony is armed, not automatic: browsers refuse un-gestured
+     audio on a fresh visit, so instead of opening silently we hold the
+     door SEALED under a blinking UNSEAL prompt. The first gesture
+     anywhere starts the animation and the clip in the same tick —
+     gesture-granted audio, guaranteed in sync in every browser. If
+     nobody ever interacts, an 8s fallback runs the ceremony anyway
+     (best-effort sound; a later gesture joins the clip mid-timeline,
+     seeked to wherever the door already is). */
+  const [run, setRun] = useState(false);
   const doorSfx = useRef<HTMLAudioElement>(null);
   useEffect(() => {
-    if (!home || still || doorPlayed || readSoundOff()) return;
+    if (!home || still || doorPlayed) return;
     const el = doorSfx.current;
-    if (!el) return;
-    el.volume = 0.55;
-    /* the CSS timeline started with this mount — remember when, so a
-       gesture-gated start can join it in progress */
-    const t0 = performance.now();
-    void el.play().catch(() => {});
-    const onGesture = () => {
-      cleanup();
-      if (!el.paused || el.ended) return;
-      const elapsed = (performance.now() - t0) / 1000;
-      if (elapsed >= 13.5) return;
-      el.currentTime = elapsed;
+    const soundOff = readSoundOff();
+    let t0: number | null = null;
+
+    const begin = () => {
+      if (t0 !== null) return false;
+      t0 = performance.now();
+      setRun(true);
+      return true;
+    };
+    const tryPlayFrom = (sec: number) => {
+      if (!el || soundOff || !el.paused || el.ended) return;
+      if (sec > 0) el.currentTime = sec;
+      el.volume = 0.55;
       void el.play().catch(() => {});
+    };
+    const onGesture = () => {
+      if (begin()) {
+        /* the gesture that unseals the door also grants its audio */
+        tryPlayFrom(0);
+        cleanup();
+        return;
+      }
+      /* the fallback already opened it silently — join the clip in sync,
+         unless the moment has passed */
+      const elapsed = (performance.now() - (t0 as number)) / 1000;
+      if (elapsed < 13.5) tryPlayFrom(elapsed);
+      cleanup();
     };
     const cleanup = () => {
       window.removeEventListener("pointerdown", onGesture);
@@ -1361,9 +1376,13 @@ export default function Vault({ home = false }: { home?: boolean }) {
     };
     window.addEventListener("pointerdown", onGesture);
     window.addEventListener("keydown", onGesture);
+    const fallback = window.setTimeout(() => {
+      if (begin()) tryPlayFrom(0);
+    }, 8000);
     return () => {
+      window.clearTimeout(fallback);
       cleanup();
-      el.pause();
+      el?.pause();
     };
   }, [home, still, doorPlayed]);
 
@@ -1477,7 +1496,11 @@ export default function Vault({ home = false }: { home?: boolean }) {
               No pip-boy feature here — the door owns the home page's
               audio and attention; the transmission stays on /dragon-con. */}
           <section className={s.hero}>
-            <div className={s.stage} data-still={parked || undefined}>
+            <div
+              className={s.stage}
+              data-still={parked || undefined}
+              data-run={run || undefined}
+            >
               <DoorBore />
               <div className={s.stageTitle}>
                 {/* the full lockup glowing in the dark of the bore, the
@@ -1502,6 +1525,18 @@ export default function Vault({ home = false }: { home?: boolean }) {
                   <DoorPlate />
                 </div>
               </div>
+
+              {/* sealed and waiting: the prompt that makes the first
+                  gesture part of the ceremony (and buys us its audio) */}
+              {!parked && !run && (
+                <span className={s.unseal} aria-hidden="true">
+                  <b>
+                    ► <i className={s.noteClick}>CLICK</i>
+                    <i className={s.noteTap}>TAP</i> TO UNSEAL THE VAULT ◄
+                  </b>
+                  <span>AUDIO TRANSMISSION READY</span>
+                </span>
+              )}
             </div>
 
             <span className={s.heroFloor} aria-hidden="true" />

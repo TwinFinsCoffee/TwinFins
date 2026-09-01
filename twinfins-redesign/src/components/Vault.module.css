@@ -1816,7 +1816,11 @@
   row-gap: 1cqw;
   opacity: 0;
   transform: scale(0.955);
-  /* lights up as the doorway clears, over the clip's rolling screech */
+}
+
+/* lights up as the doorway clears, over the clip's rolling screech —
+   only once the ceremony has actually been started ([data-run]) */
+.stage[data-run] .stageTitle {
   animation: titleReveal 1.4s cubic-bezier(0.22, 1, 0.36, 1) 8.1s forwards;
 }
 
@@ -1899,9 +1903,6 @@
   z-index: 3;
   width: clamp(19rem, 58vmin, 33rem);
   transform: translate(-50%, -50%);
-  /* 11.5s timeline transcribed from the Vault 101 clip the audio is cut
-     from: hold under the grind, driven inward, rolled left, clunk. */
-  animation: doorOpen 11.5s cubic-bezier(0.45, 0.05, 0.3, 1) 0.3s forwards;
   will-change: transform;
   /* two shadows: a tight contact dark where the plate meets its bore,
      and a wide soft throw from the overhead lamp */
@@ -1915,11 +1916,63 @@
   display: block;
 }
 
+/* 11.5s timeline transcribed from the Vault 101 clip the audio is cut
+   from: hold under the grind, shoved out, rolled left, clunk. Armed by
+   [data-run] — the gesture (or the 8s fallback) that unseals the door. */
+.stage[data-run] .stageDoor {
+  animation: doorOpen 11.5s cubic-bezier(0.45, 0.05, 0.3, 1) 0.3s forwards;
+}
+
 /* The grind tremble and the release slam live on an inner wrapper so
    they can jitter the plate without fighting the outer push/roll
    transform. One run, then it's done. */
-.doorShake {
+.stage[data-run] .doorShake {
   animation: doorTremor 3.4s linear 0.3s 1;
+}
+
+/* sealed, waiting for the gesture: the unseal readout over the plate */
+.unseal {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 4;
+  transform: translate(-50%, -50%);
+  display: grid;
+  justify-items: center;
+  gap: 0.55rem;
+  padding: 1.6rem 2rem;
+  text-align: center;
+  pointer-events: none;
+  /* a pool of dark so the readout carries over the busy plate */
+  background: radial-gradient(58% 72% at 50% 50%, rgba(3, 5, 2, 0.78), rgba(3, 5, 2, 0.4) 62%, transparent 100%);
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  color: var(--phos);
+  text-shadow:
+    0 0 10px rgba(82, 255, 125, 0.55),
+    0 2px 6px rgba(0, 0, 0, 0.8);
+  animation: unsealBlink 1.7s steps(1, end) infinite;
+}
+
+.unseal b {
+  font-size: clamp(0.8rem, 2.5vmin, 1.1rem);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+}
+
+.unseal i {
+  font-style: normal;
+}
+
+.unseal > span {
+  font-size: clamp(0.58rem, 1.7vmin, 0.7rem);
+  letter-spacing: 0.3em;
+  color: var(--phos-dim);
+}
+
+@keyframes unsealBlink {
+  0%, 58% { opacity: 1; }
+  62%, 74% { opacity: 0.3; }
+  78%, 100% { opacity: 1; }
 }
 
 @keyframes doorTremor {
