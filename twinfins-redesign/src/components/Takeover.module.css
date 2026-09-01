@@ -1,4 +1,4 @@
-/* The signal intrusion. One fixed overlay, one shared 1.52s timeline: every
+/* The signal intrusion. One fixed overlay, one shared 0.9s timeline: every
    layer's keyframes are percentages of that same duration so the whole event
    can be retimed (the .quick variant) by changing a single number.
 
@@ -7,12 +7,12 @@
 
 .overlay,
 .overlay > span {
-  --burst: 1.52s;
+  --burst: 0.9s;
 }
 
 .quick,
 .quick > span {
-  --burst: 0.62s;
+  --burst: 0.45s;
 }
 
 .overlay {
@@ -26,7 +26,7 @@
 /* The page itself convulses while the overlay plays: tiny transform jolts,
    stepped so it reads as dropped frames rather than an earthquake. */
 .seized {
-  animation: seize var(--burst, 1.52s) steps(1, end) both;
+  animation: seize var(--burst, 0.9s) steps(1, end) both;
 }
 
 @keyframes seize {
@@ -59,7 +59,7 @@
     0 0,
     3px 2px;
   opacity: 0;
-  animation: noiseBlips var(--burst, 1.52s) steps(1, end) both;
+  animation: noiseBlips var(--burst, 0.9s) steps(1, end) both;
 }
 
 @keyframes noiseBlips {
@@ -86,7 +86,7 @@
     transparent 9px 23px
   );
   opacity: 0;
-  animation: heavyBlips var(--burst, 1.52s) steps(1, end) both;
+  animation: heavyBlips var(--burst, 0.9s) steps(1, end) both;
 }
 
 @keyframes heavyBlips {
@@ -115,7 +115,7 @@
     transparent
   );
   opacity: 0;
-  animation: roll var(--burst, 1.52s) linear both;
+  animation: roll var(--burst, 0.9s) linear both;
 }
 
 @keyframes roll {
@@ -137,7 +137,7 @@
     transparent 70%
   );
   opacity: 0;
-  animation: rise var(--burst, 1.52s) ease-in both;
+  animation: rise var(--burst, 0.9s) ease-in both;
 }
 
 @keyframes rise {
@@ -160,7 +160,7 @@
   color: #52ff7d;
   text-shadow: 0 0 10px rgba(82, 255, 125, 0.55);
   opacity: 0;
-  animation: frameFlicker var(--burst, 1.52s) steps(1, end) both;
+  animation: frameFlicker var(--burst, 0.9s) steps(1, end) both;
 }
 
 .frame b {
@@ -193,7 +193,7 @@
   inset: 0;
   background: #060704;
   opacity: 0;
-  animation: cut var(--burst, 1.52s) steps(1, end) both;
+  animation: cut var(--burst, 0.9s) steps(1, end) both;
 }
 
 @keyframes cut {

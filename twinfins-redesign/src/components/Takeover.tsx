@@ -60,15 +60,16 @@ export default function Takeover({
     if (still) {
       /* No strobe: a beat of the surface, then a straight cut. The vault's
          own power-on blackout provides all the transition needed. */
-      t.push(window.setTimeout(settle, seen ? 150 : 1600));
+      t.push(window.setTimeout(settle, seen ? 150 : 800));
     } else if (seen) {
       /* Repeat visitor this session: instant-ish glitch-cut. */
-      t.push(window.setTimeout(() => setPhase("glitch"), 250));
-      t.push(window.setTimeout(settle, 250 + 620));
+      t.push(window.setTimeout(() => setPhase("glitch"), 120));
+      t.push(window.setTimeout(settle, 120 + 450));
     } else {
-      /* First contact: let the hero settle, then ~1.5s of interference. */
-      t.push(window.setTimeout(() => setPhase("glitch"), 2400));
-      t.push(window.setTimeout(settle, 2400 + 1520));
+      /* First contact: one glimpse of the surface, then the signal takes
+         it. No slow burn — the seizure is the point. */
+      t.push(window.setTimeout(() => setPhase("glitch"), 600));
+      t.push(window.setTimeout(settle, 600 + 900));
     }
     return () => {
       t.forEach(clearTimeout);
