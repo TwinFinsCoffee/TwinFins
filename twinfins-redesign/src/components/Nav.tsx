@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
 
 import { NAV, BRAND } from "@/lib/content";
+import { useVaultMode } from "@/lib/vaultMode";
 import { InstagramMark, Monogram } from "./BrandMarks";
 import { Button } from "./Button";
 import { useBookingModal } from "./BookingModalContext";
@@ -17,8 +18,12 @@ const LENS_MAP =
 
 export default function Nav() {
   const pathname = usePathname();
-  /* The vault page re-skins the bar: same glass, different world. */
-  const vault = pathname?.startsWith("/dragon-con") ?? false;
+  /* The vault re-skins the bar: same glass, different world. That's the
+     /dragon-con route — and the home page too, once the con-week takeover
+     has settled (the takeover flips the shared vault-mode store). */
+  const vaultRoute = pathname?.startsWith("/dragon-con") ?? false;
+  const vaultMode = useVaultMode();
+  const vault = vaultRoute || vaultMode;
   const { openBooking } = useBookingModal();
   const barRef = useRef<HTMLElement>(null);
   const [stuck, setStuck] = useState(false);

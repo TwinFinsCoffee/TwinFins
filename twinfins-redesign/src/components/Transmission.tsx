@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
+import { TAKEOVER_END } from "@/lib/dragoncon";
 import s from "./Transmission.module.css";
 
 /* The tear is one shared jagged polygon: the wrapper clips to it, the glow
@@ -34,12 +35,15 @@ export default function Transmission() {
 
   useEffect(() => {
     if (Date.now() < SIGNAL_START.getTime()) return;
+    /* Con week, the home page IS the transmission — teasing a page the
+       visitor is already being pulled into would be noise. */
+    if (pathname === "/" && Date.now() < TAKEOVER_END.getTime()) return;
     if (sessionStorage.getItem("tf-transmission-dismissed")) return;
     /* Long enough to let the hero settle, short enough that nobody has
        scrolled past or left before the tear opens. Six seconds lost it. */
     const id = setTimeout(() => setShow(true), 1800);
     return () => clearTimeout(id);
-  }, []);
+  }, [pathname]);
 
   const dismiss = () => {
     setShow(false);
