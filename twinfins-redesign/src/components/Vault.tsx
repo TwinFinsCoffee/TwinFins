@@ -1,13 +1,13 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 
+import VaultLocate from "./VaultLocate";
+import { DOORS_OPEN, TAKEOVER_END } from "@/lib/dragoncon";
 import s from "./Vault.module.css";
-
-/* Dragon Con runs Labor Day weekend; 2026 puts opening day at Sep 4. */
-const DOORS_OPEN = new Date("2026-09-04T09:00:00-04:00");
 
 const BOOT_LINES = [
   "TWIN-TEC (TM) TERMLINK PROTOCOL v2.026",
@@ -89,7 +89,7 @@ function BootSequence({ still }: { still: boolean }) {
   );
 }
 
-/** The vault door: a toothed gear ring that slowly turns, hub stamped DC 2026. */
+/** The vault door: a toothed gear ring, hub stamped DC 2026. */
 function GearDoor({ still }: { still: boolean }) {
   const teeth = Array.from({ length: 24 });
   return (
@@ -146,7 +146,7 @@ function GearDoor({ still }: { still: boolean }) {
   );
 }
 
-function Countdown({ still }: { still: boolean }) {
+function Countdown({ still, home = false }: { still: boolean; home?: boolean }) {
   const [now, setNow] = useState<number | null>(null);
 
   useEffect(() => {
@@ -158,6 +158,29 @@ function Countdown({ still }: { still: boolean }) {
 
   if (now === null) {
     return <p className={s.countRow} aria-hidden="true">— : — : — : —</p>;
+  }
+
+  /* The live states belong to the fused home page; the original
+     activation page keeps its plain ticking countdown, untouched. */
+  if (home) {
+    /* After the con: the page stays up as an archive, so say so. */
+    if (now >= TAKEOVER_END.getTime()) {
+      return (
+        <p className={s.countOpen}>TRANSMISSION ARCHIVED — SEE YOU IN 2027</p>
+      );
+    }
+
+    /* During the con: the countdown's job is done — point at the carts. */
+    if (now >= DOORS_OPEN.getTime()) {
+      return (
+        <div className={s.countOpenWrap}>
+          <p className={s.countOpen}>THE DOORS ARE OPEN</p>
+          <a className={s.countJump} href="#find-the-carts">
+            FIND THE CARTS ↑
+          </a>
+        </div>
+      );
+    }
   }
 
   const diff = Math.max(0, DOORS_OPEN.getTime() - now);
@@ -212,7 +235,15 @@ function readSoundOff() {
   return sessionStorage.getItem(SOUND_KEY) === "1";
 }
 
-function PipBoyHero({ still }: { still: boolean }) {
+function PipBoyHero({
+  still,
+  muteBoot = false,
+}: {
+  still: boolean;
+  /** Home takeover: the vault door's own audio owns the opening — two
+      sound effects at once is a mess, so the boot SFX stands down. */
+  muteBoot?: boolean;
+}) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const sfxRef = useRef<HTMLAudioElement>(null);
   const [phase, setPhase] = useState<"boot" | "live">(still ? "live" : "boot");
@@ -222,9 +253,9 @@ function PipBoyHero({ still }: { still: boolean }) {
   /* the boot SFX starts the moment the page does — best effort, and never
      if sound was switched off earlier in the session */
   useEffect(() => {
-    if (still || readSoundOff()) return;
+    if (still || muteBoot || readSoundOff()) return;
     void sfxRef.current?.play().catch(() => {});
-  }, [still]);
+  }, [still, muteBoot]);
 
   /* ROM lines rattle on quickly, then the bar, then the feed */
   useEffect(() => {
@@ -707,14 +738,74 @@ function PourGame() {
  * visitor learns comes off those terminals, and every terminal stops one
  * word short of the reveal — the theme is the tease.
  */
-export default function Vault() {
+export default function Vault({ home = false }: { home?: boolean }) {
   const still = useReducedMotion() ?? false;
+
+  /* Original activation-page hero keeps its scroll parallax on the door
+     backdrop. Hooks run unconditionally; the style is only applied there. */
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
   });
   const doorY = useTransform(scrollYProgress, [0, 1], ["0%", "22%"]);
+
+  /* The door ceremony plays ONCE per session. Every later arrival at the
+     home page mounts the vault with the door already parked and the title
+     lit — no re-spin, no second 20-second rumble. Safe to read in a lazy
+     initializer: on the home page this component only ever mounts
+     client-side (after the takeover), and on /dragon-con the home path is
+     never taken. */
+  const [doorPlayed] = useState(() => {
+    try {
+      return sessionStorage.getItem("tf-door-played") === "1";
+    } catch {
+      return false;
+    }
+  });
+  useEffect(() => {
+    if (!home) return;
+    try {
+      sessionStorage.setItem("tf-door-played", "1");
+    } catch {
+      /* private browsing — it just replays next mount */
+    }
+  }, [home]);
+
+  /* Reduced motion or an already-played ceremony both land on the same
+     parked end-state. */
+  const parked = still || doorPlayed;
+
+  /* The vault-door opening sound, home takeover only. Autoplay is best
+     effort; if the browser blocks it, the first gesture within the door's
+     stage time starts it, and after that window we stop trying — a
+     20-second rumble landing on a random click mid-scroll would be worse
+     than silence. Respects the session's sound-off preference. */
+  const doorSfx = useRef<HTMLAudioElement>(null);
+  useEffect(() => {
+    if (!home || still || doorPlayed || readSoundOff()) return;
+    const el = doorSfx.current;
+    if (!el) return;
+    el.volume = 0.55;
+    const tryPlay = () => void el.play().catch(() => {});
+    const onGesture = () => {
+      tryPlay();
+      cleanup();
+    };
+    const cleanup = () => {
+      window.removeEventListener("pointerdown", onGesture);
+      window.removeEventListener("keydown", onGesture);
+    };
+    tryPlay();
+    window.addEventListener("pointerdown", onGesture);
+    window.addEventListener("keydown", onGesture);
+    const giveUp = window.setTimeout(cleanup, 7000);
+    return () => {
+      window.clearTimeout(giveUp);
+      cleanup();
+      el.pause();
+    };
+  }, [home, still, doorPlayed]);
 
   return (
     <div className={s.vault}>
@@ -728,31 +819,80 @@ export default function Vault() {
       {/* the room comes up from blackout — vault power cycling on */}
       {!still && <span className={s.blackout} aria-hidden="true" />}
 
-      {/* --------------------------------------------- pipboy feature */}
-      <section className={s.pipHero}>
-        <p className={s.stamp}>SUBLEVEL ACCESS — AUTHORIZED PERSONNEL</p>
-        <PipBoyHero still={still} />
-      </section>
+      {home ? (
+        <>
+          {/* ---------------------------------------- door + title
+              The opening beat is just two things: the vault door and the
+              words behind it. The door unlocks (a short counter-turn),
+              spins up, settles on its detent, then slides away to the
+              left — staying partly in frame, the way the real thing
+              parks — revealing the door-shaped hole in the bulkhead with
+              DRAGON CON 2026 lit inside it. Pure CSS, so it plays even
+              before hydration; reduced motion gets the parked end-state
+              with no choreography. */}
+          <section className={s.hero}>
+            <div className={s.stage} data-still={parked || undefined}>
+              <span className={s.stageHole} aria-hidden="true" />
+              <div className={s.stageTitle}>
+                <h1 className={s.title}>
+                  <span>DRAGON CON</span>
+                  <b>2026</b>
+                </h1>
+                <p className={s.tagline}>
+                  War never changes. <em>Coffee does.</em>
+                </p>
+              </div>
+              <div className={s.stageDoor} aria-hidden="true">
+                <GearDoor still />
+              </div>
+            </div>
 
-      {/* ------------------------------------------------ door + title */}
-      <section className={s.hero} ref={ref}>
-        <motion.div style={still ? undefined : { y: doorY }} className={s.heroDoor}>
-          <GearDoor still={still} />
-        </motion.div>
+            <span className={s.heroFloor} aria-hidden="true" />
+            <audio
+              ref={doorSfx}
+              src="/audio/dragoncon/vault-door.mp3"
+              preload="auto"
+            />
+          </section>
 
-        <div className={s.heroCopy}>
-          <h1 className={s.title}>
-            <span>DRAGON CON</span>
-            <b>2026</b>
-          </h1>
-          <p className={s.tagline}>
-            War never changes. <em>Coffee does.</em>
-          </p>
-          <BootSequence still={still} />
-        </div>
+          {/* ----------------------------------------- pipboy feature */}
+          <section className={s.pipHero}>
+            <p className={s.stamp}>SUBLEVEL ACCESS — AUTHORIZED PERSONNEL</p>
+            <PipBoyHero still={still} muteBoot />
+          </section>
+        </>
+      ) : (
+        <>
+          {/* --------------------------------------- pipboy feature */}
+          <section className={s.pipHero}>
+            <p className={s.stamp}>SUBLEVEL ACCESS — AUTHORIZED PERSONNEL</p>
+            <PipBoyHero still={still} />
+          </section>
 
-        <span className={s.heroFloor} aria-hidden="true" />
-      </section>
+          {/* ---------------------------------------- door + title */}
+          <section className={s.hero} ref={ref}>
+            <motion.div
+              style={still ? undefined : { y: doorY }}
+              className={s.heroDoor}
+            >
+              <GearDoor still={still} />
+            </motion.div>
+
+            <div className={s.heroCopy}>
+              <h1 className={s.title}>
+                <span>DRAGON CON</span>
+                <b>2026</b>
+              </h1>
+              <p className={s.tagline}>
+                War never changes. <em>Coffee does.</em>
+              </p>
+              <BootSequence still={still} />
+            </div>
+
+            <span className={s.heroFloor} aria-hidden="true" />
+          </section>
+        </>
+      )}
 
       {/* ---------------------------------------------- caution band */}
       <div className={s.caution} aria-hidden="true">
@@ -765,6 +905,9 @@ export default function Vault() {
           ))}
         </div>
       </div>
+
+      {/* ------------------------------------- find the carts (IRL) */}
+      {home && <VaultLocate />}
 
       {/* ------------------------------------------------- terminals */}
       <section className={`shell ${s.deck}`}>
@@ -1007,12 +1150,27 @@ export default function Vault() {
       {/* ------------------------------------------------- countdown */}
       <section className={`shell ${s.countdown}`}>
         <p className={s.stamp}>DOORS OPEN — LABOR DAY WEEKEND · THE VEGA, ATLANTA</p>
-        <Countdown still={still} />
+        <Countdown still={still} home={home} />
         <p className={s.countNote}>
           You made it to the Vega. Check your weapon, choose your ration, and
           take a seat. Road&rsquo;s open. Light&rsquo;s on. Come back
           breathing.
         </p>
+
+        {/* the surface site never went away — routes back up top */}
+        {home && (
+          <div className={s.countLinks}>
+            <Link href="/booking">BOOK THE CART</Link>
+            <Link href="/menu">SURFACE MENU</Link>
+            <a
+              href="https://instagram.com/twinfinscoffee"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              @TWINFINSCOFFEE
+            </a>
+          </div>
+        )}
       </section>
 
       {/* ------------------------------------------------ disclaimer */}
