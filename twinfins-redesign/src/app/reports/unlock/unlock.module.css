@@ -1,0 +1,112 @@
+/* The gate borrows the site's own tokens — same navy, same cream, same
+   Fraunces slab — so the first thing the client sees is still the brand and
+   not a browser dialog. */
+
+.wrap {
+  min-height: 72svh;
+  display: grid;
+  place-items: center;
+  padding: clamp(3rem, 9vw, 7rem) var(--gutter);
+  background: var(--navy-deep);
+  color: var(--on-dark);
+}
+
+.card {
+  width: min(100%, 30rem);
+  text-align: center;
+}
+
+.title {
+  margin-top: 0.9rem;
+  font-size: var(--step-3);
+  color: var(--cream);
+  text-shadow: var(--headline-shadow-dark);
+}
+
+.lede {
+  margin-top: 1.1rem;
+  color: var(--on-dark-muted);
+  font-size: var(--step-0);
+  line-height: 1.6;
+}
+
+.form {
+  margin-top: 2.2rem;
+  display: grid;
+  gap: 0.6rem;
+  text-align: left;
+}
+
+.label {
+  font-size: var(--step--2);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--sea);
+}
+
+.input {
+  width: 100%;
+  padding: 0.95rem 1.1rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--hairline-dark);
+  background: rgba(238, 233, 215, 0.06);
+  color: var(--cream);
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: var(--step-0);
+  letter-spacing: 0.04em;
+  transition: border-color var(--dur) var(--ease-out),
+    background var(--dur) var(--ease-out);
+}
+
+.input:hover {
+  border-color: rgba(238, 233, 215, 0.4);
+}
+
+.input:focus-visible {
+  outline: 2.5px solid var(--sea);
+  outline-offset: 3px;
+  border-color: var(--sea);
+  background: rgba(238, 233, 215, 0.1);
+}
+
+.error {
+  margin-top: 0.2rem;
+  font-size: var(--step--1);
+  line-height: 1.5;
+  color: #f0a58e;
+}
+
+.button {
+  margin-top: 0.6rem;
+  padding: 0.95em 1.85em;
+  border-radius: 999px;
+  border: 1.5px solid var(--sea);
+  background: var(--sea);
+  color: var(--navy-deep);
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: var(--step--1);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background var(--dur) var(--ease-out),
+    color var(--dur) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.button:hover {
+  background: transparent;
+  color: var(--sea);
+}
+
+.button:active {
+  transform: translateY(1px);
+}
+
+.help {
+  margin-top: 1.6rem;
+  font-size: var(--step--1);
+  color: var(--on-dark-muted);
+  line-height: 1.6;
+}
