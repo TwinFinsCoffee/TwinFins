@@ -8,7 +8,6 @@ import ScrollProgress from "@/components/ScrollProgress";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import BookingModal from "@/components/BookingModal";
-import Transmission from "@/components/Transmission";
 import { BookingModalProvider } from "@/components/BookingModalContext";
 import { BRAND } from "@/lib/content";
 
@@ -86,7 +85,6 @@ export default function RootLayout({
           <Footer />
           <Grain />
           <BookingModal />
-          <Transmission />
         </BookingModalProvider>
       </body>
     </html>
