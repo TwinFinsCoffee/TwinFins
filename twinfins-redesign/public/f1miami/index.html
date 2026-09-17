@@ -1,0 +1,1369 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive, noimageindex">
+<meta name="description" content="Formal quote from Twin Fins Coffee for a specialty coffee activation at the Champions Club, Formula 1 Miami 2026.">
+<meta name="theme-color" content="#08080a">
+<title>Twin Fins × F1 Miami</title>
+<link rel="icon" href="/f1miami/assets/tf-monogram.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira:ital,wdth,wght@0,50..125,300..900;1,50..125,300..900&family=Titillium+Web:wght@300;400;600;700&display=swap">
+<link rel="preload" as="image" href="/f1miami/assets/cart-champions-club.webp">
+<style>
+/* ==========================================================================
+   Twin Fins Coffee × Formula 1 Miami — Champions Club quote
+
+   Race-day theme: carbon black, white type, F1 red as the only accent.
+   Saira at its widest cut stands in for the F1 display face; Titillium
+   carries the body. Twin Fins appears as marks, not as a palette.
+   ========================================================================== */
+:root{
+  color-scheme: dark;
+  --black:#08080a; --carbon:#111116; --panel:#16161c; --panel-2:#1e1e26;
+  --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.16);
+  --white:#fff; --text:#f4f4f6; --muted:#9b9ba8; --dim:#5d5d69;
+  --red:#e10600; --red-hot:#ff2a1f; --red-deep:#9e0400;
+
+  --font-display:'Saira','Arial Black',system-ui,sans-serif;
+  --font-body:'Titillium Web',system-ui,-apple-system,sans-serif;
+
+  --step--2:clamp(.72rem,.7rem + .1vw,.78rem);
+  --step--1:clamp(.86rem,.82rem + .16vw,.96rem);
+  --step-0:clamp(1rem,.96rem + .22vw,1.14rem);
+  --step-1:clamp(1.2rem,1.1rem + .45vw,1.5rem);
+  --step-2:clamp(1.5rem,1.3rem + .9vw,2.15rem);
+  --step-3:clamp(1.9rem,1.55rem + 1.6vw,3rem);
+  --step-4:clamp(2.3rem,1.7rem + 2.8vw,4.2rem);
+  --step-5:clamp(2.6rem,1.7rem + 4.6vw,6rem);
+
+  --gutter:clamp(1rem,4vw,3.5rem);
+  --section-y:clamp(5rem,10vw,9rem);
+  --maxw:84rem;
+  --radius-sm:.6rem; --radius:1rem; --radius-lg:1.6rem;
+
+  /* fluid, natural easing — long exponential tails, no hard stops */
+  --ease:cubic-bezier(.16,1,.3,1);
+  --ease-io:cubic-bezier(.65,0,.35,1);
+  --ease-in:cubic-bezier(.7,0,.84,0);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{overflow-x:clip}
+body{margin:0;background:var(--black);color:var(--text);font-family:var(--font-body);
+  font-size:var(--step-0);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:clip}
+img{max-width:100%;height:auto;display:block}
+p{margin:0}
+a{color:var(--white)}
+::selection{background:var(--red);color:#fff}
+:focus-visible{outline:2px solid var(--red);outline-offset:3px;border-radius:3px}
+.wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:var(--gutter)}
+
+.display{font-family:var(--font-display);font-weight:800;font-variation-settings:"wdth" 125;
+  line-height:.95;letter-spacing:-.01em;text-transform:uppercase;margin:0;text-wrap:balance}
+.display em{font-style:italic;color:var(--red)}
+.eyebrow{display:inline-flex;align-items:center;gap:.7rem;font-family:var(--font-display);font-variation-settings:"wdth" 110;
+  font-size:var(--step--2);font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.eyebrow::before{content:"";width:18px;height:3px;background:var(--red);transform:skewX(-45deg)}
+.lede{font-size:var(--step-1);line-height:1.55;color:var(--muted);font-weight:300}
+.f1{color:var(--red);display:block}
+
+/* ========================================================================
+   INTRO — built from the pieces of the F1 mark
+   ======================================================================== */
+.intro{position:fixed;inset:0;z-index:100;pointer-events:none;overflow:hidden}
+.intro .bg{position:absolute;inset:0;background:var(--black)}
+.intro.revealed .bg,.intro.revealed .stage-mark,.intro.revealed .halo{opacity:0}
+.intro.gone{display:none}
+.skip{position:absolute;right:var(--gutter);bottom:24px;pointer-events:auto;background:transparent;color:var(--dim);
+  border:1px solid var(--line-2);border-radius:999px;padding:.45rem 1rem;font:600 .66rem/1 var(--font-body);
+  letter-spacing:.22em;text-transform:uppercase;cursor:pointer;transition:color .4s,border-color .4s,opacity .6s}
+.skip:hover{color:#fff;border-color:#fff}
+.intro.exit .skip{opacity:0}
+.intro .bg{transition:opacity .01s}
+
+.stage-mark{position:absolute;left:50%;top:50%;width:min(64vw,760px);aspect-ratio:2140/500;translate:-50% -50%;transform-origin:46.5% 21%}
+.stage-mark svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+/* exit: each piece leaves along the line it arrived on */
+.intro.exit .pc:not(.ghost){animation:flyout .85s var(--ease-in) forwards;animation-delay:calc(var(--dl) * .5ms)}
+@keyframes flyout{0%{opacity:1;transform:translate(0,0)}70%{opacity:1}100%{opacity:0;transform:translate(calc(var(--dx) * -1px),calc(var(--dy) * -1px))}}
+.intro.exit .mark-glow,.intro.exit .halo{animation:none;opacity:0;transition:opacity .35s ease}
+.pc{transform:translate(calc(var(--dx) * 1px),calc(var(--dy) * 1px));opacity:0}
+.intro.out .pc{animation:flyin 1.9s cubic-bezier(.3,.9,.3,1) forwards;animation-delay:calc(var(--dl) * 1ms)}
+.intro.out .pc.ghost{animation-name:ghost;animation-duration:1.6s;animation-delay:calc(var(--dl) * 1ms + var(--lag) * 55ms)}
+@keyframes flyin{0%{opacity:0;transform:translate(calc(var(--dx) * 1px),calc(var(--dy) * 1px))}
+  12%{opacity:1}100%{opacity:1;transform:translate(0,0)}}
+@keyframes ghost{0%{opacity:0;transform:translate(calc(var(--dx) * 1px),calc(var(--dy) * 1px))}
+  20%{opacity:calc(.34 / var(--lag))}100%{opacity:0;transform:translate(0,0)}}
+
+/* once the pieces lock together the mark lights up red, breathes twice, and settles.
+   The glow is a blurred copy behind the mark, animated on opacity/scale only. */
+.mark-glow{filter:blur(clamp(10px,1.6vw,22px));opacity:0}
+.mark-glow.hot{filter:blur(clamp(3px,.5vw,6px))}
+.intro.lit .mark-glow{animation:glowPulse 2.9s ease-in-out forwards}
+.intro.lit .mark-glow.hot{animation-name:glowCore}
+.intro.lit .mark-main{animation:markPulse 2.9s ease-in-out forwards;transform-origin:50% 50%}
+@keyframes glowPulse{0%{opacity:0;transform:scale(1)}16%{opacity:1;transform:scale(1.04)}38%{opacity:.45;transform:scale(1.01)}
+  58%{opacity:.85;transform:scale(1.035)}100%{opacity:0;transform:scale(1)}}
+@keyframes glowCore{0%{opacity:0}16%{opacity:.9}38%{opacity:.3}58%{opacity:.7}100%{opacity:0}}
+@keyframes markPulse{0%,100%{transform:scale(1)}16%{transform:scale(1.015)}38%{transform:scale(1)}58%{transform:scale(1.01)}}
+.halo{position:absolute;left:50%;top:50%;width:min(110vw,1300px);aspect-ratio:2.2;translate:-50% -50%;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(225,6,0,.34),rgba(225,6,0,.08) 55%,transparent);opacity:0;scale:.7}
+.intro.lit .halo{animation:halo 2.9s ease-in-out forwards}
+@keyframes halo{0%{opacity:0;scale:.7}16%{opacity:1;scale:1}38%{opacity:.5;scale:.94}58%{opacity:.8;scale:1}100%{opacity:0;scale:1.05}}
+
+/* four stripes, cut at the mark's 45° */
+.wipe{position:absolute;inset:0;display:flex;align-items:stretch;visibility:hidden}
+.intro.zoomed .wipe{visibility:visible;transform:translateX(calc(-51vw - 20vh))}
+.intro.wiping .wipe{transition:transform 1.5s var(--ease-io);transform:translateX(calc(200vw + 100vh))}
+.wipe i{flex:none;transform:skewX(-45deg);transform-origin:bottom}
+.wipe .w1{width:3vw;background:var(--red);margin-left:-60vw}
+.wipe .w2{width:1.2vw;background:#fff}
+.wipe .w3{width:12vw;background:var(--red-deep)}
+.wipe .w4{width:calc(250vw + 100vh);background:var(--black)}
+
+/* ========================================================================
+   COVER
+   ======================================================================== */
+.cover{position:relative;min-height:100svh;background:var(--black);display:flex;flex-direction:column;overflow:hidden;isolation:isolate;
+  padding:clamp(1.4rem,4vw,2.6rem) var(--gutter) clamp(4rem,8vw,5.4rem)}
+.speed{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:0;transition:opacity 2.4s ease .6s}
+.go .speed{opacity:1}
+.ghost1{position:absolute;z-index:-2;right:-12vw;top:0;height:100%;width:auto;color:rgba(255,255,255,.035);opacity:0;
+  transform:translate3d(8vw,0,0);transition:opacity 2.4s ease .3s,transform 3s var(--ease) .3s}
+.go .ghost1{opacity:1;transform:none}
+.glow{position:absolute;z-index:-2;left:50%;top:48%;width:min(120vw,1100px);aspect-ratio:1.6;transform:translate(-50%,-50%);border-radius:50%;
+  background:radial-gradient(closest-side,rgba(225,6,0,.16),transparent);opacity:0;transition:opacity 3s ease;animation:breathe 9s ease-in-out infinite alternate}
+.go .glow{opacity:1}
+@keyframes breathe{from{scale:.92}to{scale:1.08}}
+
+.cv-top,.cv-foot{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:center}
+.cv-tag{display:flex;align-items:center;gap:.8rem;font-family:var(--font-display);font-variation-settings:"wdth" 115;font-weight:600;
+  font-size:var(--step--2);letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+.cv-tag svg{height:13px;width:auto}
+.cv-pill{font-size:var(--step--2);font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);
+  border:1px solid var(--line-2);border-radius:999px;padding:.35rem .9rem}
+.cv-mid{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+  gap:clamp(1rem,2.4vw,1.7rem);padding-block:clamp(1.5rem,4vw,2.5rem)}
+.cv-wordmark{height:clamp(80px,21svh,190px);width:auto;max-width:84vw;color:#fff}
+.cv-x{display:flex;align-items:center;gap:1.2rem;width:min(88vw,620px);color:var(--dim)}
+.cv-x::before{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--line-2))}
+.cv-x::after{content:"";flex:1;height:1px;background:linear-gradient(270deg,transparent,var(--line-2))}
+.cv-x b{font-family:var(--font-display);font-weight:300;font-size:1.3rem;line-height:1;color:var(--muted)}
+.cv-x svg{height:clamp(18px,2.6vw,26px);width:auto}
+.cv-title{font-size:clamp(1.9rem,5.6vw,4.6rem);font-style:italic;line-height:.92}
+.cv-title .ln{display:block;overflow:hidden;padding:.04em .15em}
+.cv-title .ln>span{display:inline-block}
+.cv-sub{max-width:50ch;color:var(--muted);font-size:var(--step-0);font-weight:300}
+.cv-foot{padding-top:1.1rem;border-top:1px solid var(--line);align-items:flex-end}
+.cv-meta{font-size:var(--step--2);color:var(--muted);letter-spacing:.14em;text-transform:uppercase;line-height:1.9}
+.cv-meta b{color:#fff;font-weight:600}
+.cv-meta.r{text-align:right}
+.cv-cue{position:absolute;left:50%;bottom:26px;translate:-50% 0;font-size:.62rem;font-weight:600;letter-spacing:.26em;
+  text-transform:uppercase;color:var(--dim);display:flex;flex-direction:column;align-items:center;gap:.5rem}
+.cv-cue i{width:1px;height:30px;background:linear-gradient(var(--red),transparent);animation:cue 2.6s var(--ease-io) infinite;transform-origin:top}
+@keyframes cue{0%{transform:scaleY(0);opacity:1}60%{transform:scaleY(1);opacity:1}100%{transform:scaleY(1);opacity:0}}
+
+/* cover entrance: soft blur-to-sharp, long tails */
+.cv-a{opacity:0;transform:translateY(18px);filter:blur(8px)}
+.go .cv-a{transition:opacity 1.4s ease,transform 1.8s var(--ease),filter 1.4s ease;transition-delay:calc(var(--d,0) * 1ms);opacity:1;transform:none;filter:blur(0)}
+.cv-rise{opacity:0;transform:translateY(70px) scale(.94);filter:blur(16px)}
+.go .cv-rise{transition:opacity 1.6s ease .15s,transform 2.2s var(--ease) .15s,filter 1.8s ease .15s;opacity:1;transform:none;filter:blur(0)}
+.cv-title .ln>span{transform:translateY(135%) skewY(3deg);opacity:0}
+.go .cv-title .ln>span{transition:transform 1.8s var(--ease),opacity .6s ease;transition-delay:calc(700ms + var(--i) * 140ms);transform:none;opacity:1}
+
+/* ========================================================================
+   MASTHEAD
+   ======================================================================== */
+.mast{position:fixed;top:0;left:0;right:0;z-index:60;background:rgba(8,8,10,.72);
+  -webkit-backdrop-filter:blur(16px) saturate(1.4);backdrop-filter:blur(16px) saturate(1.4);
+  border-bottom:1px solid var(--line);transform:translateY(-102%);transition:transform .9s var(--ease)}
+.mast.show{transform:none}
+.mast .wrap{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-block:.7rem}
+.mast-l{display:flex;align-items:center;gap:.8rem;min-width:0;text-decoration:none;color:#fff}
+.mast-l .tf{width:22px;height:auto;color:#fff;flex:none}
+.mast-l .fm{height:11px;width:auto;flex:none}
+.mast-t{font-family:var(--font-display);font-variation-settings:"wdth" 115;font-size:var(--step--2);font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--muted)}
+.mast-nav{display:flex;gap:.15rem}
+.mast-nav a{position:relative;font-size:var(--step--2);font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+  text-decoration:none;padding:.4rem .7rem;transition:color .5s ease}
+.mast-nav a::after{content:"";position:absolute;left:.7rem;right:.7rem;bottom:.1rem;height:2px;background:var(--red);
+  transform:scaleX(0);transform-origin:right;transition:transform .7s var(--ease)}
+.mast-nav a:hover,.mast-nav a.on{color:#fff}
+.mast-nav a.on::after,.mast-nav a:hover::after{transform:scaleX(1);transform-origin:left}
+@media(max-width:860px){.mast-nav{display:none}}
+@media(min-width:861px) and (max-width:1100px){.mast-t{display:none}}
+.stamp{font-family:var(--font-display);font-variation-settings:"wdth" 115;font-size:var(--step--2);font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:#fff;background:var(--red);padding:.4rem .85rem;border-radius:999px;white-space:nowrap;text-decoration:none;
+  transition:background .5s ease}
+.stamp:hover{background:var(--red-hot)}
+.progress{position:absolute;left:0;bottom:-1px;height:2px;width:100%;transform-origin:left;transform:scaleX(0);background:var(--red)}
+
+/* ========================================================================
+   REVEALS — fluid: fade, lift, and focus in together
+   ======================================================================== */
+[data-r]{opacity:0;transform:translate3d(0,36px,0);filter:blur(10px);
+  transition:opacity 1.3s ease,transform 1.8s var(--ease),filter 1.3s ease;transition-delay:calc(var(--d,0) * 1ms)}
+[data-r="left"]{transform:translate3d(-60px,0,0)}
+[data-r="right"]{transform:translate3d(60px,0,0)}
+[data-r="scale"]{transform:scale(.94)}
+[data-r].in{opacity:1;transform:none;filter:blur(0)}
+.words .w{display:inline-block;overflow:hidden;vertical-align:top;padding:.06em .08em .1em;margin:-.06em -.08em -.1em}
+.words .w>span{display:inline-block;transform:translateY(130%) skewY(4deg);transition:transform 1.6s var(--ease);transition-delay:calc(var(--i) * 70ms)}
+.words.in .w>span{transform:none}
+
+/* ========================================================================
+   SECTIONS
+   ======================================================================== */
+section{padding-block:var(--section-y);position:relative}
+section.carbon{background:var(--carbon)}
+.sec-head{display:grid;gap:1.2rem;margin-bottom:clamp(2.5rem,5vw,4rem)}
+@media(min-width:960px){.sec-head{grid-template-columns:1.15fr .85fr;gap:4rem;align-items:end}}
+.sec-head h2{font-size:var(--step-4)}
+.sec-head .eyebrow{margin-bottom:1.1rem}
+.sec-head p{max-width:50ch}
+.num-bg{position:absolute;right:var(--gutter);top:clamp(2rem,5vw,4rem);font-family:var(--font-display);font-variation-settings:"wdth" 125;
+  font-weight:900;font-style:italic;font-size:clamp(5rem,15vw,13rem);line-height:.8;color:transparent;
+  -webkit-text-stroke:1px rgba(255,255,255,.07);pointer-events:none;user-select:none;will-change:translate}
+@media(max-width:1000px){.num-bg{display:none}}
+
+/* ticker */
+.ticker{background:var(--red);color:#fff;overflow:hidden;position:relative;z-index:5}
+.ticker.alt{background:#fff;color:var(--black)}
+.tk-track{display:flex;width:max-content;will-change:transform}
+.tk-track span{font-family:var(--font-display);font-variation-settings:"wdth" 125;font-style:italic;font-weight:800;
+  font-size:clamp(1rem,2.2vw,1.55rem);letter-spacing:.02em;padding:.7rem 1.2rem;white-space:nowrap;display:flex;align-items:center;gap:2.4rem;text-transform:uppercase}
+.tk-track svg{height:.6em;width:auto}
+
+/* ---------------------------------------------------------------- hero */
+.hero-grid{display:grid;gap:3rem;align-items:end}
+@media(min-width:980px){.hero-grid{grid-template-columns:1.35fr .8fr}}
+.hero-lede{margin-top:2rem;max-width:44ch}
+.kick{margin-bottom:1.6rem}
+
+.chit{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:1.7rem;position:relative;overflow:hidden}
+.chit::before{content:"";position:absolute;left:0;top:0;height:3px;width:100%;background:var(--red)}
+.chit-total{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;padding:.3rem 0 1.2rem;margin-bottom:.4rem;border-bottom:1px solid var(--line)}
+.k{font-size:var(--step--2);font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.chit-total .v{font-family:var(--font-display);font-variation-settings:"wdth" 125;font-weight:800;font-size:var(--step-3);line-height:1}
+.chit dl{margin:0}
+.chit-row{display:flex;justify-content:space-between;gap:1rem;padding-block:.65rem;border-bottom:1px solid var(--line);font-size:var(--step--1)}
+.chit-row:last-child{border-bottom:0;padding-bottom:0}
+.chit-row dt{color:var(--muted)}
+.chit-row dd{margin:0;text-align:right;font-weight:600;color:#fff}
+
+.odo{display:inline-flex;align-items:baseline;font-variant-numeric:tabular-nums}
+.odo .reel{display:inline-block;height:1.15em;line-height:1.15em;overflow:hidden;vertical-align:-.15em;margin-block:-.075em}
+.odo .strip{display:flex;flex-direction:column;transition:transform 2.6s cubic-bezier(.12,.9,.18,1);transition-delay:calc(var(--i) * 140ms)}
+.odo .strip span{height:1.15em;display:block}
+
+.ribbon{display:grid;gap:1px;grid-template-columns:repeat(2,1fr);margin-top:clamp(3rem,6vw,5rem);background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+@media(min-width:820px){.ribbon{grid-template-columns:repeat(4,1fr)}}
+.stat{background:var(--black);padding:1.5rem 1.4rem;position:relative}
+.stat .v{display:block;font-family:var(--font-display);font-variation-settings:"wdth" 125;font-weight:800;font-size:var(--step-3);line-height:1;font-variant-numeric:tabular-nums}
+.stat .l{display:block;margin-top:.6rem;font-size:var(--step--2);font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);line-height:1.5}
+.stat::after{content:"";position:absolute;left:1.4rem;top:0;width:24px;height:2px;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform 1.4s var(--ease) .4s}
+.stat.in::after{transform:scaleX(1)}
+
+/* ---------------------------------------------------------------- scope */
+.scope{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden}
+@media(min-width:700px){.scope{grid-template-columns:1fr 1fr}}
+@media(min-width:1100px){.scope{grid-template-columns:repeat(4,1fr)}}
+.tile{background:var(--carbon);padding:2rem 1.6rem 2.2rem;position:relative;overflow:hidden;min-height:300px;display:flex;flex-direction:column}
+.tile .n{font-family:var(--font-display);font-variation-settings:"wdth" 125;font-style:italic;font-weight:800;font-size:1rem;color:var(--red);letter-spacing:.06em}
+.tile h3{font-family:var(--font-display);font-variation-settings:"wdth" 118;font-weight:700;text-transform:uppercase;font-size:var(--step-1);line-height:1.08;margin:auto 0 0;padding-top:3rem}
+.tile p{margin-top:.8rem;font-size:var(--step--1);color:var(--muted);line-height:1.65}
+.spot{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .9s ease;
+  background:radial-gradient(520px circle at var(--mx,50%) var(--my,50%),rgba(225,6,0,.13),transparent 42%)}
+.tile:hover .spot,.quote-in:hover .spot{opacity:1}
+.tile::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--red);transform:scaleX(0);transform-origin:right;transition:transform 1s var(--ease)}
+.tile:hover::after{transform:scaleX(1);transform-origin:left}
+
+/* ---------------------------------------------------------------- vision */
+.garage{display:grid;gap:2rem;align-items:center}
+@media(min-width:920px){.garage{grid-template-columns:.8fr auto 1.2fr}}
+.bay{position:relative;margin:0;text-align:center}
+.bay .float{animation:float 7s ease-in-out infinite}
+.bay.now .float{animation-delay:-3.5s}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.bay .shadow{height:26px;margin:-18px auto 0;width:70%;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.9),transparent);
+  animation:shadow 7s ease-in-out infinite}
+.bay.now .shadow{animation-delay:-3.5s}
+@keyframes shadow{0%,100%{transform:scaleX(1);opacity:.9}50%{transform:scaleX(.86);opacity:.6}}
+.bay img{margin-inline:auto;width:auto;object-fit:contain;max-height:clamp(260px,40vw,480px)}
+.bay.now img{max-height:clamp(200px,28vw,340px);filter:grayscale(.35) brightness(.85)}
+.bay figcaption{margin-top:1.2rem;display:inline-flex;align-items:center;font-size:var(--step--2);font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.bay.custom figcaption{color:#fff}
+.bay.custom figcaption::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--red);margin-right:.6rem;box-shadow:0 0 12px var(--red)}
+.stage{position:relative;display:grid;place-items:center;min-height:clamp(280px,42vw,500px)}
+.stage img{transition:opacity .8s ease,transform 1.1s var(--ease),filter .8s ease}
+.stage.leaving img{opacity:0;transform:translate3d(50px,0,0) scale(.98);filter:blur(12px);transition:opacity .55s ease,transform .7s var(--ease-in),filter .55s ease}
+.stage.entering img{transition:none;opacity:0;transform:translate3d(-50px,0,0) scale(.98);filter:blur(12px)}
+.arrow{display:grid;place-items:center;gap:.6rem;color:var(--dim)}
+.arrow svg{width:clamp(70px,8vw,110px);height:auto;overflow:visible}
+.arrow .dash{stroke-dasharray:4 8;animation:dash 2.4s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-48}}
+.arrow span{font-size:.66rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase}
+@media(max-width:919px){.arrow svg{transform:rotate(90deg)}}
+
+.tabs{display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center;margin-top:clamp(1.8rem,3.5vw,2.8rem)}
+.tab{position:relative;overflow:hidden;background:var(--panel);color:var(--muted);border:1px solid var(--line);border-radius:999px;
+  padding:.7rem 1.2rem;font:600 var(--step--2)/1 var(--font-body);letter-spacing:.16em;text-transform:uppercase;cursor:pointer;
+  transition:color .6s ease,border-color .6s ease,background .6s ease}
+.tab:hover{color:#fff;border-color:var(--line-2)}
+.tab[aria-selected="true"]{color:#fff;border-color:rgba(225,6,0,.6);background:rgba(225,6,0,.12)}
+.tab .t{position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--red);transform:scaleX(0);transform-origin:left}
+.tab[aria-selected="true"].auto .t{animation:tabt var(--cycle,6000ms) linear forwards}
+@keyframes tabt{to{transform:scaleX(1)}}
+.variant-note{text-align:center;max-width:58ch;margin:1.4rem auto 0;color:var(--muted);font-size:var(--step--1);min-height:3.3em;transition:opacity .6s ease,filter .6s ease}
+.variant-note.fade{opacity:0;filter:blur(4px)}
+.variant-note b{color:#fff;font-weight:600}
+
+/* detail photo cards — calm, no gimmicks */
+.details{display:grid;gap:1px;margin-top:clamp(4rem,8vw,6rem);background:var(--line);border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden}
+@media(min-width:900px){.details{grid-template-columns:1fr 1fr}}
+.detail{background:var(--carbon);display:grid;grid-template-rows:auto 1fr}
+.detail .ph{position:relative;aspect-ratio:16/10;overflow:hidden;background:radial-gradient(closest-side,#23232c,var(--carbon));display:grid;place-items:center}
+.detail .ph img{width:auto;height:78%;max-width:80%;object-fit:contain;transition:scale 2.4s var(--ease);filter:drop-shadow(0 30px 40px rgba(0,0,0,.6))}
+.detail:hover .ph img{scale:1.04}
+.detail .ph.key img{height:82%}
+.detail .tx{padding:1.8rem 1.8rem 2.2rem;border-top:1px solid var(--line)}
+.detail h3{font-family:var(--font-display);font-variation-settings:"wdth" 118;font-weight:700;text-transform:uppercase;font-size:var(--step-2);line-height:1.02;margin:.9rem 0 0}
+.detail p{margin-top:.8rem;font-size:var(--step--1);color:var(--muted);max-width:46ch}
+
+/* ---------------------------------------------------------------- timeline */
+.track{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius-lg);padding:clamp(1.3rem,3vw,2.4rem);overflow:hidden}
+.total-h{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap;margin-bottom:1.8rem}
+.total-h .big{font-family:var(--font-display);font-variation-settings:"wdth" 125;font-weight:800;font-size:var(--step-4);line-height:.9;font-variant-numeric:tabular-nums}
+.total-h .big small{font-family:var(--font-body);font-size:.3em;color:var(--muted);margin-left:.5em;font-weight:600;letter-spacing:.16em;text-transform:uppercase}
+.hours{display:grid;grid-template-columns:clamp(84px,14vw,150px) 1fr;column-gap:1rem;align-items:stretch}
+.axis{position:relative;height:1.8rem;grid-column:2}
+.axis span{position:absolute;transform:translateX(-50%);font-size:.7rem;color:var(--dim);font-variant-numeric:tabular-nums}
+@media(max-width:640px){.axis span:nth-child(even){display:none}}
+.day{display:contents}
+.day-l{padding-block:1.1rem;border-top:1px solid var(--line)}
+.day-l b{display:block;font-family:var(--font-display);font-variation-settings:"wdth" 118;font-weight:700;text-transform:uppercase;font-size:var(--step-0);line-height:1}
+.day-l small{display:block;font-size:var(--step--2);font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-top:.35rem}
+.lane{position:relative;min-height:64px;border-top:1px solid var(--line);
+  background-image:linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:calc(100% / 9) 100%}
+.run{position:absolute;top:50%;height:26px;margin-top:-13px;left:var(--s);width:var(--w);border-radius:999px;
+  background:linear-gradient(90deg,rgba(255,255,255,.1),rgba(255,255,255,.28));clip-path:inset(0 100% 0 0 round 999px);
+  transition:clip-path 2.2s var(--ease);transition-delay:calc(var(--d,0) * 1ms)}
+.run::after{content:"";position:absolute;right:0;top:0;bottom:0;width:26px;border-radius:50%;background:var(--red);box-shadow:0 0 18px rgba(225,6,0,.8)}
+.run .tt{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#fff;font-size:.74rem;font-weight:600;letter-spacing:.08em;white-space:nowrap;font-variant-numeric:tabular-nums}
+.in .run{clip-path:inset(0 0 0 0 round 999px)}
+.pit{display:grid;gap:1rem;margin-top:1.6rem;padding-top:1.4rem;border-top:1px solid var(--line-2)}
+@media(min-width:760px){.pit{grid-template-columns:repeat(3,1fr)}}
+.pit div{display:grid;grid-template-columns:auto 1fr;gap:.9rem;align-items:baseline;font-size:var(--step--1);color:var(--muted)}
+.pit b{color:#fff;font-weight:600}
+.pit i{font-style:italic;font-family:var(--font-display);font-variation-settings:"wdth" 125;font-weight:800;color:var(--red);font-size:.9rem;letter-spacing:.06em}
+
+
+/* ---------------------------------------------------------------- why */
+.pillars{display:grid;gap:clamp(1.5rem,3vw,2.5rem)}
+@media(min-width:760px){.pillars{grid-template-columns:1fr 1fr}}
+@media(min-width:1150px){.pillars{grid-template-columns:repeat(4,1fr)}}
+.pillar{border-top:1px solid var(--line-2);padding-top:1.4rem;position:relative}
+.pillar::before{content:"";position:absolute;left:0;top:-1px;height:1px;width:100%;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform 1.8s var(--ease);transition-delay:calc(var(--d,0) * 1ms + 300ms)}
+.pillar.in::before{transform:scaleX(1)}
+.pillar .n{font-family:var(--font-display);font-variation-settings:"wdth" 125;font-style:italic;font-weight:800;font-size:.9rem;color:var(--red);letter-spacing:.06em}
+.pillar h3{font-family:var(--font-display);font-variation-settings:"wdth" 118;font-weight:700;text-transform:uppercase;font-size:var(--step-1);line-height:1.08;margin:.9rem 0 0}
+.pillar p{margin-top:.8rem;font-size:var(--step--1);color:var(--muted);line-height:1.65}
+
+/* ---------------------------------------------------------------- value */
+.calc{display:grid;gap:1rem}
+@media(min-width:1000px){.calc{grid-template-columns:1.45fr .55fr}}
+.calc-in{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius-lg);padding:clamp(1.5rem,3.5vw,2.8rem)}
+.calc-l{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap}
+.calc-g{font-family:var(--font-display);font-variation-settings:"wdth" 125;font-weight:800;font-size:var(--step-3);line-height:1;font-variant-numeric:tabular-nums}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:28px;background:transparent;margin:1.2rem 0 .3rem;cursor:pointer;--p:37.5%}
+input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:999px;background:linear-gradient(90deg,var(--red) var(--p),rgba(255,255,255,.12) var(--p))}
+input[type=range]::-moz-range-track{height:4px;border-radius:999px;background:linear-gradient(90deg,var(--red) var(--p),rgba(255,255,255,.12) var(--p))}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;margin-top:-9px;border-radius:50%;background:#fff;border:0;box-shadow:0 0 0 6px rgba(225,6,0,.25),0 4px 14px rgba(0,0,0,.5);transition:box-shadow .5s ease}
+input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:0;box-shadow:0 0 0 6px rgba(225,6,0,.25)}
+input[type=range]:hover::-webkit-slider-thumb,input[type=range]:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 10px rgba(225,6,0,.3),0 4px 14px rgba(0,0,0,.5)}
+.calc-scale{display:flex;justify-content:space-between;font-size:.7rem;color:var(--dim);font-variant-numeric:tabular-nums}
+.calc-out{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin-top:2rem}
+@media(min-width:720px){.calc-out{grid-template-columns:repeat(3,1fr)}}
+.co{background:var(--carbon);padding:1.3rem 1.2rem}
+.co b{display:block;font-family:var(--font-display);font-variation-settings:"wdth" 125;font-weight:800;font-size:var(--step-3);line-height:1;margin-top:.6rem;font-variant-numeric:tabular-nums;transition:color .6s ease}
+.co.hl b{color:var(--red)}
+.co small{display:block;margin-top:.55rem;font-size:var(--step--2);color:var(--muted);line-height:1.5}
+.bars{display:grid;gap:.7rem;margin-top:1.8rem}
+.bar-row{display:grid;grid-template-columns:5.5rem 1fr 4.5rem;gap:1rem;align-items:center;font-size:var(--step--2);color:var(--muted);letter-spacing:.1em;text-transform:uppercase;font-weight:600}
+.bar-row em{font-style:normal;text-align:right;color:#fff;font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.bar-track{height:10px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden}
+.bar-fill{display:block;height:100%;border-radius:999px;width:0;transition:width 1.2s var(--ease)}
+.bar-fill.flat{background:var(--red)}
+.bar-fill.drink{background:rgba(255,255,255,.35)}
+.calc-note{margin-top:1.6rem;padding-top:1.3rem;border-top:1px solid var(--line);font-size:var(--step--1);color:var(--muted);max-width:62ch}
+.calc-note b{color:#fff;font-weight:600}
+.facts{display:grid;gap:1rem;align-content:stretch}
+.fact{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:1.4rem 1.3rem;display:flex;flex-direction:column;justify-content:flex-end;gap:.5rem}
+.fact b{font-family:var(--font-display);font-variation-settings:"wdth" 125;font-weight:800;font-style:italic;text-transform:uppercase;font-size:var(--step-2);line-height:1}
+.fact > span{font-size:var(--step--1);color:var(--muted);line-height:1.55}
+
+/* ---------------------------------------------------------------- quote */
+.quote-grid{display:grid;gap:1rem;align-items:stretch}
+@media(min-width:1000px){.quote-grid{grid-template-columns:1.2fr .8fr}}
+.quote{position:relative;border-radius:var(--radius-lg);padding:1px;overflow:hidden;isolation:isolate;background:var(--line)}
+.quote::before{content:"";position:absolute;left:50%;top:50%;width:200%;aspect-ratio:1;z-index:-1;translate:-50% -50%;
+  background:conic-gradient(from 0deg,transparent 0 70%,rgba(225,6,0,.9) 88%,transparent);animation:orbit 9s linear infinite}
+@keyframes orbit{to{rotate:360deg}}
+.quote-in{background:var(--carbon);border-radius:calc(var(--radius-lg) - 1px);padding:clamp(1.7rem,4vw,3.2rem);height:100%;position:relative;overflow:hidden}
+.q-top{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.q-top svg{height:clamp(20px,2.6vw,30px);width:auto}
+.q-price{margin-top:2rem;font-family:var(--font-display);font-variation-settings:"wdth" 125;font-weight:800;font-size:clamp(4rem,12vw,9.5rem);line-height:.85;letter-spacing:-.02em}
+.q-price .cur{font-size:.45em;vertical-align:.8em;color:var(--red);margin-right:.06em}
+.q-sub{margin-top:1.1rem;color:var(--muted);font-size:var(--step-0);max-width:46ch;font-weight:300}
+.q-list{list-style:none;margin:2rem 0 0;padding:1.6rem 0 0;border-top:1px solid var(--line);display:grid;gap:.9rem}
+@media(min-width:640px){.q-list{grid-template-columns:1fr 1fr}}
+.q-list li{display:flex;gap:.85rem;align-items:center;font-size:var(--step--1);color:#fff;opacity:0;transform:translateY(14px);filter:blur(6px);
+  transition:opacity 1s ease,transform 1.4s var(--ease),filter 1s ease;transition-delay:calc(500ms + var(--i) * 120ms)}
+.in .q-list li{opacity:1;transform:none;filter:blur(0)}
+.chk{width:22px;height:22px;flex:none;border-radius:50%;border:1px solid rgba(225,6,0,.7);display:grid;place-items:center}
+.chk svg{width:11px;height:11px}
+.chk path{stroke-dasharray:20;stroke-dashoffset:20;transition:stroke-dashoffset 1s var(--ease);transition-delay:calc(900ms + var(--i) * 120ms)}
+.in .chk path{stroke-dashoffset:0}
+.q-cta{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:2.4rem}
+.btn{display:inline-flex;align-items:center;gap:.7rem;border-radius:999px;padding:1rem 1.5rem;font:600 var(--step--1)/1 var(--font-body);
+  letter-spacing:.1em;text-transform:uppercase;text-decoration:none;will-change:transform;transition:background .6s ease,border-color .6s ease,color .6s ease}
+.btn.red{background:var(--red);color:#fff}
+.btn.red:hover{background:var(--red-hot)}
+.btn.ghost{color:#fff;border:1px solid var(--line-2)}
+.btn.ghost:hover{border-color:#fff}
+.btn svg{width:15px;height:15px;transition:transform .8s var(--ease)}
+.btn:hover svg{transform:translateX(5px)}
+
+.opts{display:grid;gap:1rem;align-content:start}
+.opt{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:1.6rem 1.5rem;transition:border-color .8s ease}
+.opt:hover{border-color:var(--line-2)}
+.opt .tag{font-size:.64rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.opt h3{font-family:var(--font-display);font-variation-settings:"wdth" 115;font-weight:700;text-transform:uppercase;font-size:var(--step-0);line-height:1.15;margin:.7rem 0 0}
+.opt .amt{font-family:var(--font-display);font-variation-settings:"wdth" 125;font-weight:800;font-size:var(--step-3);line-height:1;margin-top:.8rem}
+.opt .amt small{font-family:var(--font-body);font-size:var(--step--2);font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-left:.5rem}
+.opt p{margin-top:.7rem;font-size:var(--step--1);color:var(--muted)}
+.opt .or{display:flex;align-items:center;gap:.8rem;margin:1rem 0 .1rem;font-size:.66rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--dim)}
+.opt .or::before,.opt .or::after{content:"";flex:1;height:1px;background:var(--line)}
+.opts-note{font-size:var(--step--1);color:var(--dim);padding:0 .3rem}
+
+/* ---------------------------------------------------------------- close */
+.close{text-align:center;overflow:hidden}
+.close .inner{max-width:62rem;margin-inline:auto}
+.scrub{font-family:var(--font-display);font-variation-settings:"wdth" 112;font-weight:700;text-transform:uppercase;
+  font-size:clamp(1.6rem,4vw,3.2rem);line-height:1.1;margin:1.6rem 0 0;text-wrap:balance}
+.scrub span{color:rgba(255,255,255,.14);transition:color .9s ease}
+.scrub span.lit{color:#fff}
+.scrub span.hl.lit{color:var(--red)}
+.close .note{margin:1.8rem auto 0;max-width:54ch;font-size:var(--step-1);color:var(--muted);font-weight:300}
+.close .carts{display:flex;justify-content:center;align-items:flex-end;gap:clamp(.5rem,4vw,3rem);margin-top:clamp(3rem,6vw,5rem)}
+.close .carts img{width:clamp(100px,17vw,200px)}
+.close .carts img:nth-child(2){width:clamp(120px,21vw,240px)}
+
+/* ---------------------------------------------------------------- footer */
+.foot{background:var(--black);border-top:1px solid var(--line);padding-block:clamp(3rem,6vw,5rem) clamp(2rem,4vw,3rem);position:relative;overflow:hidden}
+.foot .big-mark{color:var(--red);width:min(70vw,640px);height:auto;margin:0 auto clamp(2.5rem,5vw,4rem);display:block}
+.foot .wrap{display:flex;gap:2rem;justify-content:space-between;flex-wrap:wrap;align-items:flex-end}
+.foot-mark{display:flex;align-items:center;gap:1rem}
+.foot-mark svg{width:40px;height:auto;color:#fff}
+.foot .sig{font-family:var(--font-display);font-variation-settings:"wdth" 118;font-weight:700;text-transform:uppercase;font-size:var(--step-1);line-height:1}
+.foot .sig small{display:block;font-family:var(--font-body);font-size:var(--step--2);font-weight:600;letter-spacing:.2em;color:var(--muted);margin-top:.45rem}
+.contact{display:grid;gap:.35rem;text-align:right;font-size:var(--step--1)}
+.contact a{color:#fff;text-decoration:none;background:linear-gradient(var(--red),var(--red)) 100% 100%/0 1px no-repeat;transition:background-size .9s var(--ease)}
+.contact a:hover{background-size:100% 1px;background-position:0 100%}
+@media(max-width:640px){.contact{text-align:left}}
+.fine{margin-top:2.4rem;padding-top:1.3rem;border-top:1px solid var(--line);font-size:.72rem;color:var(--dim);letter-spacing:.03em}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition-duration:.001ms!important;transition-delay:0ms!important}
+  .intro{display:none}
+  [data-r],.cv-a,.cv-rise,.q-list li{opacity:1!important;transform:none!important;filter:none!important}
+  .words .w>span,.cv-title .ln>span{transform:none!important}
+  .scrub span{color:#fff}
+  .run{clip-path:none}
+}
+</style>
+</head>
+<body>
+
+<!-- shared marks -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="tf-mono" viewBox="0 0 1440 1616"><g transform="translate(0.000000,1616.000000) scale(0.100000,-0.100000)"
+fill="currentColor" stroke="none">
+<path d="M5520 13050 c-121 -15 -338 -90 -390 -135 -8 -7 -31 -20 -49 -30 -86
+-43 -243 -196 -283 -274 -37 -72 -12 -160 62 -223 60 -52 103 -58 336 -51 215
+6 486 -15 568 -43 22 -8 77 -24 121 -35 265 -68 735 -366 735 -467 0 -41 -68
+-35 -139 11 -37 24 -129 64 -286 124 -467 179 -968 191 -1290 31 -100 -50
+-255 -160 -293 -208 -20 -25 -52 -63 -72 -85 -55 -62 -116 -182 -149 -295 -38
+-125 -38 -142 -5 -208 56 -112 120 -118 332 -33 328 131 647 173 1072 141 167
+-13 525 -82 600 -115 30 -13 75 -29 100 -36 45 -11 200 -105 200 -121 0 -15
+-76 -8 -203 17 -952 189 -1589 -96 -1698 -762 -59 -358 73 -525 269 -339 377
+356 1046 551 1664 485 209 -22 207 -19 184 -379 -9 -146 -23 -436 -31 -645 -9
+-209 -22 -468 -30 -575 -8 -107 -19 -305 -25 -440 -22 -521 -40 -918 -59
+-1245 -11 -187 -22 -410 -26 -495 -10 -264 -34 -757 -45 -925 -6 -88 -17 -313
+-26 -500 -8 -187 -21 -465 -28 -619 -18 -388 -3 -441 146 -488 43 -13 849 -11
+901 3 50 13 115 73 139 126 21 47 20 81 -17 723 -8 140 -19 372 -25 515 -5
+143 -14 334 -20 425 -10 173 -14 249 -30 600 -6 118 -15 298 -20 400 -17 303
+-29 564 -45 935 -8 193 -22 460 -29 595 -21 343 -33 598 -51 1020 -9 201 -23
+465 -31 588 -26 365 -28 362 266 383 600 43 1152 -125 1563 -476 128 -109 160
+-118 221 -65 177 156 64 671 -201 921 -284 266 -850 361 -1402 234 -109 -25
+-211 -33 -211 -16 0 10 92 82 129 101 72 37 311 100 491 130 509 82 958 49
+1310 -96 184 -76 208 -81 264 -60 240 92 54 575 -314 818 -396 260 -1087 224
+-1679 -88 -232 -123 -181 19 72 198 355 252 713 346 1250 331 229 -7 305 22
+353 134 56 130 -92 314 -376 469 -613 336 -1520 -35 -1949 -796 -89 -158 -127
+-159 -212 -5 -37 68 -43 76 -162 235 -362 486 -913 745 -1447 680z M9360 8150
+c-308 -16 -372 -85 -271 -293 17 -35 31 -71 31 -80 0 -9 14 -59 32 -109 32
+-93 32 -93 36 -573 1 -264 5 -752 7 -1085 8 -1067 -11 -1347 -110 -1591 -53
+-132 -47 -210 18 -226 17 -5 217 -6 442 -2 226 4 480 3 565 -2 287 -16 330 34
+229 260 -102 229 -156 1104 -75 1223 81 120 346 73 716 -126 160 -87 197 -44
+180 208 -8 124 -9 215 -1 331 11 179 2 414 -17 438 -30 36 -62 28 -222 -53
+-352 -177 -526 -198 -613 -72 -68 98 -80 204 -75 684 6 549 -8 529 376 541
+416 14 544 -4 743 -103 182 -91 256 -151 424 -342 86 -98 125 -68 105 79 -7
+49 -13 171 -15 273 -2 166 -6 194 -29 273 -97 326 -143 337 -1406 341 -272 1
+-589 4 -705 8 -115 3 -280 3 -365 -2z M3130 8120 c-424 -39 -535 -61 -592
+-116 -67 -65 -86 -112 -103 -252 -8 -64 -21 -166 -29 -227 -53 -411 -21 -510
+109 -335 205 275 507 418 920 436 214 10 219 3 230 -353 11 -332 12 -1204 1
+-1398 -7 -120 -5 -174 8 -270 14 -100 15 -144 6 -260 -5 -77 -10 -212 -10
+-300 0 -226 -37 -431 -119 -669 -55 -157 9 -211 228 -192 42 3 132 11 201 17
+92 8 180 7 330 -1 289 -17 501 -11 529 14 27 25 27 70 0 138 -113 287 -118
+334 -124 1268 -2 393 -7 778 -10 855 -4 78 -1 200 5 274 9 102 9 172 0 288 -8
+113 -9 183 0 270 29 312 43 330 240 319 312 -18 541 -96 712 -242 28 -24 55
+-44 58 -44 3 0 55 -54 116 -120 165 -183 189 -164 155 119 -11 97 -20 226 -19
+286 3 238 -117 422 -292 450 -25 4 -88 18 -140 32 -133 35 -2056 45 -2410 13z"/>
+</g></symbol>
+    <symbol id="tf-word" viewBox="0 0 3090 1590"><g transform="translate(0.000000,1590.000000) scale(0.100000,-0.100000)"
+fill="currentColor" stroke="none">
+<path d="M10440 14553 c-19 -2 -102 -17 -185 -33 -82 -16 -190 -36 -240 -45
+-310 -57 -570 -153 -616 -228 -68 -112 7 -157 348 -207 166 -24 407 -156 671
+-367 122 -97 152 -147 122 -203 -18 -34 -231 -80 -373 -80 -34 0 -134 -12
+-222 -25 -88 -14 -205 -30 -260 -35 -354 -35 -452 -56 -850 -182 -830 -263
+-1527 -647 -1597 -879 -23 -78 69 -204 186 -254 17 -8 76 -34 132 -60 145 -66
+529 -150 849 -186 182 -21 219 -21 860 -16 394 4 726 2 805 -3 1305 -93 2537
+-99 3270 -15 96 11 276 15 775 15 883 0 1466 20 1910 65 132 14 285 29 340 35
+55 5 314 14 575 20 611 13 862 30 1295 86 108 14 251 24 650 44 244 12 442 26
+555 39 260 30 993 65 1695 81 574 13 742 25 1036 75 248 42 392 55 616 55 148
+0 235 5 290 15 43 9 128 22 188 31 470 64 655 302 440 564 -136 165 -674 408
+-1155 521 -74 17 -202 49 -285 70 -158 40 -598 130 -725 148 -197 28 -377 52
+-505 66 -135 16 -203 22 -480 45 -71 5 -177 17 -235 25 -58 8 -154 19 -215 25
+-60 6 -164 17 -230 25 -456 55 -923 64 -2390 44 -676 -9 -1008 -20 -1625 -53
+-151 -9 -417 -20 -590 -26 -312 -10 -521 -20 -797 -40 -79 -5 -209 -15 -290
+-20 -82 -6 -206 -15 -278 -21 -163 -12 -547 -37 -680 -44 -118 -6 -768 -19
+-970 -20 -246 0 -339 55 -864 514 -299 260 -696 455 -896 439 -11 0 -36 -3
+-55 -5z m8955 -1398 c90 -45 63 -115 -56 -141 -91 -20 -394 -33 -1015 -43
+-298 -5 -557 -12 -575 -15 -254 -44 -1013 -86 -1599 -88 -267 -1 -523 -1 -570
+-2 -47 0 -218 4 -380 8 -194 6 -367 5 -505 -3 -115 -6 -361 -13 -545 -16 -210
+-4 -370 -12 -430 -21 -236 -35 -466 -38 -502 -6 -79 68 105 143 382 157 69 4
+184 16 255 27 224 34 588 56 1450 87 138 6 349 14 470 20 121 6 315 15 430 21
+264 12 1042 23 1717 24 284 1 520 5 524 9 20 20 907 3 949 -18z M17540 10950
+c-409 -15 -426 -32 -326 -339 73 -224 78 -274 77 -775 0 -226 0 -454 1 -506 1
+-52 0 -153 -3 -225 -2 -71 2 -237 8 -367 9 -167 10 -276 3 -370 -6 -73 -12
+-205 -14 -293 -6 -194 -37 -367 -96 -523 -46 -121 -51 -175 -19 -193 15 -7
+118 -11 328 -11 168 0 376 -1 461 -1 441 -2 400 -5 421 22 29 36 23 83 -26
+230 -28 81 -53 181 -65 255 -11 66 -24 146 -29 176 -11 61 -7 549 4 602 36
+166 210 153 615 -46 221 -109 239 -92 218 208 -9 121 -9 189 1 290 13 142 3
+356 -19 397 -19 35 -87 21 -195 -40 -168 -95 -387 -162 -475 -146 -121 22
+-159 159 -160 575 0 399 17 512 86 552 39 23 413 35 599 19 278 -23 467 -134
+714 -418 94 -109 118 -95 101 59 -5 51 -12 174 -14 273 -8 287 -61 443 -171
+502 -94 50 -256 78 -408 70 -82 -4 -157 -1 -227 8 -130 18 -212 19 -312 3 -61
+-9 -102 -9 -190 2 -90 10 -132 10 -205 0 -66 -8 -117 -9 -185 -1 -142 15 -294
+19 -498 11z M20536 10731 c-23 -26 -20 -93 8 -164 90 -229 115 -573 71 -995
+-11 -111 -12 -174 -6 -258 6 -62 8 -120 6 -130 -8 -40 -26 -423 -35 -724 -17
+-618 -20 -666 -35 -746 -18 -97 -42 -171 -102 -321 -91 -229 -79 -238 322
+-239 348 -1 626 -12 726 -29 91 -15 123 -11 149 23 27 33 26 35 -24 202 -79
+257 -79 266 -71 670 5 195 9 468 10 605 2 303 22 1051 35 1265 8 136 19 216
+60 415 6 28 33 110 60 183 90 239 95 236 -330 248 -543 15 -827 14 -844 -5z
+M15370 10605 c-47 -7 -141 -14 -210 -14 -148 -1 -257 -21 -282 -51 -20 -24
+-15 -47 29 -135 42 -83 80 -182 93 -240 30 -134 60 -354 60 -445 0 -54 6 -141
+14 -192 31 -200 44 -909 18 -955 -31 -56 -78 -11 -253 237 -67 96 -148 209
+-179 250 -31 41 -101 145 -155 230 -118 186 -179 274 -280 400 -42 52 -116
+158 -166 235 -136 213 -321 418 -443 489 -110 64 -217 71 -792 50 -338 -12
+-346 -17 -289 -156 14 -34 25 -65 25 -70 0 -4 25 -72 56 -150 73 -183 87 -260
+89 -473 3 -255 24 -703 35 -760 6 -27 15 -169 20 -315 5 -146 14 -301 19 -345
+6 -44 13 -228 16 -410 7 -409 -2 -497 -70 -694 -85 -249 -78 -253 375 -211
+118 11 253 20 300 20 149 0 160 27 76 197 -108 219 -131 320 -146 613 -24 499
+-31 621 -42 695 -15 107 -20 620 -7 662 35 110 179 -30 408 -395 23 -38 75
+-111 115 -161 40 -50 94 -128 120 -173 63 -107 120 -193 229 -347 49 -69 104
+-152 122 -185 19 -34 66 -104 105 -156 38 -52 113 -157 165 -233 53 -76 124
+-164 158 -195 33 -31 89 -85 123 -119 95 -93 116 -98 409 -98 368 0 391 17
+445 320 23 127 23 184 0 500 -11 142 -24 449 -40 955 -6 179 -15 361 -21 405
+-6 44 -11 130 -10 190 1 61 -6 180 -15 265 -32 285 -3 615 68 793 72 180 8
+217 -292 172z M22690 10605 c-17 -21 -10 -71 43 -297 70 -301 79 -407 46 -558
+-6 -25 -14 -115 -19 -200 -5 -85 -14 -191 -20 -235 -5 -44 -9 -183 -9 -310 1
+-180 -3 -250 -16 -320 -13 -68 -17 -135 -16 -270 1 -111 -4 -224 -13 -295 -8
+-63 -18 -149 -21 -190 -30 -389 -45 -453 -157 -693 -63 -134 -67 -161 -29
+-184 41 -25 203 -43 395 -43 105 0 226 -5 271 -12 167 -24 183 1 121 184 -92
+269 -101 472 -49 1018 10 108 13 206 9 282 -5 93 -2 140 14 230 11 62 20 147
+20 189 0 81 17 230 31 266 26 68 80 37 180 -104 61 -85 68 -97 162 -288 36
+-71 95 -182 132 -245 37 -63 98 -182 136 -264 37 -82 93 -190 122 -240 30 -50
+91 -165 135 -256 44 -91 105 -206 135 -255 29 -50 77 -135 105 -190 33 -65 76
+-127 119 -176 38 -42 89 -101 115 -132 60 -70 112 -91 280 -112 68 -8 153 -20
+190 -25 164 -24 256 7 322 111 36 56 98 291 103 384 18 403 37 713 58 955 30
+364 45 606 45 745 0 61 5 126 11 145 6 19 13 118 14 220 2 108 9 225 19 280 8
+52 22 142 31 200 9 58 18 119 21 136 2 17 33 91 69 164 109 225 110 225 -280
+243 -530 25 -516 30 -446 -171 61 -175 97 -507 72 -662 -6 -36 -11 -137 -11
+-225 0 -154 -9 -303 -31 -505 -6 -52 -17 -156 -24 -230 -32 -309 -65 -302
+-255 60 -51 96 -114 209 -140 250 -26 41 -94 172 -152 290 -57 118 -146 282
+-196 363 -51 82 -124 211 -162 287 -156 312 -331 532 -470 592 -94 41 -264 69
+-480 78 -113 6 -239 14 -280 19 -118 16 -235 14 -250 -4z M1650 10411 c-105
+-10 -179 -53 -217 -125 -34 -66 -169 -683 -161 -739 7 -49 46 -34 137 55 253
+247 487 340 821 325 257 -12 261 -18 215 -362 -8 -60 -15 -162 -15 -225 0 -63
+-6 -151 -14 -195 -8 -44 -24 -183 -35 -310 -12 -126 -31 -279 -43 -340 -33
+-176 -37 -214 -42 -376 -2 -95 -12 -200 -25 -272 -11 -66 -21 -135 -21 -155 0
+-151 -61 -386 -161 -630 -59 -143 -70 -191 -46 -210 38 -32 190 -62 316 -62
+139 -1 240 -11 591 -60 346 -49 349 -46 279 200 -28 101 -43 240 -35 343 28
+399 35 477 41 487 3 5 10 85 15 178 5 92 16 203 25 247 9 44 20 136 25 205 7
+110 23 268 60 585 6 50 15 113 20 140 5 28 14 118 19 200 10 155 55 385 87
+447 26 49 187 26 448 -65 190 -67 304 -160 473 -386 164 -221 167 -220 164 56
+-1 120 4 222 13 283 26 176 -28 363 -123 426 -106 69 -303 125 -531 149 -85 9
+-218 28 -295 41 -77 13 -176 24 -220 25 -89 0 -181 9 -331 33 -165 25 -452 56
+-534 56 -41 1 -111 7 -155 15 -92 16 -625 28 -745 16z M11587 10124 c-5 -6
+-516 -22 -858 -28 -185 -3 -201 -27 -130 -197 101 -245 110 -311 122 -869 5
+-239 14 -640 20 -890 5 -250 9 -489 7 -530 -4 -106 -2 -165 7 -325 10 -181
+-18 -354 -90 -555 -84 -236 -45 -258 385 -220 63 6 266 11 450 12 411 1 417 3
+369 135 -126 348 -128 358 -139 743 -5 179 -14 406 -20 505 -9 157 -27 830
+-26 1015 0 36 -4 153 -8 260 -7 156 -5 218 7 310 9 63 18 142 22 175 4 33 26
+125 51 205 43 143 52 201 35 229 -14 22 -186 43 -204 25z M27445 9994 c-289
+-71 -378 -108 -497 -203 -131 -105 -339 -335 -384 -423 -101 -198 -130 -500
+-70 -703 26 -85 195 -344 290 -444 102 -106 402 -338 546 -421 41 -23 127 -80
+190 -125 63 -45 162 -114 220 -153 112 -75 143 -105 263 -246 162 -190 164
+-362 5 -442 -338 -171 -978 66 -1403 521 -238 254 -293 265 -294 60 -1 -38 -8
+-108 -16 -155 -8 -47 -15 -114 -15 -150 -1 -64 -4 -96 -34 -295 -37 -243 -18
+-274 132 -220 150 54 221 51 381 -16 205 -86 290 -124 392 -175 140 -70 197
+-88 369 -118 80 -14 183 -33 230 -41 245 -44 457 -2 765 150 241 119 478 382
+571 634 125 342 97 587 -99 860 -168 232 -272 336 -457 457 -25 16 -72 51
+-105 77 -33 27 -100 69 -149 94 -199 100 -534 333 -648 450 -76 77 -130 191
+-136 283 -15 244 426 311 820 125 79 -37 161 -76 183 -85 96 -43 331 -251 449
+-400 98 -123 170 -193 194 -188 40 8 82 190 82 353 0 57 7 136 15 176 15 77
+38 306 39 398 1 78 -12 83 -114 43 -160 -63 -361 -17 -625 143 -43 26 -113 58
+-156 72 -43 13 -109 39 -146 58 -171 86 -543 109 -788 49z M5178 9940 c-119
+-19 -123 -40 -38 -179 109 -178 290 -575 349 -766 74 -241 102 -342 116 -423
+18 -97 108 -396 162 -540 20 -51 41 -130 48 -175 12 -78 132 -479 235 -787 51
+-151 110 -346 110 -362 0 -19 64 -154 98 -208 86 -135 159 -166 372 -158 228
+9 268 45 360 328 26 80 64 186 84 236 19 50 43 125 52 165 9 41 34 133 56 204
+59 191 66 217 93 363 13 73 52 223 85 333 158 522 212 560 315 224 15 -49 49
+-158 76 -240 27 -83 62 -207 78 -275 15 -69 40 -159 55 -200 29 -79 56 -201
+56 -251 0 -17 20 -81 45 -142 25 -62 66 -190 90 -285 99 -388 218 -489 532
+-454 179 21 243 97 354 422 23 69 67 186 97 260 50 125 123 360 157 507 8 35
+33 119 55 188 23 69 54 182 69 253 16 70 44 168 64 217 19 50 39 113 42 140 4
+28 32 131 62 230 29 99 65 236 79 304 44 216 135 446 263 666 32 55 73 129 91
+165 18 36 50 89 71 119 40 55 51 104 25 114 -33 13 -482 19 -640 8 -226 -15
+-223 -12 -190 -196 24 -131 14 -288 -26 -425 -32 -112 -84 -349 -95 -440 -4
+-30 -24 -118 -45 -195 -39 -143 -58 -226 -105 -445 -65 -305 -107 -413 -162
+-418 -44 -4 -77 64 -118 248 -9 41 -43 158 -75 260 -56 179 -94 312 -140 490
+-12 47 -41 153 -65 235 -24 83 -53 198 -65 255 -25 120 -146 441 -190 504 -46
+68 -112 95 -251 103 -314 16 -399 -50 -504 -392 -72 -236 -93 -302 -138 -430
+-25 -71 -57 -186 -71 -255 -15 -69 -42 -174 -61 -235 -19 -60 -36 -121 -39
+-135 -38 -179 -149 -538 -191 -621 -52 -99 -136 49 -186 325 -11 61 -38 174
+-60 251 -21 76 -46 180 -55 230 -28 156 -75 373 -121 560 -54 222 -69 424 -39
+557 38 169 56 163 -509 163 -253 1 -505 4 -560 7 -55 4 -126 3 -157 -2z
+M18030 5019 c-30 -4 -136 -5 -235 -2 -130 4 -199 2 -250 -8 -39 -7 -135 -14
+-215 -15 -722 -10 -1154 -42 -1227 -89 -67 -44 -67 -91 0 -246 68 -156 95
+-263 107 -414 18 -238 28 -479 23 -541 -3 -37 2 -102 13 -165 13 -77 18 -164
+19 -335 1 -127 5 -236 9 -243 17 -27 39 -380 43 -701 5 -402 -8 -538 -72 -738
+-61 -191 -64 -189 302 -168 153 9 301 19 328 22 28 2 162 8 299 13 333 10 339
+17 248 246 -91 227 -140 461 -143 680 -5 347 -4 390 9 422 44 103 254 78 600
+-73 213 -93 240 -72 211 171 -7 61 -14 196 -15 300 -2 217 -19 399 -41 434
+-23 36 -74 24 -190 -46 -292 -177 -499 -219 -569 -113 -83 125 -136 892 -71
+1017 29 55 57 66 186 75 64 4 175 12 246 17 395 27 611 -52 887 -326 168 -167
+176 -163 144 78 -8 57 -17 165 -21 239 -11 240 -91 416 -214 469 -87 37 -291
+57 -411 40z M19546 5011 c-89 -19 -104 -79 -55 -219 82 -234 106 -516 73 -852
+-11 -113 -19 -282 -20 -435 -1 -137 -7 -356 -13 -485 -6 -129 -15 -381 -21
+-560 -16 -474 -34 -595 -119 -794 -79 -186 -50 -228 164 -233 72 -1 159 -7
+195 -12 36 -6 238 -13 450 -16 212 -3 428 -11 480 -16 97 -10 865 -14 891 -4
+8 2 61 11 119 19 275 39 311 91 355 511 14 138 29 279 34 314 20 159 -20 168
+-133 31 -95 -114 -232 -218 -391 -295 -201 -98 -345 -118 -672 -91 -105 9
+-221 16 -256 16 -146 0 -181 102 -142 413 9 76 12 155 9 225 -8 137 41 351 90
+391 51 43 223 -14 485 -160 208 -117 206 -119 215 196 3 110 10 304 15 430 12
+304 2 328 -112 266 -395 -216 -549 -254 -603 -149 -42 81 -60 367 -43 667 18
+322 19 324 294 329 173 4 334 -9 490 -39 160 -31 412 -217 581 -428 111 -139
+118 -132 122 112 5 337 -34 585 -106 660 -101 106 -209 132 -662 158 -96 5
+-245 14 -330 20 -340 21 -1322 42 -1384 30z M22905 4901 c-104 -18 -119 -74
+-65 -241 71 -220 79 -505 25 -960 -9 -74 -18 -223 -20 -330 -1 -107 -8 -225
+-14 -261 -6 -36 -15 -142 -21 -235 -5 -93 -12 -187 -15 -209 -3 -22 -12 -161
+-21 -310 -26 -459 -54 -615 -135 -778 -92 -182 -38 -256 189 -257 37 -1 87 -6
+112 -11 25 -6 146 -14 270 -19 247 -8 619 -34 745 -51 44 -6 217 -15 385 -20
+168 -4 316 -11 330 -14 33 -8 330 29 397 50 32 9 70 32 101 61 82 73 81 69
+159 685 26 199 9 205 -139 56 -293 -294 -582 -386 -1042 -333 -76 9 -177 16
+-223 16 -170 0 -200 42 -189 265 4 77 11 160 16 185 5 25 9 104 10 175 0 220
+64 404 148 430 42 13 320 -114 481 -220 147 -96 162 -81 172 174 4 97 17 271
+28 386 42 422 41 423 -201 305 -162 -80 -336 -140 -403 -140 -116 0 -130 48
+-129 425 3 626 5 630 344 622 493 -11 706 -112 998 -472 135 -167 142 -162
+150 94 20 713 -24 762 -743 826 -99 9 -209 20 -245 25 -36 5 -96 10 -134 10
+-38 0 -112 6 -165 14 -53 8 -190 17 -306 20 -115 3 -268 12 -340 21 -143 17
+-447 26 -510 16z M6305 4879 c-126 -20 -223 -41 -300 -65 -77 -25 -359 -168
+-400 -204 -11 -9 -42 -32 -70 -50 -128 -86 -334 -282 -397 -378 -276 -419
+-342 -601 -379 -1038 -52 -621 223 -1273 671 -1594 52 -37 118 -86 145 -109
+106 -88 416 -212 740 -296 214 -56 619 -19 845 77 522 222 658 407 451 615
+-90 92 -131 88 -371 -34 -218 -111 -299 -140 -436 -155 -288 -31 -551 76 -769
+313 -139 151 -271 610 -244 844 5 44 13 141 19 215 13 185 25 235 142 600 48
+152 111 247 322 494 130 151 310 226 543 226 195 0 530 -193 704 -406 98 -118
+314 -344 329 -344 42 0 75 170 64 325 -6 77 2 157 42 410 42 273 26 308 -111
+239 -139 -68 -255 -35 -614 176 -140 82 -221 111 -351 127 -146 17 -496 25
+-575 12z M14665 4790 c-27 -5 -135 -9 -240 -9 -104 -1 -221 -6 -260 -12 -38
+-6 -151 -14 -250 -19 -99 -5 -216 -13 -260 -19 -44 -6 -170 -10 -280 -10 -110
+1 -220 -1 -245 -5 -25 -3 -103 -13 -175 -22 -286 -35 -334 -80 -260 -246 108
+-241 129 -322 145 -549 5 -85 13 -176 16 -204 3 -27 9 -142 14 -255 6 -113 14
+-230 19 -260 5 -30 13 -136 16 -235 3 -99 10 -209 16 -245 21 -151 40 -418 49
+-707 13 -385 0 -512 -79 -776 -35 -120 -1 -148 152 -128 51 6 186 16 301 22
+115 5 213 12 219 16 5 3 120 9 256 13 357 12 361 17 252 276 -31 74 -61 167
+-75 235 -14 63 -35 157 -46 209 -12 54 -20 114 -17 140 2 25 -2 117 -10 205
+-27 307 4 365 189 351 94 -7 305 -69 404 -119 146 -73 214 -76 230 -11 8 30
+-3 217 -16 302 -6 31 -10 120 -10 197 0 77 -7 194 -15 260 -8 65 -15 123 -15
+127 0 16 -41 48 -61 48 -12 0 -75 -31 -139 -70 -296 -177 -473 -222 -549 -142
+-80 84 -131 407 -133 838 -1 231 23 262 205 275 62 4 184 13 272 19 405 31
+625 -54 914 -354 113 -118 129 -104 101 90 -10 71 -21 183 -25 249 -7 136 -31
+238 -76 328 -72 143 -119 172 -318 193 -139 15 -144 15 -216 4z M10215 4580
+c-538 -23 -1045 -285 -1356 -700 -259 -346 -354 -564 -394 -907 -8 -72 -20
+-144 -26 -160 -18 -47 -10 -220 21 -458 19 -144 221 -626 326 -776 291 -417
+840 -723 1359 -757 298 -19 696 49 890 153 232 123 286 154 323 186 22 19 91
+77 153 130 185 157 249 238 418 534 148 258 242 730 201 1013 -5 37 -14 103
+-20 147 -72 519 -362 995 -767 1261 -208 136 -479 258 -644 288 -41 8 -110 23
+-153 35 -44 12 -100 20 -125 19 -25 -1 -118 -4 -206 -8z m265 -567 c292 -135
+530 -565 586 -1063 26 -232 28 -270 10 -354 -9 -43 -16 -119 -17 -170 0 -58
+-7 -117 -20 -161 -10 -38 -26 -101 -34 -139 -71 -316 -274 -618 -482 -717
+-392 -187 -710 40 -930 666 -131 371 -119 905 30 1340 67 196 92 244 199 387
+162 215 449 307 658 211z"/>
+</g></symbol>
+    <g id="f1-top" transform="translate(0,500) scale(.1,-.1)"><path d="M6945 4935 c-19 -9 -70 -14 -145 -15 -63 0 -151 -7 -195 -15 -44 -8 -100 -15 -125 -15 -24 0 -78 -6 -120 -14 -112 -22 -237 -36 -314 -36 -47 0 -82 -6 -110 -19 -23 -11 -95 -31 -161 -46 -66 -15 -139 -34 -163 -41 -23 -8 -55 -14 -70 -14 -24 0 -52 -9 -182 -60 -25 -10 -76 -28 -115 -41 -38 -12 -101 -37 -140 -55 -38 -18 -101 -44 -140 -59 -38 -14 -76 -32 -85 -39 -8 -7 -40 -25 -70 -41 -30 -15 -66 -36 -79 -46 -13 -11 -29 -19 -36 -19 -6 0 -37 -18 -69 -40 -31 -22 -60 -40 -64 -40 -29 -1 -288 -187 -480 -345 -74 -60 -147 -120 -164 -131 -16 -12 -35 -28 -41 -37 -7 -8 -32 -30 -57 -49 -25 -18 -81 -68 -125 -109 -44 -42 -113 -105 -154 -140 -87 -76 -29 -18 -1261 -1240 -536 -531 -1024 -1013 -1085 -1070 -60 -57 -124 -120 -141 -139 -22 -26 -428 -433 -516 -518 -248 -238 -488 -480 -488 -491 0 -8 467 -11 1533 -11 l1532 0 210 207 c116 113 222 213 236 222 14 9 55 49 90 88 35 40 67 73 72 73 4 0 36 28 70 63 194 195 395 385 414 391 12 4 25 15 28 25 6 21 251 265 317 317 26 20 50 44 53 54 3 10 18 26 33 36 14 9 61 51 103 93 88 88 326 313 414 392 33 30 102 95 153 144 52 50 102 95 112 100 10 6 50 39 90 74 39 36 93 77 120 93 27 15 53 34 57 42 4 7 22 20 38 29 17 8 39 25 50 37 11 12 45 35 76 51 31 15 78 42 104 60 26 17 82 44 125 60 43 15 91 34 108 43 60 31 152 59 397 121 150 38 374 64 570 64 143 1 175 4 200 19 28 16 250 17 4090 20 l4060 2 989 989 c827 827 987 992 984 1012 l-3 24 -5250 2 c-4434 1 -5255 -1 -5280 -12z"/></g>
+    <g id="f1-mid" transform="translate(0,500) scale(.1,-.1)"><path d="M7684 2560 c-314 -4 -394 -8 -408 -19 -11 -9 -60 -16 -144 -22 -70 -4 -138 -10 -152 -13 -14 -4 -68 -11 -120 -16 -113 -11 -161 -19 -176 -31 -6 -5 -37 -13 -70 -18 -32 -5 -72 -13 -89 -19 -16 -6 -52 -17 -80 -26 -98 -29 -142 -47 -275 -113 -178 -89 -256 -139 -418 -272 -42 -35 -95 -75 -117 -89 -22 -14 -465 -451 -985 -971 l-945 -946 1422 -3 1423 -2 42 47 c74 83 271 273 282 273 6 0 28 18 51 39 50 49 213 161 234 161 9 0 31 9 50 21 45 27 147 59 191 59 19 0 49 8 65 17 76 42 687 52 3715 58 1125 3 2054 5 2064 5 12 0 353 333 897 877 483 482 887 882 898 887 42 23 88 114 59 117 -44 4 -7098 3 -7414 -1z"/></g>
+    <g id="f1-one" transform="translate(0,500) scale(.1,-.1)"><path d="M17986 4806 c-190 -195 -219 -224 -456 -461 -113 -113 -212 -212 -220 -221 -8 -9 -91 -91 -185 -183 -93 -92 -181 -180 -195 -194 -19 -21 -1771 -1774 -1820 -1822 -183 -177 -1910 -1910 -1910 -1916 0 -5 690 -9 1640 -9 1434 0 1640 2 1640 15 0 8 9 19 20 25 11 6 39 31 62 56 24 24 85 86 136 137 51 51 103 102 115 114 99 102 346 349 393 395 95 91 135 131 163 162 14 16 89 91 166 167 77 75 149 146 160 158 11 11 46 46 78 78 32 32 86 86 120 120 34 35 98 99 142 143 44 45 116 117 160 161 44 45 148 148 230 230 83 81 155 153 160 160 17 20 118 121 186 185 35 33 101 99 145 145 114 117 151 154 214 213 30 28 93 91 140 140 73 76 165 168 410 408 25 24 87 86 138 138 99 102 108 110 192 192 30 29 84 84 120 121 55 58 343 347 405 405 11 11 70 71 132 133 62 63 127 128 145 144 18 17 59 58 90 90 73 76 70 73 212 213 246 242 261 260 241 291 -4 8 -496 11 -1617 11 l-1611 0 -141 -144z"/></g>
+    <symbol id="f1" viewBox="0 0 2140 500"><use href="#f1-top"/><use href="#f1-mid"/><use href="#f1-one"/></symbol>
+  </defs>
+</svg>
+
+<!-- ===================================================================== INTRO -->
+<div class="intro" aria-hidden="true">
+  <div class="bg"></div>
+  <div class="halo"></div>
+  <div class="stage-mark">
+    <svg class="mark-glow" viewBox="0 0 2140 500" fill="#ff1e0f" aria-hidden="true"><use href="#f1"/></svg>
+    <svg class="mark-glow hot" viewBox="0 0 2140 500" fill="#ff3b22" aria-hidden="true"><use href="#f1"/></svg>
+    <svg class="mark-main" viewBox="0 0 2140 500" fill="#e10600">
+      <!-- ghosts trail each piece in along its line of travel -->
+      <g class="pc ghost" style="--dx:-2600;--dy:0;--dl:0;--lag:2"><use href="#f1-top"/></g>
+      <g class="pc ghost" style="--dx:-2600;--dy:0;--dl:0;--lag:1"><use href="#f1-top"/></g>
+      <g class="pc" style="--dx:-2600;--dy:0;--dl:0"><use href="#f1-top"/></g>
+
+      <g class="pc ghost" style="--dx:-2200;--dy:0;--dl:140;--lag:2"><use href="#f1-mid"/></g>
+      <g class="pc ghost" style="--dx:-2200;--dy:0;--dl:140;--lag:1"><use href="#f1-mid"/></g>
+      <g class="pc" style="--dx:-2200;--dy:0;--dl:140"><use href="#f1-mid"/></g>
+
+      <g class="pc ghost" style="--dx:1300;--dy:-1300;--dl:280;--lag:2"><use href="#f1-one"/></g>
+      <g class="pc ghost" style="--dx:1300;--dy:-1300;--dl:280;--lag:1"><use href="#f1-one"/></g>
+      <g class="pc" style="--dx:1300;--dy:-1300;--dl:280"><use href="#f1-one"/></g>
+    </svg>
+  </div>
+  <div class="wipe"><i class="w1"></i><i class="w2"></i><i class="w3"></i><i class="w4"></i></div>
+  <button class="skip" type="button">Skip intro</button>
+</div>
+
+<!-- ===================================================================== COVER -->
+<header class="cover" id="top">
+  <canvas class="speed" aria-hidden="true"></canvas>
+  <div class="glow" aria-hidden="true"></div>
+  <svg class="ghost1" viewBox="1300 0 840 500" aria-hidden="true" fill="currentColor"><use href="#f1-one"/></svg>
+
+  <div class="cv-top">
+    <span class="cv-tag cv-a" style="--d:900"><svg class="f1" viewBox="0 0 2140 500" fill="currentColor" aria-hidden="true"><use href="#f1"/></svg>Formal quote · 2026</span>
+    <span class="cv-pill cv-a" style="--d:1000">Prepared for the Champions Club</span>
+  </div>
+
+  <div class="cv-mid">
+    <svg class="cv-wordmark cv-rise" viewBox="0 0 3090 1590" role="img" aria-label="Twin Fins Coffee" fill="currentColor"><use href="#tf-word"/></svg>
+    <div class="cv-x cv-a" style="--d:600"><b>×</b><svg class="f1" viewBox="0 0 2140 500" fill="currentColor" role="img" aria-label="Formula 1"><use href="#f1"/></svg></div>
+    <h1 class="display cv-title"><span class="ln"><span style="--i:0">F1 Miami</span></span><span class="ln"><span style="--i:1">Coffee <em>Activation</em></span></span></h1>
+    <p class="cv-sub cv-a" style="--d:1300">A handcrafted specialty coffee experience for the Champions Club, built to the same standard as everything else on race weekend.</p>
+  </div>
+
+  <div class="cv-foot">
+    <div class="cv-meta cv-a" style="--d:1500"><b>May 1–3, 2026</b><br>Miami, Florida</div>
+    <div class="cv-meta r cv-a" style="--d:1600">Twin Fins Coffee<br><b>Atlanta, GA</b></div>
+  </div>
+  <div class="cv-cue cv-a" style="--d:2200" aria-hidden="true">Scroll<i></i></div>
+</header>
+
+<!-- ===================================================================== MAST -->
+<nav class="mast" aria-label="Proposal sections">
+  <div class="wrap">
+    <a class="mast-l" href="#top">
+      <svg class="tf" viewBox="0 0 1440 1616" aria-hidden="true" fill="currentColor"><use href="#tf-mono"/></svg>
+      <svg class="fm f1" viewBox="0 0 2140 500" aria-hidden="true" fill="currentColor"><use href="#f1"/></svg>
+      <span class="mast-t">F1 Miami 2026</span>
+    </a>
+    <div class="mast-nav">
+      <a href="#overview">Overview</a><a href="#why">Why</a><a href="#vision">Vision</a><a href="#weekend">Timeline</a><a href="#value">Value</a><a href="#quote">Quote</a>
+    </div>
+    <a class="stamp" href="#quote">$3,000 flat</a>
+  </div>
+  <div class="progress" aria-hidden="true"></div>
+</nav>
+
+<main>
+<!-- ===================================================================== OVERVIEW -->
+<section id="overview">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="kick" data-r><span class="eyebrow">Project quote · Champions Club</span></div>
+        <h2 class="display words" data-words style="font-size:var(--step-5)">Precision, <em>poured.</em></h2>
+        <p class="lede hero-lede" data-r style="--d:250">An exclusive coffee activation inside the F1 Miami Champions Club. Every drink is made to order by trained baristas and served from a cart dressed in Champions Club livery, and it's included in the hospitality lounge for every guest.</p>
+      </div>
+      <aside class="chit" data-r style="--d:200" aria-label="Quote summary">
+        <div class="chit-total"><span class="k">Flat rate</span><span class="v"><span class="odo" data-odo="$3,000">$3,000</span></span></div>
+        <dl>
+          <div class="chit-row"><dt>Project</dt><dd>F1 Miami Coffee Activation</dd></div>
+          <div class="chit-row"><dt>Venue</dt><dd>Champions Club</dd></div>
+          <div class="chit-row"><dt>Serving</dt><dd>Fri–Sun · May 1–3, 2026</dd></div>
+          <div class="chit-row"><dt>Guests</dt><dd>Complimentary drink each</dd></div>
+        </dl>
+      </aside>
+    </div>
+    <div class="ribbon" data-r style="--d:100">
+      <div class="stat"><span class="v"><span data-count="3">3</span></span><span class="l">Race days served</span></div>
+      <div class="stat"><span class="v"><span data-count="24">24</span>h+</span><span class="l">Hours behind the bar</span></div>
+      <div class="stat"><span class="v"><span data-count="1000" data-pre="500–">500–1,000</span></span><span class="l">Guests (estimated)</span></div>
+      <div class="stat"><span class="v"><span data-count="1">1</span></span><span class="l">Cart built for the club</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="ticker" aria-hidden="true"><div class="tk-track" data-ticker="-1">
+  <span>Precision, poured <svg viewBox="0 0 2140 500" fill="currentColor"><use href="#f1"/></svg> Champions Club <svg viewBox="0 0 2140 500" fill="currentColor"><use href="#f1"/></svg> F1 Miami 2026 <svg viewBox="0 0 2140 500" fill="currentColor"><use href="#f1"/></svg> Twin Fins Coffee <svg viewBox="0 0 2140 500" fill="currentColor"><use href="#f1"/></svg></span>
+  <span>Precision, poured <svg viewBox="0 0 2140 500" fill="currentColor"><use href="#f1"/></svg> Champions Club <svg viewBox="0 0 2140 500" fill="currentColor"><use href="#f1"/></svg> F1 Miami 2026 <svg viewBox="0 0 2140 500" fill="currentColor"><use href="#f1"/></svg> Twin Fins Coffee <svg viewBox="0 0 2140 500" fill="currentColor"><use href="#f1"/></svg></span>
+</div></div>
+
+<!-- ===================================================================== WHY -->
+<section id="why">
+  <span class="num-bg" aria-hidden="true" data-par="-0.1">01</span>
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow" data-r>Why it belongs in the Champions Club</span>
+        <h2 class="display words" data-words>Built to a <em>Formula 1</em> standard.</h2>
+      </div>
+      <p class="lede" data-r style="--d:200">Champions Club guests chose the premium way to experience race weekend. Everything around them should reflect that, down to what's in their cup.</p>
+    </div>
+    <div class="pillars">
+      <article class="pillar" data-r style="--d:0"><span class="n">01</span>
+        <h3>Details that match the ticket</h3>
+        <p>Made-to-order espresso drinks from trained baristas, with the same care guests expect from the rest of their hospitality.</p></article>
+      <article class="pillar" data-r style="--d:120"><span class="n">02</span>
+        <h3>A moment worth sharing</h3>
+        <p>Champions Club livery on the cart and the F1 mark on the foam. Guests photograph it, and the club's brand goes with them.</p></article>
+      <article class="pillar" data-r style="--d:240"><span class="n">03</span>
+        <h3>Turnkey, start to finish</h3>
+        <p>Planning, load in, staffing, consumables and load out are all ours. Your team hosts the guests, and we run the bar.</p></article>
+      <article class="pillar" data-r style="--d:360"><span class="n">04</span>
+        <h3>One number, agreed in advance</h3>
+        <p>A flat rate set before the weekend, so no per-drink meter is running while guests enjoy themselves.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== SCOPE -->
+<section id="scope" class="carbon">
+  <span class="num-bg" aria-hidden="true" data-par="-0.1">02</span>
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow" data-r>Scope of work</span>
+        <h2 class="display words" data-words>Four things we <em>own</em>, start to finish.</h2>
+      </div>
+      <p class="lede" data-r style="--d:200">From the look of the cart to the last cup on Sunday, our crew runs the whole activation to the standard your guests expect from the paddock.</p>
+    </div>
+    <div class="scope" data-r style="--d:100">
+      <article class="tile"><i class="spot"></i><span class="n">01</span><h3>Theme &amp; branding curation</h3>
+        <p>A cart dressed in Champions Club livery, designed to sit inside the lounge's look instead of beside it.</p></article>
+      <article class="tile"><i class="spot"></i><span class="n">02</span><h3>Exclusive Formula&nbsp;1 menu</h3>
+        <p>A hospitality menu built for race weekend, with Formula 1 details worked right into the coffee.</p></article>
+      <article class="tile"><i class="spot"></i><span class="n">03</span><h3>Top-quality ingredients</h3>
+        <p>Sourcing the best coffee, milk and products, planned out ahead of the event so nothing runs short mid-session.</p></article>
+      <article class="tile"><i class="spot"></i><span class="n">04</span><h3>Exceptional service</h3>
+        <p>Warm, fast, professional hospitality for every guest, and for the staff working the weekend too.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== VISION -->
+<section id="vision">
+  <span class="num-bg" aria-hidden="true" data-par="-0.1">03</span>
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow" data-r>Our vision · Custom branding</span>
+        <h2 class="display words" data-words>Same great cart. <em>Race-day</em> livery.</h2>
+      </div>
+      <p class="lede" data-r style="--d:200">The cart gets a custom wrap for the space it's serving. Champions Club is the livery we've quoted, and the others show how far the idea can go.</p>
+    </div>
+
+    <div class="garage">
+      <figure class="bay now" data-r="left">
+        <div class="float"><img src="/f1miami/assets/cart-twinfins.webp" alt="The current Twin Fins Coffee cart: white with the Twin Fins wordmark and a walnut top" width="675" height="900" loading="lazy"></div>
+        <div class="shadow"></div>
+        <figcaption>Current cart</figcaption>
+      </figure>
+      <div class="arrow" data-r style="--d:300" aria-hidden="true">
+        <svg viewBox="0 0 120 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path class="dash" d="M2 10 H108"/><path d="M102 4 L110 10 L102 16" stroke="#e10600"/></svg>
+        <span>Custom wrap</span>
+      </div>
+      <figure class="bay custom" data-r="right" style="--d:150">
+        <div class="float">
+          <div class="stage" id="stage">
+            <img id="liveryImg" src="/f1miami/assets/cart-champions-club.webp" alt="Coffee cart wrapped in F1 Experiences Champions Club branding" width="600" height="900">
+          </div>
+        </div>
+        <div class="shadow"></div>
+        <figcaption id="liveryCap">Champions Club</figcaption>
+      </figure>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="Cart livery">
+      <button class="tab" role="tab" aria-selected="true" data-v="0">Champions Club<i class="t"></i></button>
+      <button class="tab" role="tab" aria-selected="false" data-v="1">Paddock Club<i class="t"></i></button>
+      <button class="tab" role="tab" aria-selected="false" data-v="2">Formula 1<i class="t"></i></button>
+      <button class="tab" role="tab" aria-selected="false" data-v="3">Team · McLaren<i class="t"></i></button>
+    </div>
+    <p class="variant-note" id="liveryNote" aria-live="polite"></p>
+
+    <div class="details" data-r>
+      <article class="detail">
+        <div class="ph"><img src="/f1miami/assets/latte-f1.webp" alt="Latte with the Formula 1 logo dusted onto the foam" width="800" height="800" loading="lazy"></div>
+        <div class="tx">
+          <span class="eyebrow">In the cup</span>
+          <h3>Formula 1 details in every drink</h3>
+          <p>The race shows up in the drink itself: the F1 mark stenciled onto the foam, with every cup made to order.</p>
+        </div>
+      </article>
+      <article class="detail">
+        <div class="ph key"><img src="/f1miami/assets/keyring-paddock-club.webp" alt="Green Paddock Club Miami keyring" width="450" height="600" loading="lazy"></div>
+        <div class="tx">
+          <span class="eyebrow">Take-home</span>
+          <h3>Free gifts with drinks</h3>
+          <p>Branded keepsakes, like a Paddock Club keyring, handed out with drinks to make the moment memorable.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<div class="ticker alt" aria-hidden="true"><div class="tk-track" data-ticker="1">
+  <span>Friday 11:30 – 18:40 <svg viewBox="0 0 2140 500" fill="#e10600"><use href="#f1"/></svg> Saturday 10:00 – 18:30 <svg viewBox="0 0 2140 500" fill="#e10600"><use href="#f1"/></svg> Sunday 10:00 – 18:30 <svg viewBox="0 0 2140 500" fill="#e10600"><use href="#f1"/></svg></span>
+  <span>Friday 11:30 – 18:40 <svg viewBox="0 0 2140 500" fill="#e10600"><use href="#f1"/></svg> Saturday 10:00 – 18:30 <svg viewBox="0 0 2140 500" fill="#e10600"><use href="#f1"/></svg> Sunday 10:00 – 18:30 <svg viewBox="0 0 2140 500" fill="#e10600"><use href="#f1"/></svg></span>
+</div></div>
+
+<!-- ===================================================================== WEEKEND -->
+<section id="weekend" class="carbon">
+  <span class="num-bg" aria-hidden="true" data-par="-0.1">04</span>
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow" data-r>Timeline · May 1–3</span>
+        <h2 class="display words" data-words>Three days. <em>Every session</em> covered.</h2>
+      </div>
+      <p class="lede" data-r style="--d:200">We serve from the first guest to the checkered flag each day. Setup happens before the race weekend and breakdown after it, so neither eats into hospitality hours.</p>
+    </div>
+
+    <div class="track" data-r>
+      <div class="total-h">
+        <span class="eyebrow">Serving hours</span>
+        <span class="big"><span data-count="24">24</span>h <span data-count="10">10</span>m<small>on the bar</small></span>
+      </div>
+      <div class="hours">
+        <div></div>
+        <div class="axis" aria-hidden="true">
+          <span style="left:0">10:00</span><span style="left:11.11%">11:00</span><span style="left:22.22%">12:00</span><span style="left:33.33%">13:00</span><span style="left:44.44%">14:00</span><span style="left:55.55%">15:00</span><span style="left:66.66%">16:00</span><span style="left:77.77%">17:00</span><span style="left:88.88%">18:00</span><span style="left:100%">19:00</span>
+        </div>
+        <div class="day"><div class="day-l"><b>Friday</b><small>May 1</small></div>
+          <div class="lane"><div class="run" style="--s:16.67%;--w:79.63%;--d:200"><span class="tt">11:30 – 18:40</span></div></div></div>
+        <div class="day"><div class="day-l"><b>Saturday</b><small>May 2</small></div>
+          <div class="lane"><div class="run" style="--s:0%;--w:94.44%;--d:450"><span class="tt">10:00 – 18:30</span></div></div></div>
+        <div class="day"><div class="day-l"><b>Sunday</b><small>May 3 · Race day</small></div>
+          <div class="lane"><div class="run" style="--s:0%;--w:94.44%;--d:700"><span class="tt">10:00 – 18:30</span></div></div></div>
+      </div>
+      <div class="pit">
+        <div><i>IN</i><span><b>Load in</b> before the race weekend, set up and ready before doors open</span></div>
+        <div><i>PREP</i><span><b>Pre-event</b> preparation and inventory planning</span></div>
+        <div><i>OUT</i><span><b>Load out</b> after the weekend, leaving the space clean</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== VALUE -->
+<section id="value">
+  <span class="num-bg" aria-hidden="true" data-par="-0.1">05</span>
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow" data-r>The math</span>
+        <h2 class="display words" data-words>An investment that <em>adds up.</em></h2>
+      </div>
+      <p class="lede" data-r style="--d:200">One flat rate covers the full three-day activation. Set your expected guest count to see how it compares with per-drink pricing.</p>
+    </div>
+
+    <div class="calc" data-r>
+      <div class="calc-in">
+        <label class="calc-l" for="guests"><span class="k">Expected Champions Club guests</span>
+          <output class="calc-g" id="guestsOut" for="guests">750</output></label>
+        <input type="range" id="guests" min="300" max="1500" step="50" value="750" aria-describedby="calcNote">
+        <div class="calc-scale" aria-hidden="true"><span>300</span><span>600</span><span>900</span><span>1,200</span><span>1,500</span></div>
+
+        <div class="calc-out">
+          <div class="co hl"><span class="k">Flat rate, per guest</span><b id="perGuest">$4.00</b><small>Barista-made drink, branded cart, full service</small></div>
+          <div class="co"><span class="k">Per-drink pricing at $5</span><b id="perDrink">$3,750</b><small>One drink per guest, billed by the cup</small></div>
+          <div class="co"><span class="k" id="diffLabel">Flat rate saves</span><b id="diff">$750</b><small id="diffSub">Compared with per-drink pricing</small></div>
+        </div>
+
+        <div class="bars" aria-hidden="true">
+          <div class="bar-row"><span>Flat rate</span><div class="bar-track"><i class="bar-fill flat" id="barFlat"></i></div><em>$3,000</em></div>
+          <div class="bar-row"><span>Per drink</span><div class="bar-track"><i class="bar-fill drink" id="barDrink"></i></div><em id="barDrinkV">$3,750</em></div>
+        </div>
+        <p class="calc-note" id="calcNote">The two models break even at <b>600 guests</b>. Beyond that, every additional guest is covered at no added cost, with the same made-to-order service.</p>
+      </div>
+      <div class="facts">
+        <div class="fact"><b><span data-count="24">24</span>h <span data-count="10">10</span>m</b><span>Fully staffed service across Friday, Saturday and Sunday</span></div>
+        <div class="fact"><b>All in</b><span>Branding, consumables, labor, load in and load out, with nothing billed separately</span></div>
+        <div class="fact"><b>Fixed</b><span>The number is agreed before the weekend and doesn't move with attendance</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== QUOTE -->
+<section id="quote">
+  <span class="num-bg" aria-hidden="true" data-par="-0.1">06</span>
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow" data-r>Formal quote</span>
+        <h2 class="display words" data-words>One flat rate. <em>Everything</em> in.</h2>
+      </div>
+    </div>
+    <div class="quote-grid">
+      <div class="quote" data-r="scale" id="quoteCard">
+        <div class="quote-in"><i class="spot"></i>
+          <div class="q-top">
+            <span class="eyebrow">Champions Club · F1 Miami 2026</span>
+            <svg class="f1" viewBox="0 0 2140 500" fill="currentColor" role="img" aria-label="Formula 1"><use href="#f1"/></svg>
+          </div>
+          <div class="q-price"><span class="cur">$</span><span class="odo" data-odo="3,000">3,000</span></div>
+          <p class="q-sub">The complete Champions Club activation for all three days, agreed in advance with no per-drink billing and no added line items.</p>
+          <ul class="q-list">
+            <li style="--i:0"><span class="chk"><svg viewBox="0 0 14 14" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M2 7.5l3 3 7-7"/></svg></span>Pre-event preparation &amp; inventory planning</li>
+            <li style="--i:1"><span class="chk"><svg viewBox="0 0 14 14" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M2 7.5l3 3 7-7"/></svg></span>Load in &amp; load out</li>
+            <li style="--i:2"><span class="chk"><svg viewBox="0 0 14 14" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M2 7.5l3 3 7-7"/></svg></span>Materials &amp; consumables</li>
+            <li style="--i:3"><span class="chk"><svg viewBox="0 0 14 14" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M2 7.5l3 3 7-7"/></svg></span>Branding materials</li>
+            <li style="--i:4"><span class="chk"><svg viewBox="0 0 14 14" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M2 7.5l3 3 7-7"/></svg></span>Labor</li>
+            <li style="--i:5"><span class="chk"><svg viewBox="0 0 14 14" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M2 7.5l3 3 7-7"/></svg></span>Complimentary drink per guest</li>
+          </ul>
+          <div class="q-cta">
+            <a class="btn red" data-mag href="mailto:twinfinscoffee@gmail.com?subject=F1%20Miami%202026%20%E2%80%94%20Champions%20Club%20quote">Accept the quote
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></a>
+            <a class="btn ghost" data-mag href="tel:+14048052503">(404) 805-2503</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="opts">
+        <div class="opt" data-r="right" style="--d:200">
+          <span class="tag">Option · Expand</span>
+          <h3>Champions Club + more hospitality areas</h3>
+          <div class="amt">~$4,500<small>estimated</small></div>
+          <p>Extend the activation into other hospitality lounges. Covers all materials and labor, with complimentary coffee for an estimated 500–1,000 guests.</p>
+        </div>
+        <div class="opt" data-r="right" style="--d:340">
+          <span class="tag">Option · Grand Stand</span>
+          <h3>Grand Prix &amp; Grand Stand admission areas</h3>
+          <div class="amt">$5<small>per drink</small></div>
+          <p>A flat per-drink rate, capped at a maximum drink count set with your coordinator beforehand.</p>
+          <div class="or">or</div>
+          <p>We sell coffee to General Admission guests and pay a commission or vendor fee instead.</p>
+        </div>
+        <p class="opts-note" data-r style="--d:450">Both options come with the same standard of service and cover all expenses, labor and materials. We're glad to scope either one alongside the Champions Club quote.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== CLOSE -->
+<section class="close carbon">
+  <div class="inner wrap">
+    <span class="eyebrow" data-r>Conclusion</span>
+    <p class="scrub" data-scrub>We are honored to be part of the <b>Champions Club experience</b> and contribute to an exceptional hospitality offering during <b>Formula 1 Miami 2026.</b></p>
+    <p class="note" data-r>We believe this unique activation will elevate the hospitality experience while reinforcing the club's focus on luxury, personalization, and world-class service.</p>
+    <div class="carts" aria-hidden="true">
+      <img src="/f1miami/assets/cart-formula1.webp" alt="" data-r="left" loading="lazy">
+      <img src="/f1miami/assets/cart-champions-club.webp" alt="" data-r style="--d:150" loading="lazy">
+      <img src="/f1miami/assets/cart-mclaren.webp" alt="" data-r="right" style="--d:300" loading="lazy">
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <svg class="big-mark" viewBox="0 0 2140 500" fill="currentColor" aria-hidden="true" data-r><use href="#f1"/></svg>
+  <div class="wrap">
+    <div class="foot-mark">
+      <svg viewBox="0 0 1440 1616" aria-hidden="true" fill="currentColor"><use href="#tf-mono"/></svg>
+      <div class="sig">Twin Fins Coffee<small>Specialty coffee · Atlanta, GA</small></div>
+    </div>
+    <div class="contact">
+      <a href="https://www.twinfinscoffee.com">www.twinfinscoffee.com</a>
+      <a href="tel:+14048052503">(404) 805-2503</a>
+      <a href="mailto:twinfinscoffee@gmail.com">twinfinscoffee@gmail.com</a>
+    </div>
+  </div>
+  <div class="wrap"><p class="fine">Formal quote prepared by Twin Fins Coffee for the Champions Club, Formula 1 Miami 2026. Formula 1, F1, Paddock Club, F1 Experiences and McLaren marks belong to their respective owners and are shown as concept mockups only.</p></div>
+</footer>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const lerp = (a, b, t) => a + (b - a) * t;
+
+  /* ---------- text splitting ---------- */
+  $$('[data-words]').forEach(el => {
+    let i = 0;
+    const walk = node => [...node.childNodes].forEach(n => {
+      if (n.nodeType === 3) {
+        const frag = document.createDocumentFragment();
+        n.textContent.split(/(\s+)/).forEach(part => {
+          if (!part) return;
+          if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(' ')); return; }
+          const w = document.createElement('span'); w.className = 'w';
+          const inner = document.createElement('span'); inner.style.setProperty('--i', i++); inner.textContent = part;
+          w.appendChild(inner); frag.appendChild(w);
+        });
+        n.replaceWith(frag);
+      } else if (n.nodeType === 1) walk(n);
+    });
+    walk(el);
+  });
+  $$('[data-scrub]').forEach(el => {
+    const out = [];
+    el.childNodes.forEach(n => n.textContent.split(/(\s+)/).forEach(p => {
+      if (p.trim()) out.push(`<span class="${n.nodeType === 1 ? 'hl' : ''}">${p}</span>`); else if (p) out.push(' ');
+    }));
+    el.innerHTML = out.join('');
+  });
+
+  /* ---------- odometers + count-ups ---------- */
+  $$('[data-odo]').forEach(el => {
+    const val = el.dataset.odo; el.setAttribute('aria-label', val); el.textContent = ''; let k = 0;
+    [...val].forEach(c => {
+      if (/\d/.test(c)) {
+        const reel = document.createElement('span'); reel.className = 'reel'; reel.setAttribute('aria-hidden', 'true');
+        const strip = document.createElement('span'); strip.className = 'strip'; strip.style.setProperty('--i', k++);
+        for (let r = 0; r < 3; r++) for (let d = 0; d < 10; d++) { const s = document.createElement('span'); s.textContent = d; strip.appendChild(s); }
+        strip.dataset.target = 20 + +c; reel.appendChild(strip); el.appendChild(reel);
+      } else { const s = document.createElement('span'); s.textContent = c; s.setAttribute('aria-hidden', 'true'); el.appendChild(s); }
+    });
+  });
+  const spinOdo = el => $$('.strip', el).forEach(s => s.style.transform = `translateY(-${s.dataset.target * 1.15}em)`);
+  const countUp = el => {
+    const end = +el.dataset.count, pre = el.dataset.pre || '', dur = 2200, t0 = performance.now();
+    const fmt = n => pre + n.toLocaleString('en-US');
+    if (reduce) { el.textContent = fmt(end); return; }
+    const tick = t => { const p = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - p, 5); el.textContent = fmt(Math.round(end * e)); if (p < 1) requestAnimationFrame(tick); };
+    requestAnimationFrame(tick);
+  };
+
+  /* ---------- reveals ---------- */
+  const io = new IntersectionObserver(entries => entries.forEach(en => {
+    if (!en.isIntersecting) return;
+    const el = en.target; el.classList.add('in'); io.unobserve(el);
+    $$('[data-count]', el).forEach(countUp); $$('[data-odo]', el).forEach(spinOdo);
+    if (el.classList.contains('ribbon')) $$('.stat', el).forEach((s, i) => setTimeout(() => s.classList.add('in'), i * 120));
+  }), { threshold: .15, rootMargin: '0px 0px -8% 0px' });
+  $$('[data-r],[data-words]').forEach(el => io.observe(el));
+
+  /* ---------- intro ---------- */
+  const cover = $('.cover'), intro = $('.intro');
+  const timers = []; const at = (ms, fn) => timers.push(setTimeout(fn, ms));
+  let done = false;
+  const unlock = () => document.documentElement.style.overflow = '';
+  const finish = () => { if (done) return; done = true; timers.forEach(clearTimeout); intro.classList.add('gone'); cover.classList.add('go'); unlock(); };
+  if (reduce) finish();
+  else if (location.search.includes('still')) { window.__intro = intro; } // design review: stage the intro by hand
+  else {
+    document.documentElement.style.overflow = 'hidden';
+    // Don't start the clock until fonts and the page have loaded and a frame has painted,
+    // otherwise the fly-in plays out behind a blank, still-loading screen.
+    let started = false;
+    const run = () => {
+      if (started || done) return; started = true;
+      const out = 650;
+      at(out, () => intro.classList.add('out'));                    // pieces fly in
+      at(out + 1500, () => intro.classList.add('lit'));             // lock together, light up, breathe
+      at(out + 3200, () => cover.classList.add('go'));              // cover builds underneath, still hidden
+      at(out + 3950, () => intro.classList.add('exit'));            // pieces streak away
+      at(out + 4050, () => {                                        // stripes sweep, black lifts off the cover
+        intro.classList.add('zoomed', 'revealed'); void $('.wipe', intro).offsetWidth; intro.classList.add('wiping');
+      });
+      at(out + 4300, unlock);
+      at(out + 5700, () => { done = true; intro.classList.add('gone'); });
+    };
+    const loaded = new Promise(r => document.readyState === 'complete' ? r() : addEventListener('load', r, { once: true }));
+    Promise.all([loaded, document.fonts ? document.fonts.ready : null])
+      .then(() => requestAnimationFrame(() => requestAnimationFrame(run)));
+    setTimeout(run, 2500); // failsafe if a font request hangs
+    $('.skip').addEventListener('click', finish);
+    addEventListener('keydown', e => { if (['Escape', ' ', 'Enter'].includes(e.key)) finish(); }, { once: true });
+  }
+
+  /* ---------- cover speed streaks: few, soft, drifting ---------- */
+  const cv = $('.speed'), ctx = cv.getContext('2d');
+  let W = 0, H = 0, coverVisible = true;
+  const size = () => { const r = Math.min(devicePixelRatio || 1, 2); W = cv.clientWidth; H = cv.clientHeight; cv.width = W * r; cv.height = H * r; ctx.setTransform(r, 0, 0, r, 0, 0); };
+  const mk = first => ({ x: first ? Math.random() * W : -Math.random() * W * .4, y: Math.random() * H * 1.2, l: 120 + Math.random() * 320,
+    v: 1.2 + Math.random() * 4.5, red: Math.random() < .3, a: .08 + Math.random() * .3 });
+  size(); const streaks = Array.from({ length: 26 }, () => mk(true));
+  addEventListener('resize', size);
+  new IntersectionObserver(([e]) => coverVisible = e.isIntersecting).observe(cover);
+  const rise = Math.tan(9 * Math.PI / 180); // streaks climb gently to the right
+  const drawStreaks = () => {
+    ctx.clearRect(0, 0, W, H);
+    for (const s of streaks) {
+      s.x += s.v; s.y -= s.v * rise;
+      if (s.x - s.l > W || s.y < -40) Object.assign(s, mk(false));
+      const x0 = s.x - s.l, y0 = s.y + s.l * rise;
+      const g = ctx.createLinearGradient(x0, y0, s.x, s.y); const c = s.red ? '225,6,0' : '255,255,255';
+      g.addColorStop(0, `rgba(${c},0)`); g.addColorStop(1, `rgba(${c},${s.a})`);
+      ctx.strokeStyle = g; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(s.x, s.y); ctx.stroke();
+    }
+  };
+
+  /* ---------- one smooth loop: lerped scroll drives everything ---------- */
+  const mast = $('.mast'), prog = $('.progress'), links = $$('.mast-nav a');
+  const secs = links.map(a => $(a.getAttribute('href')));
+  const par = $$('[data-par]'), scrubs = $$('[data-scrub]'), tickers = $$('[data-ticker]');
+  let sy = scrollY, tx = 0, lastY = scrollY, vel = 0;
+  const loop = () => {
+    const y = scrollY, vh = innerHeight, max = document.documentElement.scrollHeight - vh;
+    sy = lerp(sy, y, .09);
+    vel = lerp(vel, y - lastY, .1); lastY = y;
+
+    if (coverVisible && !reduce && cover.classList.contains('go')) drawStreaks();
+    mast.classList.toggle('show', y > cover.offsetHeight - 90);
+    prog.style.transform = `scaleX(${max > 0 ? sy / max : 0})`;
+    let cur = -1; secs.forEach((s, i) => { if (s && s.getBoundingClientRect().top < vh * .45) cur = i; });
+    links.forEach((a, i) => a.classList.toggle('on', i === cur));
+
+    if (!reduce) {
+      for (const el of par) {
+        const r = el.parentElement.getBoundingClientRect();
+        el.style.translate = `0 ${((r.top + r.height / 2 - vh / 2 + (sy - y)) * +el.dataset.par).toFixed(2)}px`;
+      }
+      // tickers drift on their own and pick up speed with scroll velocity
+      tx += .5 + Math.min(Math.abs(vel), 40) * .22;
+      for (const t of tickers) { const half = t.scrollWidth / 2, p = tx % half; t.style.transform = `translate3d(${+t.dataset.ticker < 0 ? -p : p - half}px,0,0)`; }
+    }
+    for (const el of scrubs) {
+      const r = el.getBoundingClientRect(), spans = el.children;
+      const p = Math.min(1, Math.max(0, (vh * .85 - r.top) / (vh * .5)));
+      const lit = Math.round(p * spans.length);
+      for (let i = 0; i < spans.length; i++) spans[i].classList.toggle('lit', i < lit);
+    }
+    requestAnimationFrame(loop);
+  };
+  requestAnimationFrame(loop);
+
+  /* ---------- pointer: spotlight + eased magnetic buttons ---------- */
+  if (!reduce && matchMedia('(hover: hover)').matches) {
+    $$('.tile,.quote-in').forEach(el => el.addEventListener('pointermove', e => {
+      const r = el.getBoundingClientRect(); el.style.setProperty('--mx', (e.clientX - r.left) + 'px'); el.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    }));
+    $$('[data-mag]').forEach(b => {
+      let cx = 0, cy = 0, gx = 0, gy = 0, running = false;
+      const step = () => { cx = lerp(cx, gx, .12); cy = lerp(cy, gy, .12); b.style.transform = `translate3d(${cx.toFixed(2)}px,${cy.toFixed(2)}px,0)`;
+        if (Math.abs(cx - gx) + Math.abs(cy - gy) > .05) requestAnimationFrame(step); else running = false; };
+      const kick = () => { if (!running) { running = true; requestAnimationFrame(step); } };
+      b.addEventListener('pointermove', e => { const r = b.getBoundingClientRect(); gx = (e.clientX - r.left - r.width / 2) * .3; gy = (e.clientY - r.top - r.height / 2) * .4; kick(); });
+      b.addEventListener('pointerleave', () => { gx = gy = 0; kick(); });
+    });
+  }
+
+
+  /* ---------- value calculator: eased numbers, honest comparison ---------- */
+  const range = $('#guests');
+  if (range) {
+    const FLAT = 3000, PER = 5;
+    const fmt0 = n => '$' + Math.round(n).toLocaleString('en-US');
+    const fmt2 = n => '$' + n.toFixed(2);
+    const els = { g: $('#guestsOut'), pg: $('#perGuest'), pd: $('#perDrink'), d: $('#diff'), dl: $('#diffLabel'), ds: $('#diffSub'),
+      bf: $('#barFlat'), bd: $('#barDrink'), bdv: $('#barDrinkV') };
+    const shown = { g: 750, pg: 4, pd: 3750, d: 750 };
+    let target = { ...shown }, anim = false;
+    const paint = () => {
+      els.g.textContent = Math.round(shown.g).toLocaleString('en-US');
+      els.pg.textContent = fmt2(shown.pg);
+      els.pd.textContent = fmt0(shown.pd); els.bdv.textContent = fmt0(shown.pd);
+      els.d.textContent = fmt0(Math.abs(shown.d));
+    };
+    const tickCalc = () => {
+      let moving = false;
+      for (const k in shown) { shown[k] = lerp(shown[k], target[k], .14); if (Math.abs(shown[k] - target[k]) > .004) moving = true; else shown[k] = target[k]; }
+      paint(); if (moving) requestAnimationFrame(tickCalc); else anim = false;
+    };
+    const update = () => {
+      const g = +range.value, pd = g * PER, diff = pd - FLAT;
+      range.style.setProperty('--p', ((g - range.min) / (range.max - range.min) * 100) + '%');
+      target = { g, pg: FLAT / g, pd, d: diff };
+      els.dl.textContent = diff > 0 ? 'Flat rate saves' : diff < 0 ? 'Per-drink costs less by' : 'Break-even';
+      els.ds.textContent = diff >= 0 ? 'Compared with per-drink pricing' : 'Below 600 guests, per-drink pricing comes in lower';
+      const max = Math.max(FLAT, pd) * 1.08;
+      els.bf.style.width = (FLAT / max * 100) + '%'; els.bd.style.width = (pd / max * 100) + '%';
+      if (reduce) { Object.assign(shown, target); paint(); }
+      else if (!anim) { anim = true; requestAnimationFrame(tickCalc); }
+    };
+    range.addEventListener('input', update);
+    new IntersectionObserver(([e], o) => { if (e.isIntersecting) { update(); o.disconnect(); } }, { threshold: .3 }).observe(range);
+  }
+
+  /* ---------- livery switcher ---------- */
+  const liveries = [
+    { src: '/f1miami/assets/cart-champions-club.webp', cap: 'Champions Club', alt: 'Coffee cart wrapped in F1 Experiences Champions Club branding',
+      note: '<b>The quoted livery.</b> F1 Experiences Champions Club branding across the cart front, so it reads as part of the lounge.' },
+    { src: '/f1miami/assets/cart-paddock-club.webp', cap: 'Paddock Club', alt: 'Coffee cart wrapped in green Paddock Club Miami branding',
+      note: '<b>Paddock Club.</b> Deep green livery with race imagery, paired with a Paddock Club keyring gift for guests.' },
+    { src: '/f1miami/assets/cart-formula1.webp', cap: 'Formula 1', alt: 'White coffee cart with the red Formula 1 logo',
+      note: '<b>Formula 1.</b> A clean white cart carrying the F1 mark, flexible enough for any hospitality area.' },
+    { src: '/f1miami/assets/cart-mclaren.webp', cap: 'Team · McLaren', alt: 'White coffee cart with McLaren Formula 1 Team branding',
+      note: '<b>Team branding.</b> The cart can wear a specific team’s colors, like McLaren, for team-hosted spaces.' }
+  ];
+  liveries.forEach(l => { const i = new Image(); i.src = l.src; });
+  const stage = $('#stage'), img = $('#liveryImg'), cap = $('#liveryCap'), note = $('#liveryNote'), tabs = $$('.tab');
+  const CYCLE = 6000; let cur = 0, auto = !reduce, autoTimer, busy = false;
+  document.documentElement.style.setProperty('--cycle', CYCLE + 'ms');
+  const setTabs = () => tabs.forEach((t, i) => { t.setAttribute('aria-selected', i === cur); t.classList.toggle('auto', auto && i === cur);
+    const bar = $('.t', t); bar.style.animation = 'none'; void bar.offsetWidth; bar.style.animation = ''; });
+  const schedule = () => { clearTimeout(autoTimer); autoTimer = setTimeout(() => auto && show((cur + 1) % liveries.length), CYCLE); };
+  const show = (n, user) => {
+    if (user) { auto = false; clearTimeout(autoTimer); }
+    if (n === cur || busy) { if (user) setTabs(); return; }
+    cur = n; setTabs(); busy = true; const l = liveries[n];
+    note.classList.add('fade');
+    const swap = () => {
+      img.src = l.src; img.alt = l.alt; cap.textContent = l.cap; note.innerHTML = l.note; note.classList.remove('fade');
+      stage.classList.remove('leaving'); stage.classList.add('entering');
+      requestAnimationFrame(() => requestAnimationFrame(() => { stage.classList.remove('entering'); setTimeout(() => busy = false, 400); }));
+    };
+    if (reduce) swap(); else { stage.classList.add('leaving'); setTimeout(swap, 600); }
+    if (auto) schedule();
+  };
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => show(i, true));
+    t.addEventListener('keydown', e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { const n = (cur + (e.key === 'ArrowRight' ? 1 : 3)) % 4; show(n, true); tabs[n].focus(); } });
+  });
+  note.innerHTML = liveries[0].note;
+  new IntersectionObserver(([e], o) => { if (e.isIntersecting) { setTabs(); if (auto) schedule(); o.disconnect(); } }, { threshold: .4 }).observe(stage);
+})();
+</script>
+</body>
+</html>
