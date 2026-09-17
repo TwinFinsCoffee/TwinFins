@@ -283,56 +283,82 @@ section.carbon{background:var(--carbon)}
 .tile:hover::after{transform:scaleX(1);transform-origin:left}
 
 /* ---------------------------------------------------------------- vision */
-.garage{display:grid;gap:2rem;align-items:center}
-@media(min-width:920px){.garage{grid-template-columns:.8fr auto 1.2fr}}
-.bay{position:relative;margin:0;text-align:center}
-.bay .float{animation:float 7s ease-in-out infinite}
-.bay.now .float{animation-delay:-3.5s}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-.bay .shadow{height:26px;margin:-18px auto 0;width:70%;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.9),transparent);
-  animation:shadow 7s ease-in-out infinite}
-.bay.now .shadow{animation-delay:-3.5s}
-@keyframes shadow{0%,100%{transform:scaleX(1);opacity:.9}50%{transform:scaleX(.86);opacity:.6}}
-.bay img{margin-inline:auto;width:auto;object-fit:contain;max-height:clamp(260px,40vw,480px)}
-.bay.now img{max-height:clamp(200px,28vw,340px);filter:grayscale(.35) brightness(.85)}
-.bay figcaption{margin-top:1.2rem;display:inline-flex;align-items:center;font-size:var(--step--2);font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
-.bay.custom figcaption{color:#fff}
-.bay.custom figcaption::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--red);margin-right:.6rem;box-shadow:0 0 12px var(--red)}
-.stage{position:relative;display:grid;place-items:center;min-height:clamp(280px,42vw,500px)}
-.stage img{transition:opacity .8s ease,transform 1.1s var(--ease),filter .8s ease}
-.stage.leaving img{opacity:0;transform:translate3d(50px,0,0) scale(.98);filter:blur(12px);transition:opacity .55s ease,transform .7s var(--ease-in),filter .55s ease}
-.stage.entering img{transition:none;opacity:0;transform:translate3d(-50px,0,0) scale(.98);filter:blur(12px)}
-.arrow{display:grid;place-items:center;gap:.6rem;color:var(--dim)}
-.arrow svg{width:clamp(70px,8vw,110px);height:auto;overflow:visible}
-.arrow .dash{stroke-dasharray:4 8;animation:dash 2.4s linear infinite}
-@keyframes dash{to{stroke-dashoffset:-48}}
-.arrow span{font-size:.66rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase}
-@media(max-width:919px){.arrow svg{transform:rotate(90deg)}}
+/* ---------------------------------------------------------------- lounges */
+.hero-cart{margin:0;display:grid;gap:2rem;align-items:center;justify-items:center;text-align:center}
+@media(min-width:820px){.hero-cart{grid-template-columns:1fr 1fr;text-align:left;justify-items:start}}
+.hero-cart img{max-height:clamp(240px,34vw,420px);width:auto;margin-inline:auto;filter:grayscale(.3) brightness(.9)}
+.hero-cart figcaption{display:grid;gap:.7rem;max-width:42ch}
+.hero-cart .k{font-family:var(--font-display);font-variation-settings:"wdth" 125;font-weight:800;font-style:italic;
+  text-transform:uppercase;font-size:var(--step-2);line-height:1;color:#fff}
+.hero-cart figcaption span:last-child{color:var(--muted);font-size:var(--step--1)}
 
-.tabs{display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center;margin-top:clamp(1.8rem,3.5vw,2.8rem)}
-.tab{position:relative;overflow:hidden;background:var(--panel);color:var(--muted);border:1px solid var(--line);border-radius:999px;
-  padding:.7rem 1.2rem;font:600 var(--step--2)/1 var(--font-body);letter-spacing:.16em;text-transform:uppercase;cursor:pointer;
-  transition:color .6s ease,border-color .6s ease,background .6s ease}
-.tab:hover{color:#fff;border-color:var(--line-2)}
-.tab[aria-selected="true"]{color:#fff;border-color:rgba(225,6,0,.6);background:rgba(225,6,0,.12)}
-.tab .t{position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--red);transform:scaleX(0);transform-origin:left}
-.tab[aria-selected="true"].auto .t{animation:tabt var(--cycle,6000ms) linear forwards}
-@keyframes tabt{to{transform:scaleX(1)}}
-.variant-note{text-align:center;max-width:58ch;margin:1.4rem auto 0;color:var(--muted);font-size:var(--step--1);min-height:3.3em;transition:opacity .6s ease,filter .6s ease}
-.variant-note.fade{opacity:0;filter:blur(4px)}
-.variant-note b{color:#fff;font-weight:600}
+.jump{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin-top:clamp(2.5rem,5vw,4rem)}
+@media(min-width:760px){.jump{grid-template-columns:repeat(3,1fr)}}
+.jump a{display:flex;align-items:baseline;gap:.9rem;background:var(--black);padding:1.3rem 1.4rem;text-decoration:none;
+  transition:background .6s ease}
+.jump a:hover{background:var(--panel)}
+.jump b{font-family:var(--font-display);font-variation-settings:"wdth" 125;font-style:italic;color:var(--red);font-size:.9rem}
+.jump span{font-family:var(--font-display);font-variation-settings:"wdth" 115;font-weight:700;text-transform:uppercase;
+  font-size:var(--step-0);color:#fff;letter-spacing:.02em}
+.jump em{margin-left:auto;font-style:normal;color:var(--muted);font-variant-numeric:tabular-nums;font-size:var(--step--1)}
 
-/* detail photo cards — calm, no gimmicks */
-.details{display:grid;gap:1px;margin-top:clamp(4rem,8vw,6rem);background:var(--line);border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden}
-@media(min-width:900px){.details{grid-template-columns:1fr 1fr}}
-.detail{background:var(--carbon);display:grid;grid-template-rows:auto 1fr}
-.detail .ph{position:relative;aspect-ratio:16/10;overflow:hidden;background:radial-gradient(closest-side,#23232c,var(--carbon));display:grid;place-items:center}
-.detail .ph img{width:auto;height:78%;max-width:80%;object-fit:contain;transition:scale 2.4s var(--ease);filter:drop-shadow(0 30px 40px rgba(0,0,0,.6))}
-.detail:hover .ph img{scale:1.04}
-.detail .ph.key img{height:82%}
-.detail .tx{padding:1.8rem 1.8rem 2.2rem;border-top:1px solid var(--line)}
-.detail h3{font-family:var(--font-display);font-variation-settings:"wdth" 118;font-weight:700;text-transform:uppercase;font-size:var(--step-2);line-height:1.02;margin:.9rem 0 0}
-.detail p{margin-top:.8rem;font-size:var(--step--1);color:var(--muted);max-width:46ch}
+.swap{display:grid;gap:1.5rem;align-items:center;justify-items:center}
+@media(min-width:900px){.swap{grid-template-columns:.7fr auto 1.3fr}}
+.swap figure{margin:0;text-align:center}
+.swap img{width:auto;margin-inline:auto}
+.swap .was img{max-height:clamp(170px,22vw,270px);filter:grayscale(.55) brightness(.75)}
+.swap .now img{max-height:clamp(260px,38vw,460px)}
+.swap figcaption{margin-top:1rem;font-size:var(--step--2);font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.swap .now figcaption{color:#fff}
+.swap .to{display:grid;place-items:center;gap:.6rem;color:var(--dim)}
+.swap .to svg{width:clamp(70px,8vw,110px);height:auto;overflow:visible}
+.swap .to span{font-size:.64rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase}
+@media(max-width:899px){.swap .to svg{transform:rotate(90deg)}}
+
+/* Club Nosso has no mockup yet: a designed concept panel, labelled as one */
+.concept-panel{position:relative;width:min(86vw,460px);aspect-ratio:4/5;border-radius:var(--radius-lg);overflow:hidden;
+  background:linear-gradient(160deg,#04281f,#0a3b2a 45%,#06170f);border:1px solid rgba(255,255,255,.12);
+  display:flex;flex-direction:column;justify-content:center;gap:1rem;padding:clamp(1.5rem,4vw,2.4rem);text-align:left}
+.concept-panel .leaf{position:absolute;opacity:.5;filter:saturate(.8)}
+.concept-panel .l1{width:70%;top:-8%;right:-16%;rotate:16deg}
+.concept-panel .l2{width:52%;bottom:-10%;left:-14%;rotate:-8deg;opacity:.35}
+.concept-panel .tagpill{align-self:flex-start;font-size:.62rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
+  color:#bfe8d5;border:1px solid rgba(191,232,213,.45);border-radius:999px;padding:.3rem .75rem;position:relative}
+.concept-panel b{position:relative;font-family:var(--font-display);font-variation-settings:"wdth" 125;font-weight:800;font-style:italic;
+  text-transform:uppercase;font-size:clamp(1.6rem,4.5vw,2.4rem);line-height:.95;color:#fff}
+.concept-panel ul{position:relative;list-style:none;margin:0;padding:0;display:grid;gap:.45rem}
+.concept-panel li{font-size:var(--step--1);color:#d7f2e6;display:flex;align-items:center;gap:.6rem}
+.concept-panel li::before{content:"";width:6px;height:6px;border-radius:50%;background:#f7c948}
+.concept-panel .pt{position:relative;margin-top:.4rem;font-size:.68rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:#8fcfb2}
+
+.specs{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin-top:clamp(2.5rem,5vw,4rem)}
+@media(min-width:680px){.specs{grid-template-columns:1fr 1fr}}
+@media(min-width:1100px){.specs{grid-template-columns:repeat(4,1fr)}}
+.lounge .spec{background:var(--black);padding:1.5rem 1.4rem}
+.lounge.carbon .spec{background:var(--carbon)}
+.spec .k{display:block;font-size:.62rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--red)}
+.spec b{display:block;margin-top:.7rem;font-family:var(--font-display);font-variation-settings:"wdth" 118;font-weight:700;
+  text-transform:uppercase;font-size:var(--step-0);line-height:1.15;color:#fff}
+.spec small{display:block;margin-top:.5rem;font-size:var(--step--1);color:var(--muted);line-height:1.55}
+
+.aside-card{display:grid;gap:clamp(1.2rem,3vw,2.5rem);align-items:center;margin-top:1rem;background:var(--panel);
+  border:1px solid var(--line);border-radius:var(--radius-lg);padding:clamp(1.4rem,3vw,2.2rem)}
+@media(min-width:720px){.aside-card{grid-template-columns:auto 1fr}}
+.aside-card>img{max-height:clamp(120px,16vw,190px);width:auto;margin-inline:auto;filter:drop-shadow(0 24px 30px rgba(0,0,0,.6))}
+.aside-card h3{font-family:var(--font-display);font-variation-settings:"wdth" 118;font-weight:700;text-transform:uppercase;
+  font-size:var(--step-1);line-height:1.05;margin:.8rem 0 0}
+.aside-card p{margin-top:.7rem;font-size:var(--step--1);color:var(--muted);max-width:52ch}
+.rate{display:inline-flex;align-items:baseline;gap:.7rem;margin-top:1.4rem;padding-top:1.2rem;border-top:1px solid var(--line);
+  width:100%;font-family:var(--font-display);font-variation-settings:"wdth" 125;font-weight:800;font-size:var(--step-3);line-height:1;color:#fff}
+.rate small{font-family:var(--font-body);font-size:var(--step--2);font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+
+/* segmented lounge picker on the calculator */
+.seg{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.8rem}
+.seg button{background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:.6rem 1rem;
+  font:600 var(--step--2)/1 var(--font-body);letter-spacing:.14em;text-transform:uppercase;cursor:pointer;
+  transition:color .5s ease,border-color .5s ease,background .5s ease}
+.seg button:hover{color:#fff;border-color:var(--line-2)}
+.seg button[aria-pressed="true"]{color:#fff;border-color:rgba(225,6,0,.6);background:rgba(225,6,0,.12)}
 
 /* ---------------------------------------------------------------- timeline */
 .track{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius-lg);padding:clamp(1.3rem,3vw,2.4rem);overflow:hidden}
@@ -416,7 +442,7 @@ input[type=range]:hover::-webkit-slider-thumb,input[type=range]:focus-visible::-
 .quote-in{background:var(--carbon);border-radius:calc(var(--radius-lg) - 1px);padding:clamp(1.7rem,4vw,3.2rem);height:100%;position:relative;overflow:hidden}
 .q-top{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
 .q-top svg{height:clamp(20px,2.6vw,30px);width:auto}
-.q-price{margin-top:2rem;font-family:var(--font-display);font-variation-settings:"wdth" 125;font-weight:800;font-size:clamp(4rem,12vw,9.5rem);line-height:.85;letter-spacing:-.02em}
+.q-price{margin-top:2rem;font-family:var(--font-display);font-variation-settings:"wdth" 125;font-weight:800;font-size:clamp(3.2rem,9vw,7.5rem);line-height:.85;letter-spacing:-.02em;white-space:nowrap}
 .q-price .cur{font-size:.45em;vertical-align:.8em;color:var(--red);margin-right:.06em}
 .q-sub{margin-top:1.1rem;color:var(--muted);font-size:var(--step-0);max-width:46ch;font-weight:300}
 .q-list{list-style:none;margin:2rem 0 0;padding:1.6rem 0 0;border-top:1px solid var(--line);display:grid;gap:.9rem}
@@ -449,6 +475,12 @@ input[type=range]:hover::-webkit-slider-thumb,input[type=range]:focus-visible::-
 .opt .or{display:flex;align-items:center;gap:.8rem;margin:1rem 0 .1rem;font-size:.66rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--dim)}
 .opt .or::before,.opt .or::after{content:"";flex:1;height:1px;background:var(--line)}
 .opts-note{font-size:var(--step--1);color:var(--dim);padding:0 .3rem}
+.q-split{margin:1.8rem 0 0;padding:1.5rem 0 0;border-top:1px solid var(--line);display:grid;gap:.9rem}
+.q-split div{display:flex;justify-content:space-between;gap:1.5rem;align-items:baseline}
+.q-split dt{font-size:var(--step--1);color:#fff;font-weight:600}
+.q-split dt span{display:block;font-weight:400;color:var(--muted);font-size:var(--step--2);margin-top:.15rem}
+.q-split dd{margin:0;font-family:var(--font-display);font-variation-settings:"wdth" 125;font-weight:800;font-size:var(--step-1);
+  color:#fff;font-variant-numeric:tabular-nums;white-space:nowrap}
 
 /* ---------------------------------------------------------------- close */
 .close{text-align:center;overflow:hidden}
@@ -769,14 +801,14 @@ c-538 -23 -1045 -285 -1356 -700 -259 -346 -354 -564 -394 -907 -8 -72 -20
 
   <div class="cv-top">
     <span class="cv-tag cv-a" style="--d:900"><svg class="f1" viewBox="0 0 2140 500" fill="currentColor" aria-hidden="true"><use href="#f1"/></svg>Formal quote · 2026</span>
-    <span class="cv-pill cv-a" style="--d:1000">Prepared for the Champions Club</span>
+    <span class="cv-pill cv-a" style="--d:1000">Champions Club · Paddock Club · Nosso</span>
   </div>
 
   <div class="cv-mid">
     <svg class="cv-wordmark cv-rise" viewBox="0 0 3090 1590" role="img" aria-label="Twin Fins Coffee" fill="currentColor"><use href="#tf-word"/></svg>
     <div class="cv-x cv-a" style="--d:600"><b>×</b><svg class="f1" viewBox="0 0 2140 500" fill="currentColor" role="img" aria-label="Formula 1"><use href="#f1"/></svg></div>
     <h1 class="display cv-title"><span class="ln"><span style="--i:0">F1 Miami</span></span><span class="ln"><span style="--i:1">Coffee <em>Activation</em></span></span></h1>
-    <p class="cv-sub cv-a" style="--d:1300">A handcrafted specialty coffee experience for the Champions Club, built to the same standard as everything else on race weekend.</p>
+    <p class="cv-sub cv-a" style="--d:1300">A handcrafted coffee and refresher experience for the Champions Club, the Paddock Club and Club Nosso, built to the same standard as everything else on race weekend.</p>
   </div>
 
   <div class="cv-foot">
@@ -795,9 +827,9 @@ c-538 -23 -1045 -285 -1356 -700 -259 -346 -354 -564 -394 -907 -8 -72 -20
       <span class="mast-t">F1 Miami 2026</span>
     </a>
     <div class="mast-nav">
-      <a href="#overview">Overview</a><a href="#why">Why</a><a href="#vision">Vision</a><a href="#weekend">Timeline</a><a href="#value">Value</a><a href="#quote">Quote</a>
+      <a href="#overview">Overview</a><a href="#vision">Vision</a><a href="#champions">Lounges</a><a href="#weekend">Timeline</a><a href="#value">Value</a><a href="#quote">Quote</a>
     </div>
-    <a class="stamp" href="#quote">$3,000 flat</a>
+    <a class="stamp" href="#quote">From $3,500</a>
   </div>
   <div class="progress" aria-hidden="true"></div>
 </nav>
@@ -808,17 +840,17 @@ c-538 -23 -1045 -285 -1356 -700 -259 -346 -354 -564 -394 -907 -8 -72 -20
   <div class="wrap">
     <div class="hero-grid">
       <div>
-        <div class="kick" data-r><span class="eyebrow">Project quote · Champions Club</span></div>
+        <div class="kick" data-r><span class="eyebrow">Project quote · Three lounges</span></div>
         <h2 class="display words" data-words style="font-size:var(--step-5)">Precision, <em>poured.</em></h2>
-        <p class="lede hero-lede" data-r style="--d:250">An exclusive coffee activation inside the F1 Miami Champions Club. Every drink is made to order by trained baristas and served from a cart dressed in Champions Club livery, and it's included in the hospitality lounge for every guest.</p>
+        <p class="lede hero-lede" data-r style="--d:250">An exclusive coffee activation across three F1 Miami hospitality lounges. Every drink is made to order by trained baristas, served from a cart dressed in that room's own livery, and included in the lounge for every guest.</p>
       </div>
       <aside class="chit" data-r style="--d:200" aria-label="Quote summary">
-        <div class="chit-total"><span class="k">Flat rate</span><span class="v"><span class="odo" data-odo="$3,000">$3,000</span></span></div>
+        <div class="chit-total"><span class="k">All three lounges</span><span class="v"><span class="odo" data-odo="$13,000">$13,000</span></span></div>
         <dl>
-          <div class="chit-row"><dt>Project</dt><dd>F1 Miami Coffee Activation</dd></div>
-          <div class="chit-row"><dt>Venue</dt><dd>Champions Club</dd></div>
+          <div class="chit-row"><dt>Champions Club</dt><dd>$3,500</dd></div>
+          <div class="chit-row"><dt>Paddock Club</dt><dd>$5,000</dd></div>
+          <div class="chit-row"><dt>Club Nosso</dt><dd>$4,500</dd></div>
           <div class="chit-row"><dt>Serving</dt><dd>Fri–Sun · May 1–3, 2026</dd></div>
-          <div class="chit-row"><dt>Guests</dt><dd>Complimentary drink each</dd></div>
         </dl>
       </aside>
     </div>
@@ -826,26 +858,25 @@ c-538 -23 -1045 -285 -1356 -700 -259 -346 -354 -564 -394 -907 -8 -72 -20
       <div class="stat"><span class="v"><span data-count="3">3</span></span><span class="l">Race days served</span></div>
       <div class="stat"><span class="v"><span data-count="24">24</span>h+</span><span class="l">Hours behind the bar</span></div>
       <div class="stat"><span class="v"><span data-count="1000" data-pre="500–">500–1,000</span></span><span class="l">Guests (estimated)</span></div>
-      <div class="stat"><span class="v"><span data-count="1">1</span></span><span class="l">Cart built for the club</span></div>
+      <div class="stat"><span class="v"><span data-count="3">3</span></span><span class="l">Lounges, three liveries</span></div>
     </div>
   </div>
 </section>
 
 <div class="ticker" aria-hidden="true"><div class="tk-track" data-ticker="-1">
-  <span>Precision, poured <svg viewBox="0 0 2140 500" fill="currentColor"><use href="#f1"/></svg> Champions Club <svg viewBox="0 0 2140 500" fill="currentColor"><use href="#f1"/></svg> F1 Miami 2026 <svg viewBox="0 0 2140 500" fill="currentColor"><use href="#f1"/></svg> Twin Fins Coffee <svg viewBox="0 0 2140 500" fill="currentColor"><use href="#f1"/></svg></span>
-  <span>Precision, poured <svg viewBox="0 0 2140 500" fill="currentColor"><use href="#f1"/></svg> Champions Club <svg viewBox="0 0 2140 500" fill="currentColor"><use href="#f1"/></svg> F1 Miami 2026 <svg viewBox="0 0 2140 500" fill="currentColor"><use href="#f1"/></svg> Twin Fins Coffee <svg viewBox="0 0 2140 500" fill="currentColor"><use href="#f1"/></svg></span>
+  <span>Precision, poured <svg viewBox="0 0 2140 500" fill="currentColor"><use href="#f1"/></svg> Champions Club · Paddock Club · Nosso <svg viewBox="0 0 2140 500" fill="currentColor"><use href="#f1"/></svg> F1 Miami 2026 <svg viewBox="0 0 2140 500" fill="currentColor"><use href="#f1"/></svg> Twin Fins Coffee <svg viewBox="0 0 2140 500" fill="currentColor"><use href="#f1"/></svg></span>
+  <span>Precision, poured <svg viewBox="0 0 2140 500" fill="currentColor"><use href="#f1"/></svg> Champions Club · Paddock Club · Nosso <svg viewBox="0 0 2140 500" fill="currentColor"><use href="#f1"/></svg> F1 Miami 2026 <svg viewBox="0 0 2140 500" fill="currentColor"><use href="#f1"/></svg> Twin Fins Coffee <svg viewBox="0 0 2140 500" fill="currentColor"><use href="#f1"/></svg></span>
 </div></div>
 
 <!-- ===================================================================== WHY -->
 <section id="why">
-  <span class="num-bg" aria-hidden="true" data-par="-0.1">01</span>
   <div class="wrap">
     <div class="sec-head">
       <div>
         <span class="eyebrow" data-r>Why it belongs in the Champions Club</span>
         <h2 class="display words" data-words>Built to a <em>Formula 1</em> standard.</h2>
       </div>
-      <p class="lede" data-r style="--d:200">Champions Club guests chose the premium way to experience race weekend. Everything around them should reflect that, down to what's in their cup.</p>
+      <p class="lede" data-r style="--d:200">Hospitality guests chose the premium way to experience race weekend. Everything around them should reflect that, down to what's in their cup — and each room should feel like itself, not like a catering contract.</p>
     </div>
     <div class="pillars">
       <article class="pillar" data-r style="--d:0"><span class="n">01</span>
@@ -859,14 +890,36 @@ c-538 -23 -1045 -285 -1356 -700 -259 -346 -354 -564 -394 -907 -8 -72 -20
         <p>Planning, load in, staffing, consumables and load out are all ours. Your team hosts the guests, and we run the bar.</p></article>
       <article class="pillar" data-r style="--d:360"><span class="n">04</span>
         <h3>One number, agreed in advance</h3>
-        <p>A flat rate set before the weekend, so no per-drink meter is running while guests enjoy themselves.</p></article>
+        <p>Each lounge has its own flat rate, set before the weekend, so no per-drink meter is running while guests enjoy themselves.</p></article>
     </div>
   </div>
 </section>
 
 <!-- ===================================================================== SCOPE -->
+<section id="vision">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow" data-r>Our vision · Custom branding</span>
+        <h2 class="display words" data-words>Same great cart. <em>Race-day</em> livery.</h2>
+      </div>
+      <p class="lede" data-r style="--d:200">One cart, three rooms, three identities. Each lounge gets its own livery, its own uniform and its own menu, so the bar reads as part of that room rather than a vendor parked inside it.</p>
+    </div>
+
+    <figure class="hero-cart" data-r>
+      <img src="/f1miami/assets/cart-twinfins.webp" alt="The current Twin Fins Coffee cart: white with the Twin Fins wordmark and a walnut top" width="675" height="900" loading="lazy">
+      <figcaption><span class="k">The cart today</span><span>Built, tested and already running events across Atlanta. Everything below is the same cart, dressed for the room.</span></figcaption>
+    </figure>
+
+    <nav class="jump" aria-label="Lounges">
+      <a href="#champions"><b>01</b><span>Champions Club</span><em>$3,500</em></a>
+      <a href="#paddock"><b>02</b><span>Paddock Club</span><em>$5,000</em></a>
+      <a href="#nosso"><b>03</b><span>Club Nosso</span><em>$4,500</em></a>
+    </nav>
+  </div>
+</section>
+
 <section id="scope" class="carbon">
-  <span class="num-bg" aria-hidden="true" data-par="-0.1">02</span>
   <div class="wrap">
     <div class="sec-head">
       <div>
@@ -889,63 +942,114 @@ c-538 -23 -1045 -285 -1356 -700 -259 -346 -354 -564 -394 -907 -8 -72 -20
 </section>
 
 <!-- ===================================================================== VISION -->
-<section id="vision">
+<!-- ===================================================================== CHAMPIONS -->
+<section id="champions" class="lounge">
+  <span class="num-bg" aria-hidden="true" data-par="-0.1">01</span>
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow" data-r>Lounge 01 · Returning</span>
+        <h2 class="display words" data-words>Champions Club, <em>again.</em></h2>
+      </div>
+      <p class="lede" data-r style="--d:200">A Miami staple, and a room we already know. The team loved the surf vibe and the surfboard menu last time, so this year we lean further into it: teal and light blue livery built to sit inside the club's own palette.</p>
+    </div>
+
+    <div class="swap" data-r>
+      <figure class="was"><img src="/f1miami/assets/cart-twinfins.webp" alt="The current Twin Fins cart" width="675" height="900" loading="lazy"><figcaption>Now</figcaption></figure>
+      <div class="to" aria-hidden="true"><svg viewBox="0 0 120 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path class="dash" d="M2 10 H108"/><path d="M102 4 L110 10 L102 16" stroke="#e10600"/></svg><span>Champions Club</span></div>
+      <figure class="now"><img src="/f1miami/assets/cart-champions-club.webp" alt="The cart wrapped in F1 Experiences Champions Club branding, teal and light blue" width="600" height="900" loading="lazy"><figcaption>Champions Club livery</figcaption></figure>
+    </div>
+
+    <div class="specs">
+      <div class="spec" data-r style="--d:0"><span class="k">Palette</span><b>Teal &amp; light blue</b><small>Wrapped to match the club's own colors, so the cart reads as part of the room.</small></div>
+      <div class="spec" data-r style="--d:100"><span class="k">Uniform</span><b>Twin Fins track suits</b><small>The look the team already asked for by name, worn by the whole crew.</small></div>
+      <div class="spec" data-r style="--d:200"><span class="k">Menu</span><b>The surfboard menu</b><small>Our surf-shaped board, in Champions Club colors, with the F1 mark on the foam.</small></div>
+      <div class="spec" data-r style="--d:300"><span class="k">Advantage</span><b>We've done this room</b><small>Returning means no learning curve on load in, layout or service flow.</small></div>
+    </div>
+
+    <div class="aside-card" data-r>
+      <img src="/f1miami/assets/latte-f1.webp" alt="Latte with the Formula 1 logo dusted onto the foam" width="800" height="800" loading="lazy">
+      <div><span class="eyebrow">In the cup</span><h3>Formula 1 in every drink</h3>
+        <p>Made to order, with the F1 mark stenciled onto the foam. The detail guests photograph without being asked.</p>
+        <span class="rate">$3,500<small>Three days, all in</small></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== PADDOCK -->
+<section id="paddock" class="lounge carbon">
+  <span class="num-bg" aria-hidden="true" data-par="-0.1">02</span>
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow" data-r>Lounge 02 · The expansion</span>
+        <h2 class="display words" data-words>Paddock Club, <em>scaled up.</em></h2>
+      </div>
+      <p class="lede" data-r style="--d:200">The most exclusive room on the circuit, and in Miami it's expanding on an enormous scale. A bigger Paddock Club needs more of what makes it feel like the Paddock Club: deep emerald, quiet luxury, and service that never feels like a concession stand.</p>
+    </div>
+
+    <div class="swap" data-r>
+      <figure class="was"><img src="/f1miami/assets/cart-twinfins.webp" alt="The current Twin Fins cart" width="675" height="900" loading="lazy"><figcaption>Now</figcaption></figure>
+      <div class="to" aria-hidden="true"><svg viewBox="0 0 120 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path class="dash" d="M2 10 H108"/><path d="M102 4 L110 10 L102 16" stroke="#e10600"/></svg><span>Paddock Club</span></div>
+      <figure class="now"><img src="/f1miami/assets/cart-paddock-club.webp" alt="The cart wrapped in dark emerald Paddock Club Miami branding" width="600" height="900" loading="lazy"><figcaption>Paddock Club livery</figcaption></figure>
+    </div>
+
+    <div class="specs">
+      <div class="spec" data-r style="--d:0"><span class="k">Palette</span><b>Dark emerald green</b><small>The club's own green, kept deep and restrained. Elevated, not loud.</small></div>
+      <div class="spec" data-r style="--d:100"><span class="k">Uniform</span><b>Black &amp; white, tailored</b><small>Elegant attire with the logo applied quietly, in keeping with the room.</small></div>
+      <div class="spec" data-r style="--d:200"><span class="k">Keepsake</span><b>First 100 guests daily</b><small>A branded gift, like the Paddock Club keyring, for the first hundred guests each day.</small></div>
+      <div class="spec" data-r style="--d:300"><span class="k">Service</span><b>Luxury at its finest</b><small>Unhurried, precise, and staffed to keep the line short at the busiest sessions.</small></div>
+    </div>
+
+    <div class="aside-card" data-r>
+      <img src="/f1miami/assets/keyring-paddock-club.webp" alt="Green Paddock Club Miami keyring" width="450" height="600" loading="lazy">
+      <div><span class="eyebrow">The keepsake</span><h3>300 gifts across the weekend</h3>
+        <p>One hundred a day, handed over with the first drinks. Guests leave with the club's name in their pocket, not on a paper cup.</p>
+        <span class="rate">$5,000<small>Three days, gifts included</small></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== NOSSO -->
+<section id="nosso" class="lounge">
   <span class="num-bg" aria-hidden="true" data-par="-0.1">03</span>
   <div class="wrap">
     <div class="sec-head">
       <div>
-        <span class="eyebrow" data-r>Our vision · Custom branding</span>
-        <h2 class="display words" data-words>Same great cart. <em>Race-day</em> livery.</h2>
+        <span class="eyebrow" data-r>Lounge 03 · Nosso</span>
+        <h2 class="display words" data-words>Club Nosso, <em>de verdade.</em></h2>
       </div>
-      <p class="lede" data-r style="--d:200">The cart gets a custom wrap for the space it's serving. Champions Club is the livery we've quoted, and the others show how far the idea can go.</p>
+      <p class="lede" data-r style="--d:200">Tropicals, house music, and a Brazilian room that deserves the real thing. We're half Brazilian, one of us speaks Portuguese, and this is our own culture rather than a theme we researched. For Nosso we'd run a Brazilian refresher bar instead of, or alongside, the coffee.</p>
     </div>
 
-    <div class="garage">
-      <figure class="bay now" data-r="left">
-        <div class="float"><img src="/f1miami/assets/cart-twinfins.webp" alt="The current Twin Fins Coffee cart: white with the Twin Fins wordmark and a walnut top" width="675" height="900" loading="lazy"></div>
-        <div class="shadow"></div>
-        <figcaption>Current cart</figcaption>
-      </figure>
-      <div class="arrow" data-r style="--d:300" aria-hidden="true">
-        <svg viewBox="0 0 120 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path class="dash" d="M2 10 H108"/><path d="M102 4 L110 10 L102 16" stroke="#e10600"/></svg>
-        <span>Custom wrap</span>
-      </div>
-      <figure class="bay custom" data-r="right" style="--d:150">
-        <div class="float">
-          <div class="stage" id="stage">
-            <img id="liveryImg" src="/f1miami/assets/cart-champions-club.webp" alt="Coffee cart wrapped in F1 Experiences Champions Club branding" width="600" height="900">
-          </div>
+    <div class="swap" data-r>
+      <figure class="was"><img src="/f1miami/assets/cart-twinfins.webp" alt="The current Twin Fins cart" width="675" height="900" loading="lazy"><figcaption>Now</figcaption></figure>
+      <div class="to" aria-hidden="true"><svg viewBox="0 0 120 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path class="dash" d="M2 10 H108"/><path d="M102 4 L110 10 L102 16" stroke="#e10600"/></svg><span>Club Nosso</span></div>
+      <figure class="now concept">
+        <div class="concept-panel">
+          <img class="leaf l1" src="/f1miami/assets/palm-frond.webp" alt="" aria-hidden="true" loading="lazy">
+          <img class="leaf l2" src="/f1miami/assets/plant.webp" alt="" aria-hidden="true" loading="lazy">
+          <span class="tagpill">Livery in design</span>
+          <b>Refresher bar</b>
+          <ul><li>Maracujá</li><li>Açaí</li><li>Limão</li><li>Café</li></ul>
+          <span class="pt">Feito pra galera</span>
         </div>
-        <div class="shadow"></div>
-        <figcaption id="liveryCap">Champions Club</figcaption>
+        <figcaption>Club Nosso concept</figcaption>
       </figure>
     </div>
 
-    <div class="tabs" role="tablist" aria-label="Cart livery">
-      <button class="tab" role="tab" aria-selected="true" data-v="0">Champions Club<i class="t"></i></button>
-      <button class="tab" role="tab" aria-selected="false" data-v="1">Paddock Club<i class="t"></i></button>
-      <button class="tab" role="tab" aria-selected="false" data-v="2">Formula 1<i class="t"></i></button>
-      <button class="tab" role="tab" aria-selected="false" data-v="3">Team · McLaren<i class="t"></i></button>
+    <div class="specs">
+      <div class="spec" data-r style="--d:0"><span class="k">The bar</span><b>Brazilian refreshers</b><small>Maracujá and açaí imported from Brazil, served cold and fresh through the afternoon.</small></div>
+      <div class="spec" data-r style="--d:100"><span class="k">Or both</span><b>Coffee bar available</b><small>If the club prefers coffee, we run the espresso bar instead, or split the cart between the two.</small></div>
+      <div class="spec" data-r style="--d:200"><span class="k">The room</span><b>Tropical &amp; house</b><small>Livery built around tropical greens and the club's own energy rather than race-day red.</small></div>
+      <div class="spec" data-r style="--d:300"><span class="k">Culture</span><b>Ours, not borrowed</b><small>A Brazilian-American family behind the bar, with Portuguese spoken across it.</small></div>
     </div>
-    <p class="variant-note" id="liveryNote" aria-live="polite"></p>
 
-    <div class="details" data-r>
-      <article class="detail">
-        <div class="ph"><img src="/f1miami/assets/latte-f1.webp" alt="Latte with the Formula 1 logo dusted onto the foam" width="800" height="800" loading="lazy"></div>
-        <div class="tx">
-          <span class="eyebrow">In the cup</span>
-          <h3>Formula 1 details in every drink</h3>
-          <p>The race shows up in the drink itself: the F1 mark stenciled onto the foam, with every cup made to order.</p>
-        </div>
-      </article>
-      <article class="detail">
-        <div class="ph key"><img src="/f1miami/assets/keyring-paddock-club.webp" alt="Green Paddock Club Miami keyring" width="450" height="600" loading="lazy"></div>
-        <div class="tx">
-          <span class="eyebrow">Take-home</span>
-          <h3>Free gifts with drinks</h3>
-          <p>Branded keepsakes, like a Paddock Club keyring, handed out with drinks to make the moment memorable.</p>
-        </div>
-      </article>
+    <div class="aside-card" data-r>
+      <img src="/f1miami/assets/plant.webp" alt="" aria-hidden="true" width="447" height="447" loading="lazy">
+      <div><span class="eyebrow">Why us for this room</span><h3>A Brazilian lounge, run by Brazilians</h3>
+        <p>Guests can order in Portuguese and get the flavors they grew up with, made properly. That's the part a themed menu can't buy.</p>
+        <span class="rate">$4,500<small>Three days, imported ingredients</small></span></div>
     </div>
   </div>
 </section>
@@ -957,7 +1061,6 @@ c-538 -23 -1045 -285 -1356 -700 -259 -346 -354 -564 -394 -907 -8 -72 -20
 
 <!-- ===================================================================== WEEKEND -->
 <section id="weekend" class="carbon">
-  <span class="num-bg" aria-hidden="true" data-par="-0.1">04</span>
   <div class="wrap">
     <div class="sec-head">
       <div>
@@ -995,38 +1098,43 @@ c-538 -23 -1045 -285 -1356 -700 -259 -346 -354 -564 -394 -907 -8 -72 -20
 
 <!-- ===================================================================== VALUE -->
 <section id="value">
-  <span class="num-bg" aria-hidden="true" data-par="-0.1">05</span>
   <div class="wrap">
     <div class="sec-head">
       <div>
         <span class="eyebrow" data-r>The math</span>
         <h2 class="display words" data-words>An investment that <em>adds up.</em></h2>
       </div>
-      <p class="lede" data-r style="--d:200">One flat rate covers the full three-day activation. Set your expected guest count to see how it compares with per-drink pricing.</p>
+      <p class="lede" data-r style="--d:200">Each lounge carries one flat rate for the full three days. Pick a lounge and set your expected guest count to see how it compares with per-drink pricing.</p>
     </div>
 
     <div class="calc" data-r>
       <div class="calc-in">
-        <label class="calc-l" for="guests"><span class="k">Expected Champions Club guests</span>
+        <div class="seg" role="group" aria-label="Lounge">
+          <button type="button" data-rate="3500" aria-pressed="true">Champions · $3,500</button>
+          <button type="button" data-rate="5000" aria-pressed="false">Paddock · $5,000</button>
+          <button type="button" data-rate="4500" aria-pressed="false">Nosso · $4,500</button>
+          <button type="button" data-rate="13000" aria-pressed="false">All three · $13,000</button>
+        </div>
+        <label class="calc-l" for="guests"><span class="k">Expected guests over the weekend</span>
           <output class="calc-g" id="guestsOut" for="guests">750</output></label>
         <input type="range" id="guests" min="300" max="1500" step="50" value="750" aria-describedby="calcNote">
         <div class="calc-scale" aria-hidden="true"><span>300</span><span>600</span><span>900</span><span>1,200</span><span>1,500</span></div>
 
         <div class="calc-out">
-          <div class="co hl"><span class="k">Flat rate, per guest</span><b id="perGuest">$4.00</b><small>Barista-made drink, branded cart, full service</small></div>
+          <div class="co hl"><span class="k">Flat rate, per guest</span><b id="perGuest">$4.67</b><small>Made-to-order drink, custom livery, full service</small></div>
           <div class="co"><span class="k">Per-drink pricing at $5</span><b id="perDrink">$3,750</b><small>One drink per guest, billed by the cup</small></div>
           <div class="co"><span class="k" id="diffLabel">Flat rate saves</span><b id="diff">$750</b><small id="diffSub">Compared with per-drink pricing</small></div>
         </div>
 
         <div class="bars" aria-hidden="true">
-          <div class="bar-row"><span>Flat rate</span><div class="bar-track"><i class="bar-fill flat" id="barFlat"></i></div><em>$3,000</em></div>
+          <div class="bar-row"><span>Flat rate</span><div class="bar-track"><i class="bar-fill flat" id="barFlat"></i></div><em id="barFlatV">$3,500</em></div>
           <div class="bar-row"><span>Per drink</span><div class="bar-track"><i class="bar-fill drink" id="barDrink"></i></div><em id="barDrinkV">$3,750</em></div>
         </div>
-        <p class="calc-note" id="calcNote">The two models break even at <b>600 guests</b>. Beyond that, every additional guest is covered at no added cost, with the same made-to-order service.</p>
+        <p class="calc-note" id="calcNote">The two models break even at <b id="evenAt">700 guests</b>. Beyond that, every additional guest is covered at no added cost, with the same made-to-order service.</p>
       </div>
       <div class="facts">
         <div class="fact"><b><span data-count="24">24</span>h <span data-count="10">10</span>m</b><span>Fully staffed service across Friday, Saturday and Sunday</span></div>
-        <div class="fact"><b>All in</b><span>Branding, consumables, labor, load in and load out, with nothing billed separately</span></div>
+        <div class="fact"><b>All in</b><span>Livery, uniforms, consumables, labor, load in and load out, with nothing billed separately</span></div>
         <div class="fact"><b>Fixed</b><span>The number is agreed before the weekend and doesn't move with attendance</span></div>
       </div>
     </div>
@@ -1035,28 +1143,32 @@ c-538 -23 -1045 -285 -1356 -700 -259 -346 -354 -564 -394 -907 -8 -72 -20
 
 <!-- ===================================================================== QUOTE -->
 <section id="quote">
-  <span class="num-bg" aria-hidden="true" data-par="-0.1">06</span>
   <div class="wrap">
     <div class="sec-head">
       <div>
         <span class="eyebrow" data-r>Formal quote</span>
-        <h2 class="display words" data-words>One flat rate. <em>Everything</em> in.</h2>
+        <h2 class="display words" data-words>Three rooms. <em>Three rates.</em> Everything in.</h2>
       </div>
     </div>
     <div class="quote-grid">
       <div class="quote" data-r="scale" id="quoteCard">
         <div class="quote-in"><i class="spot"></i>
           <div class="q-top">
-            <span class="eyebrow">Champions Club · F1 Miami 2026</span>
+            <span class="eyebrow">Three lounges · F1 Miami 2026</span>
             <svg class="f1" viewBox="0 0 2140 500" fill="currentColor" role="img" aria-label="Formula 1"><use href="#f1"/></svg>
           </div>
-          <div class="q-price"><span class="cur">$</span><span class="odo" data-odo="3,000">3,000</span></div>
-          <p class="q-sub">The complete Champions Club activation for all three days, agreed in advance with no per-drink billing and no added line items.</p>
+          <div class="q-price"><span class="cur">$</span><span class="odo" data-odo="13,000">13,000</span></div>
+          <p class="q-sub">All three lounges for the full race weekend, agreed in advance with no per-drink billing and no added line items. Each lounge can also be booked on its own.</p>
+          <dl class="q-split">
+            <div><dt>Champions Club</dt><dd>$3,500</dd></div>
+            <div><dt>Paddock Club <span>keepsakes for the first 100 guests daily</span></dt><dd>$5,000</dd></div>
+            <div><dt>Club Nosso <span>imported Brazilian refreshers</span></dt><dd>$4,500</dd></div>
+          </dl>
           <ul class="q-list">
             <li style="--i:0"><span class="chk"><svg viewBox="0 0 14 14" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M2 7.5l3 3 7-7"/></svg></span>Pre-event preparation &amp; inventory planning</li>
             <li style="--i:1"><span class="chk"><svg viewBox="0 0 14 14" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M2 7.5l3 3 7-7"/></svg></span>Load in &amp; load out</li>
             <li style="--i:2"><span class="chk"><svg viewBox="0 0 14 14" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M2 7.5l3 3 7-7"/></svg></span>Materials &amp; consumables</li>
-            <li style="--i:3"><span class="chk"><svg viewBox="0 0 14 14" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M2 7.5l3 3 7-7"/></svg></span>Branding materials</li>
+            <li style="--i:3"><span class="chk"><svg viewBox="0 0 14 14" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M2 7.5l3 3 7-7"/></svg></span>Livery, uniforms &amp; branding materials</li>
             <li style="--i:4"><span class="chk"><svg viewBox="0 0 14 14" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M2 7.5l3 3 7-7"/></svg></span>Labor</li>
             <li style="--i:5"><span class="chk"><svg viewBox="0 0 14 14" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M2 7.5l3 3 7-7"/></svg></span>Complimentary drink per guest</li>
           </ul>
@@ -1070,10 +1182,10 @@ c-538 -23 -1045 -285 -1356 -700 -259 -346 -354 -564 -394 -907 -8 -72 -20
 
       <div class="opts">
         <div class="opt" data-r="right" style="--d:200">
-          <span class="tag">Option · Expand</span>
-          <h3>Champions Club + more hospitality areas</h3>
-          <div class="amt">~$4,500<small>estimated</small></div>
-          <p>Extend the activation into other hospitality lounges. Covers all materials and labor, with complimentary coffee for an estimated 500–1,000 guests.</p>
+          <span class="tag">Option · Add a room</span>
+          <h3>Any single lounge, on its own</h3>
+          <div class="amt">$3,500<small>and up</small></div>
+          <p>Each lounge stands alone at its own rate, with the same crew, the same standard and its own livery. Add a second or third room at any point before the weekend.</p>
         </div>
         <div class="opt" data-r="right" style="--d:340">
           <span class="tag">Option · Grand Stand</span>
@@ -1093,12 +1205,12 @@ c-538 -23 -1045 -285 -1356 -700 -259 -346 -354 -564 -394 -907 -8 -72 -20
 <section class="close carbon">
   <div class="inner wrap">
     <span class="eyebrow" data-r>Conclusion</span>
-    <p class="scrub" data-scrub>We are honored to be part of the <b>Champions Club experience</b> and contribute to an exceptional hospitality offering during <b>Formula 1 Miami 2026.</b></p>
+    <p class="scrub" data-scrub>We are honored to be part of the <b>Champions Club, Paddock Club and Nosso</b> experience and to contribute to an exceptional hospitality offering during <b>Formula 1 Miami 2026.</b></p>
     <p class="note" data-r>We believe this unique activation will elevate the hospitality experience while reinforcing the club's focus on luxury, personalization, and world-class service.</p>
     <div class="carts" aria-hidden="true">
-      <img src="/f1miami/assets/cart-formula1.webp" alt="" data-r="left" loading="lazy">
-      <img src="/f1miami/assets/cart-champions-club.webp" alt="" data-r style="--d:150" loading="lazy">
-      <img src="/f1miami/assets/cart-mclaren.webp" alt="" data-r="right" style="--d:300" loading="lazy">
+      <img src="/f1miami/assets/cart-champions-club.webp" alt="" data-r="left" loading="lazy">
+      <img src="/f1miami/assets/cart-paddock-club.webp" alt="" data-r style="--d:150" loading="lazy">
+      <img src="/f1miami/assets/cart-formula1.webp" alt="" data-r="right" style="--d:300" loading="lazy">
     </div>
   </div>
 </section>
@@ -1293,17 +1405,17 @@ c-538 -23 -1045 -285 -1356 -700 -259 -346 -354 -564 -394 -907 -8 -72 -20
   /* ---------- value calculator: eased numbers, honest comparison ---------- */
   const range = $('#guests');
   if (range) {
-    const FLAT = 3000, PER = 5;
+    let FLAT = 3500; const PER = 5;
     const fmt0 = n => '$' + Math.round(n).toLocaleString('en-US');
     const fmt2 = n => '$' + n.toFixed(2);
     const els = { g: $('#guestsOut'), pg: $('#perGuest'), pd: $('#perDrink'), d: $('#diff'), dl: $('#diffLabel'), ds: $('#diffSub'),
-      bf: $('#barFlat'), bd: $('#barDrink'), bdv: $('#barDrinkV') };
-    const shown = { g: 750, pg: 4, pd: 3750, d: 750 };
+      bf: $('#barFlat'), bd: $('#barDrink'), bdv: $('#barDrinkV'), bfv: $('#barFlatV'), even: $('#evenAt') };
+    const shown = { g: 750, pg: 3500 / 750, pd: 3750, d: 250 };
     let target = { ...shown }, anim = false;
     const paint = () => {
       els.g.textContent = Math.round(shown.g).toLocaleString('en-US');
       els.pg.textContent = fmt2(shown.pg);
-      els.pd.textContent = fmt0(shown.pd); els.bdv.textContent = fmt0(shown.pd);
+      els.pd.textContent = fmt0(shown.pd); els.bdv.textContent = fmt0(shown.pd); els.bfv.textContent = fmt0(FLAT);
       els.d.textContent = fmt0(Math.abs(shown.d));
     };
     const tickCalc = () => {
@@ -1316,53 +1428,23 @@ c-538 -23 -1045 -285 -1356 -700 -259 -346 -354 -564 -394 -907 -8 -72 -20
       range.style.setProperty('--p', ((g - range.min) / (range.max - range.min) * 100) + '%');
       target = { g, pg: FLAT / g, pd, d: diff };
       els.dl.textContent = diff > 0 ? 'Flat rate saves' : diff < 0 ? 'Per-drink costs less by' : 'Break-even';
-      els.ds.textContent = diff >= 0 ? 'Compared with per-drink pricing' : 'Below 600 guests, per-drink pricing comes in lower';
+      const even = Math.round(FLAT / PER);
+      els.even.textContent = even.toLocaleString('en-US') + ' guests';
+      els.ds.textContent = diff >= 0 ? 'Compared with per-drink pricing'
+        : 'Below ' + even.toLocaleString('en-US') + ' guests, per-drink pricing comes in lower';
       const max = Math.max(FLAT, pd) * 1.08;
       els.bf.style.width = (FLAT / max * 100) + '%'; els.bd.style.width = (pd / max * 100) + '%';
       if (reduce) { Object.assign(shown, target); paint(); }
       else if (!anim) { anim = true; requestAnimationFrame(tickCalc); }
     };
     range.addEventListener('input', update);
+    $$('.seg button').forEach(b => b.addEventListener('click', () => {
+      $$('.seg button').forEach(o => o.setAttribute('aria-pressed', o === b));
+      FLAT = +b.dataset.rate; update();
+    }));
     new IntersectionObserver(([e], o) => { if (e.isIntersecting) { update(); o.disconnect(); } }, { threshold: .3 }).observe(range);
   }
 
-  /* ---------- livery switcher ---------- */
-  const liveries = [
-    { src: '/f1miami/assets/cart-champions-club.webp', cap: 'Champions Club', alt: 'Coffee cart wrapped in F1 Experiences Champions Club branding',
-      note: '<b>The quoted livery.</b> F1 Experiences Champions Club branding across the cart front, so it reads as part of the lounge.' },
-    { src: '/f1miami/assets/cart-paddock-club.webp', cap: 'Paddock Club', alt: 'Coffee cart wrapped in green Paddock Club Miami branding',
-      note: '<b>Paddock Club.</b> Deep green livery with race imagery, paired with a Paddock Club keyring gift for guests.' },
-    { src: '/f1miami/assets/cart-formula1.webp', cap: 'Formula 1', alt: 'White coffee cart with the red Formula 1 logo',
-      note: '<b>Formula 1.</b> A clean white cart carrying the F1 mark, flexible enough for any hospitality area.' },
-    { src: '/f1miami/assets/cart-mclaren.webp', cap: 'Team · McLaren', alt: 'White coffee cart with McLaren Formula 1 Team branding',
-      note: '<b>Team branding.</b> The cart can wear a specific team’s colors, like McLaren, for team-hosted spaces.' }
-  ];
-  liveries.forEach(l => { const i = new Image(); i.src = l.src; });
-  const stage = $('#stage'), img = $('#liveryImg'), cap = $('#liveryCap'), note = $('#liveryNote'), tabs = $$('.tab');
-  const CYCLE = 6000; let cur = 0, auto = !reduce, autoTimer, busy = false;
-  document.documentElement.style.setProperty('--cycle', CYCLE + 'ms');
-  const setTabs = () => tabs.forEach((t, i) => { t.setAttribute('aria-selected', i === cur); t.classList.toggle('auto', auto && i === cur);
-    const bar = $('.t', t); bar.style.animation = 'none'; void bar.offsetWidth; bar.style.animation = ''; });
-  const schedule = () => { clearTimeout(autoTimer); autoTimer = setTimeout(() => auto && show((cur + 1) % liveries.length), CYCLE); };
-  const show = (n, user) => {
-    if (user) { auto = false; clearTimeout(autoTimer); }
-    if (n === cur || busy) { if (user) setTabs(); return; }
-    cur = n; setTabs(); busy = true; const l = liveries[n];
-    note.classList.add('fade');
-    const swap = () => {
-      img.src = l.src; img.alt = l.alt; cap.textContent = l.cap; note.innerHTML = l.note; note.classList.remove('fade');
-      stage.classList.remove('leaving'); stage.classList.add('entering');
-      requestAnimationFrame(() => requestAnimationFrame(() => { stage.classList.remove('entering'); setTimeout(() => busy = false, 400); }));
-    };
-    if (reduce) swap(); else { stage.classList.add('leaving'); setTimeout(swap, 600); }
-    if (auto) schedule();
-  };
-  tabs.forEach((t, i) => {
-    t.addEventListener('click', () => show(i, true));
-    t.addEventListener('keydown', e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { const n = (cur + (e.key === 'ArrowRight' ? 1 : 3)) % 4; show(n, true); tabs[n].focus(); } });
-  });
-  note.innerHTML = liveries[0].note;
-  new IntersectionObserver(([e], o) => { if (e.isIntersecting) { setTabs(); if (auto) schedule(); o.disconnect(); } }, { threshold: .4 }).observe(stage);
 })();
 </script>
 </body>
