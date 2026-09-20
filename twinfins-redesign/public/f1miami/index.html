@@ -283,6 +283,21 @@ section.carbon{background:var(--carbon)}
 .tile:hover::after{transform:scaleX(1);transform-origin:left}
 
 /* ---------------------------------------------------------------- vision */
+/* ------------------------------------------------- filmic section backing
+   Miami, the car, the pit crew, the pour — the montage runs dark and low
+   behind the type. It is decoration: muted, loopable, never the message.
+   The veil keeps text contrast well clear of the video underneath, and the
+   top and bottom fade to black so the section still joins its neighbours. */
+.filmic{isolation:isolate}
+.filmic > .wrap{position:relative;z-index:1}
+.vbg{position:absolute;inset:0;z-index:0;overflow:hidden;background:#000 center/cover no-repeat}
+.vbg-v{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;
+  filter:grayscale(.25) contrast(1.06) saturate(1.05);transition:opacity 1.6s ease}
+.vbg-v.on{opacity:.32}
+.veil{position:absolute;inset:0;
+  background:linear-gradient(180deg,var(--black) 0,rgba(8,8,10,.72) 18%,rgba(8,8,10,.62) 50%,rgba(8,8,10,.72) 82%,var(--black) 100%)}
+.veil::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 80% at 50% 50%,transparent,rgba(8,8,10,.55))}
+
 /* ---------------------------------------------------------------- lounges */
 .hero-cart{margin:0;display:grid;gap:2rem;align-items:center;justify-items:center;text-align:center}
 @media(min-width:820px){.hero-cart{grid-template-columns:1fr 1fr;text-align:left;justify-items:start}}
@@ -869,7 +884,11 @@ c-538 -23 -1045 -285 -1356 -700 -259 -346 -354 -564 -394 -907 -8 -72 -20
 </div></div>
 
 <!-- ===================================================================== WHY -->
-<section id="why">
+<section id="why" class="filmic">
+  <div class="vbg" aria-hidden="true">
+    <video class="vbg-v" muted loop playsinline autoplay preload="none" poster="/f1miami/assets/f1-loop-poster.jpg" data-src="/f1miami/assets/f1-loop.mp4"></video>
+    <i class="veil"></i>
+  </div>
   <div class="wrap">
     <div class="sec-head">
       <div>
@@ -1401,6 +1420,33 @@ c-538 -23 -1045 -285 -1356 -700 -259 -346 -354 -564 -394 -907 -8 -72 -20
     });
   }
 
+
+  /* ---------- filmic background: load late, play only while on screen ---------- */
+  const vwrap = $('.vbg'), vid = $('.vbg-v');
+  if (vwrap && vid) {
+    const conn = navigator.connection || {};
+    // A pointer-and-hover device is a computer, whatever the window size; phones
+    // and metered connections get the still frame instead of a 2.7MB download.
+    const roomy = matchMedia('(hover: hover) and (pointer: fine)').matches || innerWidth >= 900;
+    const heavyOk = !reduce && roomy && !conn.saveData && !/(^|-)2g/.test(conn.effectiveType || '');
+    if (!heavyOk) vwrap.style.backgroundImage = `url(${vid.poster})`;   // still frame, no download of the loop
+    else {
+      const poster = () => { vwrap.style.backgroundImage = `url(${vid.poster})`; };
+      let live = false;
+      vid.addEventListener('playing', () => { live = true; vid.classList.add('on'); }, { once: true });
+      vid.addEventListener('error', poster, { once: true });
+      new IntersectionObserver((es, o) => {
+        if (!es[0].isIntersecting) return;
+        o.disconnect();
+        vid.src = vid.dataset.src;
+        // An AbortError here just means the load was still settling; the autoplay
+        // attribute picks it up. Only a refusal is worth falling back for.
+        vid.play().catch(err => { if (err.name === 'NotAllowedError') poster(); });
+        // Only once it is actually running: don't burn frames on a section nobody is looking at.
+        new IntersectionObserver(e2 => { if (!live) return; e2[0].isIntersecting ? vid.play().catch(() => {}) : vid.pause(); }).observe(vwrap);
+      }, { rootMargin: '300px' }).observe(vwrap);
+    }
+  }
 
   /* ---------- value calculator: eased numbers, honest comparison ---------- */
   const range = $('#guests');
