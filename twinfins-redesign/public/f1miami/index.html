@@ -720,14 +720,24 @@ input[type=range]:hover::-webkit-slider-thumb,input[type=range]:focus-visible::-
     opacity:1!important;background:rgba(8,8,10,.88)!important}
   .mia-lede,.mia-stats span{color:#d6d6de!important}
   .mia-v,video{display:none!important}          /* poster backgrounds carry the frame */
-  /* a deck reads as pages */
-  section,.cover{break-inside:avoid;page-break-inside:avoid}
-  .cover{min-height:auto!important;padding-block:2rem 3rem!important;break-after:page}
-  #miami,#quote,#letter{break-before:page}
-  .quote-in,.letter-in,.rate-note,.faqs details{break-inside:avoid}
+  /* Page breaks. Deliberately NOT `section{break-inside:avoid}`: most sections
+     are taller than a sheet, so Chrome pushes the whole thing to a fresh page
+     trying to honour it, leaves the rest of the current one empty, then has to
+     break it anyway — which is where the blank pages came from. Protect the
+     atoms instead and let sections flow. */
+  .cover{min-height:auto!important;padding-block:2rem 3rem!important}
+  #miami{break-before:page}
+  section{padding-block:clamp(2rem,5vw,3.2rem)!important}
+  /* nothing with a border, background or image may straddle a sheet */
+  .chit,.stat,.pillar,.tile,.spec,.opt,.fact,.qv,.co,.aside-card,.rate-note,
+  .quote-in,.letter-in,.faqs details,.swap,.swap figure,.hero-cart,.total-h,
+  .calc,.calc-out,.facts,.q-value,.q-split,.sign,.carts,.track,.mia-stage,
+  .ribbon,.foot,figure,img{break-inside:avoid;page-break-inside:avoid}
+  /* a heading never ends a page on its own */
+  h2,h3,.sec-head,.eyebrow,.display{break-after:avoid;page-break-after:avoid}
+  .q-price,.qv-row{break-after:avoid}
   .faqs details{border-color:var(--line-2)!important}
   .faqs summary i{display:none!important}
-  .foot{break-inside:avoid}
   a{text-decoration:none!important}
 }
 </style>
@@ -1964,16 +1974,22 @@ c-538 -23 -1045 -285 -1356 -700 -259 -346 -354 -564 -394 -907 -8 -72 -20
      A closed <details> renders nothing at all, so CSS alone can't put the
      answers on paper. Drop the exclusive-accordion name, open them all for
      the print, then hand the page back exactly as it was. */
-  const faqs = $$('.faqs details');
-  let wasOpen = null;
+  const faqs = $$('.faqs details'), odos = $$('[data-odo]');
+  let wasOpen = null, wasOdo = null;
   addEventListener('beforeprint', () => {
     wasOpen = faqs.map(d => d.open);
     faqs.forEach(d => { d.dataset.name = d.name || ''; d.removeAttribute('name'); d.open = true; });
+    // An odometer only lands on its value once the observer spins it, which
+    // never happens in a print render — it would set in PDF reading $0,000.
+    // Any reel still standing gets swapped for the plain figure. One already
+    // rewritten by the quote builder holds a live total, so leave it alone.
+    wasOdo = odos.map(el => el.innerHTML);
+    odos.forEach(el => { if ($('.reel', el)) el.textContent = el.dataset.odo; });
   });
   addEventListener('afterprint', () => {
-    if (!wasOpen) return;
-    faqs.forEach((d, i) => { d.open = wasOpen[i]; if (d.dataset.name) d.name = d.dataset.name; delete d.dataset.name; });
-    wasOpen = null;
+    if (wasOpen) faqs.forEach((d, i) => { d.open = wasOpen[i]; if (d.dataset.name) d.name = d.dataset.name; delete d.dataset.name; });
+    if (wasOdo) odos.forEach((el, i) => el.innerHTML = wasOdo[i]);
+    wasOpen = wasOdo = null;
   });
 
 })();
